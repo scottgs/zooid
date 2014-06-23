@@ -1,1 +1,1 @@
-<img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTmD6_3WA-HDdBbcunaHKHQwDRvoQi85n_wLu4jTHKtyn9CrzM10A">
+<img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcShniuPO-jDpZ5Q9S5J8V4QTl1h6cXpHBRyU9RQOhiN2s3fw5ew">
