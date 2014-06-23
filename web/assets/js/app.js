@@ -13,40 +13,24 @@
   // as soon as this file is loaded, connect automatically, 
   var socket = io.connect();
   if (typeof console !== 'undefined') {
-    log('Connecting to Sails.js...');
   }
 
   socket.on('connect', function socketConnected() {
 
-    // Listen for Comet messages from Sails
-    socket.on('message', function messageReceived(message) {
-
-      ///////////////////////////////////////////////////////////
-      // Replace the following with your own custom logic
-      // to run when a new message arrives from the Sails.js
-      // server.
-      ///////////////////////////////////////////////////////////
-      log('New comet message received :: ', message);
-      //////////////////////////////////////////////////////
+    console.log("connected");
+    socket.get("/signal", function(err,res){
 
     });
-
-
-    ///////////////////////////////////////////////////////////
-    // Here's where you'll want to add any custom logic for
-    // when the browser establishes its socket connection to 
-    // the Sails.js server.
-    ///////////////////////////////////////////////////////////
-    log(
-        'Socket is now connected and globally accessible as `socket`.\n' + 
-        'e.g. to send a GET request to Sails, try \n' + 
-        '`socket.get("/", function (response) ' +
-        '{ console.log(response); })`'
-    );
-    ///////////////////////////////////////////////////////////
-
-
   });
+
+
+
+  socket.on('message', function(item) {
+    if(models[item.model] && models[item.model][item.verb]){
+      models[item.model][item.verb](item);
+    }
+    log(item, 'stuff10'); 
+  }); // end socket
 
 
   // Expose connected `socket` instance globally so that it's easy
@@ -60,6 +44,10 @@
       console.log.apply(console, arguments);
     }
   }
+
+  function t(msg){
+    socket.send(msg);
+  }
   
 
 })(
@@ -69,3 +57,45 @@
   window.io
 
 );
+ var createSignalDiv = function(item){
+
+    $('<div/>', {
+      'class': 'signal alert alert-info',
+      id: "item"+item.id,
+      href: 'http://google.com',
+      title: 'TITTY DICKS',
+      rel: 'external',
+      text: item.name
+    }).appendTo('#signal_container');
+
+  };
+
+var models = {
+  signal : {
+    create : function(item){
+      $(createSignalDiv(item.data)).prependTo("#signal_container").fadeIn('slow');
+    },//create
+    destroy : function(item){
+      $("#item"+item.id).fadeOut(0, function(){$(this).remove();});
+    },//destroy
+    update : function(item){
+      $("#item"+item.id).fadeOut(0, function(){$(this).remove();});
+      $(createSignalDiv(item.data)).prependTo("#signal_container").fadeIn('slow');
+    }
+  },//signal
+};
+
+
+$(document).ready(function(){
+  $('#signal_container')
+  .on('click', '.signal', function(e){
+    models.signal.destroy({id:this.id.substr(4)});
+  })
+  .on('mouseover', '.signal', function(e){
+    $(this).removeClass('alert-info').addClass('alert-danger');
+  })
+  .on('mouseout', '.signal', function(e){
+    $(this).removeClass('alert-danger').addClass('alert-info');
+  })
+});
+
