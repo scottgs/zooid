@@ -1,7 +1,7 @@
 #zooid <img src="http://recollectionbooks.com/bleed/images/BB/manowar1.gif" align=center> 
 
 
-**An asynchronous research environment built to grow quickly and scale nicely. **
+**An asynchronous research environment built to grow quickly and scale nicely.**
 
 - Self discovers on the cluster
 - Assilmilates services appropriate for it's hardware
