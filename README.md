@@ -1,4 +1,4 @@
-#<img src="http://recollectionbooks.com/bleed/images/BB/manowar1.gif" align=center> Zooid
+#zooid <img src="http://recollectionbooks.com/bleed/images/BB/manowar1.gif" align=center> 
 
 
 An asynchronous research environment built to grow quickly and scale nicely. 
