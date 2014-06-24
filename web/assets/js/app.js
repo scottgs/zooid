@@ -29,7 +29,7 @@
     if(models[item.model] && models[item.model][item.verb]){
       models[item.model][item.verb](item);
     }
-    log(item, 'stuff10'); 
+    log(item); 
   }); // end socket
 
 
@@ -44,12 +44,6 @@
       console.log.apply(console, arguments);
     }
   }
-
-  function t(msg){
-    socket.send(msg);
-  }
-  
-
 })(
 
   // In case you're wrapping socket.io to prevent pollution of the global namespace,
@@ -81,10 +75,14 @@ var models = {
     update : function(item){
       $("#item"+item.id).fadeOut(0, function(){$(this).remove();});
       $(createSignalDiv(item.data)).prependTo("#signal_container").fadeIn('slow');
-    }
+    }//update
   },//signal
 };
-
+$(document).on('click', '.signal-gen', function(e){
+    window.socket.post('/signal/create',{name: $(this).attr('method')}, function(err, sig){
+      console.log(err || 'new Signal:' , sig);
+  });
+});
 
 $(document).ready(function(){
   $('#signal_container')
