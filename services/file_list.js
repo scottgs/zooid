@@ -9,25 +9,18 @@ var splitEvenly = function(a, n, done) {
         out.push( a.slice(i, i += size));
     }
     done(out);
-}
+};
 
 var fillArray = function(service, count){
-   var out = []; 
-   while(count--)
-      out.push(service)
-   return out
-}
-
-
-//As it stands, I stole this from stack-overflow.  
-//I'll rename everything soon so I don't violate a thing or anything.
-
-   // GIVE THEM CREDIT! Just say "Thanks to SkaterCoder42069 on Stkack overflow." BB
+   var out = [];
+   while(count--);
+      out.push(service);
+   return out;
+};
 
 
 function file_list(dir, next){
-   var results = [];
-   var new_services = [];
+  var results = [];
   fs.readdir(dir, function(err, list) {
     if (err) return next(err);
     var pending = list.length;
