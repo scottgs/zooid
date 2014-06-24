@@ -1,8 +1,8 @@
 var cluster = require('cluster');
 var http = require('http');
 var numCPUs = require('os').cpus().length;
-var async = require("async")
-var os = require("os")
+var async = require("async");
+var os = require("os");
 
 var client = require('dgram').createSocket('udp4');
 client.bind(42002, '239.255.0.1'); // port, ip
@@ -30,15 +30,15 @@ client.on('listening', function () {
  * -------------------------------------------------------------------------- */
 
 var broadcast = function(service, signal_id){
-   if( typeof service === 'undefined' ) return
-   if( typeof service === 'object' )
+   if( typeof service === 'undefined' ) return;
+   if(Object.prototype.toString.call( service ) === '[object Array]')
       for (var t = service.length - 1; t >= 0; t--)
          broadcast( service[t], signal_id );
    else {
-      var message = new Buffer(service+":"+signal_id)
-      client.send( message, 0, message.length, 42002, "239.255.0.1")
+      var message = new Buffer(service+":"+signal_id);
+      client.send( message, 0, message.length, 42002, "239.255.0.1");
    }
-}
+};
 
 /** ----------------------------------------------------------------------------
  * Breaks down messages recieved over the network and providea the requested 
@@ -57,21 +57,21 @@ var run = function(req, next){
    * @return  {String} err
    * -------------------------------------------------------------------------- */
 
-   var service = req.service
-   var parent_id = req.parent_id
+   var service = req.service;
+   var parent_id = req.parent_id;
 
-   Signal.findOrCreate({ _id:parent_id }, 
+   Signal.findOrCreate({ _id:parent_id },
 
    function(err, signal){
 
-      Signal.create({ parent_id:parent_id, service: req.services }, 
+      Signal.create({ parent_id:parent_id, service: req.services },
          function(err, new_signal){
 
          // Attach broadcast to signal
          signal.broadcast = broadcast;
 
          // Load the service module
-         var mod = require(__dirname+'/services/'+service+".js")
+         var mod = require(__dirname+'/services/'+service+".js");
 
          // Execute the service
          mod.run( signal, function(err, result){
@@ -83,16 +83,16 @@ var run = function(req, next){
          });
       });
    });
-}
+};
 
 var q = async.queue( run, os.cpus().length );
 
-client.on('message', function(message, remote){ 
+client.on('message', function(message, remote){
 
    // Turn buffer into an array of strings
-   var req = {}, args = message.toString().split(":")
-   req.service = args[0]
-   req.parent_id = args[1]
+   var req = {}, args = message.toString().split(":");
+   req.service = args[0];
+   req.parent_id = args[1];
 
    // push the service to the queue
    q.push(req, function (err, result) {
@@ -103,25 +103,25 @@ client.on('message', function(message, remote){
 
 var test = function(service, fn ){
 
-   var image_location  = path.join( __dirname , "/examples/group.jpg")
+   var image_location  = path.join( __dirname , "/examples/group.jpg");
 
-   Signal.create({ 
+   Signal.create({
 
       name:"Face Detection Test",
       type:"HEAD",
       data:image_location,
-      services_needed:["consume_image","face_detection"] 
+      services_needed:["consume_image","face_detection"],
 
    }, function(err, signal){
       
       console.log(err || "CREATED", signal);
-      var service = service || "consume_image"
-      var message = new Buffer( service +":"+ signal._id )
-      client.send(message, 0, message.length, 42002, "239.255.0.1")
-   })
-}
+      var service = service || "consume_image";
+      var message = new Buffer( service +":"+ signal._id );
+      client.send(message, 0, message.length, 42002, "239.255.0.1");
+   });
+};
 
-_.delay(test, 1000, "find_faces")
+_.delay(test, 1000, "find_faces");
 
 module.exports.test = test;
 
