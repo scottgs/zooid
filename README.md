@@ -55,4 +55,6 @@
 
 #####Torch7
 - https://github.com/torch/torch7/wiki/Cheatsheet
-- 
+
+#####Dom Encapsulation
+http://jsfiddle.net/rniemeyer/UHcs6/
