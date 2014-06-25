@@ -55,7 +55,7 @@
 
     $('<div/>', {
       'class': 'signal alert alert-info',
-      id: "item"+item.id,
+      id: item.id,
       href: 'http://google.com',
       title: 'TITTY DICKS',
       rel: 'external',
@@ -79,21 +79,18 @@ var models = {
   },//signal
 };
 $(document).on('click', '.signal-gen', function(e){
-    window.socket.post('/signal/create',{name: $(this).attr('method')}, function(err, sig){
+    window.socket.post('/signal/create',{id: $(this).id}, function(err, sig){
       console.log(err || 'new Signal:' , sig);
   });
 });
 
-$(document).ready(function(){
-  $('#signal_container')
-  .on('click', '.signal', function(e){
-    models.signal.destroy({id:this.id.substr(4)});
+$(document).on('click', '.signal', function(e){
+   
   })
   .on('mouseover', '.signal', function(e){
     $(this).removeClass('alert-info').addClass('alert-danger');
   })
   .on('mouseout', '.signal', function(e){
     $(this).removeClass('alert-danger').addClass('alert-info');
-  })
-});
+  });
 

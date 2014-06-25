@@ -1,3 +1,6 @@
 extends container
 block body
+	script.
+		$('.nav > li').removeClass('active');
+		$('#nav-bibble').addClass('active');
 	#bibble.btn.btn-success.signal-gen(method='bibble') Index the Bible!

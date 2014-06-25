@@ -4,23 +4,25 @@ var numCPUs = require('os').cpus().length;
 var async = require("async");
 var os = require("os");
 
-var client = require('dgram').createSocket('udp4');
-client.bind(42002, '239.255.0.1'); // port, ip
+var broadcaster = require('dgram').createSocket('udp4');
+broadcaster.bind(42002, '239.255.0.1'); // port, ip
 
 var _ = require("underscore");
 var path = require('path');
-var Signal = require('./Signal.js');
-
+//var Signal = require('../web/api/models/Signal.js');
+var Signal = {
+   create: function(obj, fn){},
+};
 /** ----------------------------------------------------------------------------
  * Once listening, configure the socket and log network info 
  * -------------------------------------------------------------------------- */
 
-client.on('listening', function () {
-   var address = client.address();
-   console.log('UDP Client listening on ' + address.address + ":" + address.port);
-   client.setBroadcast(true);
-   client.setMulticastTTL(128);
-   client.addMembership('239.255.0.1');
+broadcaster.on('listening', function () {
+   var address = broadcaster.address();
+   console.log('UDP broadcaster listening on ' + address.address + ":" + address.port);
+   broadcaster.setBroadcast(true);
+   broadcaster.setMulticastTTL(128);
+   broadcaster.addMembership('239.255.0.1');
 });
 
 /** ----------------------------------------------------------------------------
@@ -31,12 +33,11 @@ client.on('listening', function () {
 
 var broadcast = function(service, signal_id){
    if( typeof service === 'undefined' ) return;
-   if(Object.prototype.toString.call( service ) === '[object Array]')
-      for (var t = service.length - 1; t >= 0; t--)
-         broadcast( service[t], signal_id );
-   else {
+   if(Object.prototype.toString.call( service ) === '[object Array]'){
+      for (var t = service.length - 1; t >= 0; t--) broadcast( service[t], signal_id );
+   } else {
       var message = new Buffer(service+":"+signal_id);
-      client.send( message, 0, message.length, 42002, "239.255.0.1");
+      broadcaster.send( message, 0, message.length, 42002, "239.255.0.1");
    }
 };
 
@@ -87,7 +88,7 @@ var run = function(req, next){
 
 var q = async.queue( run, os.cpus().length );
 
-client.on('message', function(message, remote){
+broadcaster.on('message', function(message, remote){
 
    // Turn buffer into an array of strings
    var req = {}, args = message.toString().split(":");
@@ -99,7 +100,6 @@ client.on('message', function(message, remote){
       console.log(result);
    });
 });
-
 
 var test = function(service, fn ){
 
@@ -117,7 +117,7 @@ var test = function(service, fn ){
       console.log(err || "CREATED", signal);
       var service = service || "consume_image";
       var message = new Buffer( service +":"+ signal._id );
-      client.send(message, 0, message.length, 42002, "239.255.0.1");
+      broadcaster.send(message, 0, message.length, 42002, "239.255.0.1");
    });
 };
 

@@ -1,5 +1,7 @@
 extends container
 block body
-	//- img(src="images/mow.png")
+	script.
+		$('.nav > li').removeClass('active');
+		$('#nav-home').addClass('active');
 	img(src="images/mow.png" style="width:auto; height:350px;")
 	h1.cover-heading ZOOID
