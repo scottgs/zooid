@@ -52,8 +52,6 @@ module.exports = {
 
   attributes: {
 
-
-
   },
 
   afterCreate: function(record, next){
