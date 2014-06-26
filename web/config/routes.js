@@ -38,6 +38,14 @@ module.exports.routes = {
 
   '/bibble': {
     view: 'home/bibble'
+  },
+
+  '/services': {
+    view: 'home/services'
+  },
+
+  '/dependencies': {
+    view: 'home/dependencies'
   }
 
   /*
