@@ -10,14 +10,15 @@ broadcaster.on('listening', function () {
    broadcaster.addMembership('239.255.0.1');
 });
 
-var broadcast = function(noun, signal_id){
-   if( typeof noun === 'undefined' ) return;
-   if(Object.prototype.toString.call( noun ) === '[object Array]'){
-      for (var t = noun.length - 1; t >= 0; t--) broadcast( noun[t], signal_id );
-   } else {
-      var message = new Buffer(noun+":"+signal_id);
-      broadcaster.send( message, 0, message.length, 42002, "239.255.0.1");
-   }
+var broadcast = function(signal){
+  var service = signal.service;
+  if( typeof service === 'undefined' ){
+    return console.warn('signal.service === undefined');
+  }
+  var id = signal.id;
+  var message = new Buffer(service+":"+id);
+  console.log(service);
+  broadcaster.send( message, 0, message.length, 42002, "239.255.0.1");
 };
 
 broadcaster.on("message", function (msg, rinfo) {
@@ -56,16 +57,16 @@ module.exports = {
   },
 
   afterCreate: function(record, next){
-    console.log('Created new signal: ',record);
-    broadcast(record.name, record.id);
+    console.log('Created Signal: ',record);
+    broadcast(record);
     next();
   },
   afterUpdate: function(record, next){
-    console.log('Updated signal: ',record);
+    console.log('Updated Signal: ',record);
     next();
   },
     afterDestroy: function(record, next){
-    console.log('Destroyed signal: ',record);
+    console.log('Destroyed Signal: ',record);
     next();
   },
 };

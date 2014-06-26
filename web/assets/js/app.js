@@ -44,30 +44,23 @@
       console.log.apply(console, arguments);
     }
   }
-})(
+})(window.io);
 
-  // In case you're wrapping socket.io to prevent pollution of the global namespace,
-  // you can replace `window.io` with your own `io` here:
-  window.io
-
-);
  var createSignalDiv = function(item){
 
-    $('<div/>', {
+    var div = $('<div/>', {
       'class': 'signal alert alert-info',
       id: item.id,
-      href: 'http://google.com',
-      title: 'TITTY DICKS',
-      rel: 'external',
-      text: item.name
+      text: item.service,
     }).appendTo('#signal_container');
-
+    return div;
   };
 
 var models = {
   signal : {
     create : function(item){
       $(createSignalDiv(item.data)).prependTo("#signal_container").fadeIn('slow');
+      console.log('ITEM: ', item);
     },//create
     destroy : function(item){
       $("#item"+item.id).fadeOut(0, function(){$(this).remove();});
@@ -79,13 +72,14 @@ var models = {
   },//signal
 };
 $(document).on('click', '.signal-gen', function(e){
-    window.socket.post('/signal/create',{id: $(this).id}, function(err, sig){
-      console.log(err || 'new Signal:' , sig);
+    window.socket.post('/signal/create',{service: $(this).attr('method'), id: $(this).id}, function(err, sig){
+      console.log(err || 'New Signal:' , sig);
   });
 });
 
 $(document).on('click', '.signal', function(e){
-   
+   //destroy signal here
+   models.signal.destroy(this);
   })
   .on('mouseover', '.signal', function(e){
     $(this).removeClass('alert-info').addClass('alert-danger');
