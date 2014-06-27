@@ -56,5 +56,6 @@
 #####Torch7
 - https://github.com/torch/torch7/wiki/Cheatsheet
 
-#####Dom Encapsulation
-http://jsfiddle.net/rniemeyer/UHcs6/
+#####Design
+- http://jsfiddle.net/rniemeyer/UHcs6/
+- http://github.hubspot.com/messenger/docs/welcome/
