@@ -3,9 +3,9 @@
 **An asynchronous research environment built to grow quickly and scale nicely.**
 
 - Self discovers on the cluster
-- Assilmilates services appropriate for it's hardware
+- Assimilates skills appropriate for it's hardware
 - Listens to the broadcast domain for events
-- Contributes to the work flow according to it's ability
+- Persists action potential until event requirements are met
 
 ####Services
 
