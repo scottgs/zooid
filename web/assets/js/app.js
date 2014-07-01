@@ -71,6 +71,7 @@ var models = {
     }//update
   },//signal
 };
+
 $(document).on('click', '.signal-gen', function(e){
     window.socket.post('/signal/create',{service: $(this).attr('method'), id: $(this).id}, function(err, sig){
       console.log(err || 'New Signal:' , sig);

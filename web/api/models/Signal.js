@@ -10,7 +10,7 @@ broadcaster.on('listening', function () {
    broadcaster.addMembership('239.255.0.1');
 });
 
-var broadcast = function(signal){
+function broadcast(signal){
   var service = signal.service;
   if( typeof service === 'undefined' ){
     return console.warn('signal.service === undefined');
@@ -63,7 +63,7 @@ module.exports = {
     console.log('Updated Signal: ',record);
     next();
   },
-    afterDestroy: function(record, next){
+  afterDestroy: function(record, next){
     console.log('Destroyed Signal: ',record);
     next();
   },
