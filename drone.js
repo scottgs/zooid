@@ -3,26 +3,28 @@ var http = require('http');
 var numCPUs = require('os').cpus().length;
 var async = require("async");
 var os = require("os");
+var Waterline = require('waterline');
+
+/** ----------------------------------------------------------------------------
+ * Services
+ * -------------------------------------------------------------------------- */
+var file_list = require('./services/file_list.js');
 
 var broadcaster = require('dgram').createSocket('udp4');
 broadcaster.bind(42002, '239.255.0.1'); // port, ip
 
 var _ = require("underscore");
 var path = require('path');
-//var Signal = require('../web/api/models/Signal.js');
-var Signal = {
-   create: function(obj, fn){},
-};
 /** ----------------------------------------------------------------------------
  * Once listening, configure the socket and log network info 
  * -------------------------------------------------------------------------- */
 
 broadcaster.on('listening', function () {
-   var address = broadcaster.address();
-   console.log('UDP broadcaster listening on ' + address.address + ":" + address.port);
-   broadcaster.setBroadcast(true);
-   broadcaster.setMulticastTTL(128);
-   broadcaster.addMembership('239.255.0.1');
+  var address = broadcaster.address();
+  console.log('UDP broadcaster listening on ' + address.address + ":" + address.port);
+  broadcaster.setBroadcast(true);
+  broadcaster.setMulticastTTL(128);
+  broadcaster.addMembership('239.255.0.1');
 });
 
 /** ----------------------------------------------------------------------------
@@ -31,26 +33,28 @@ broadcaster.on('listening', function () {
  * @param  {String} id The Signals Iunique identifier from the database.
  * -------------------------------------------------------------------------- */
 
-var broadcast = function(signal){
-   var service = signal.service;
-   var id = signal.id;
-   if( typeof service === 'undefined' ){
-      return console.warn('signal.service === undefined');
-   }
-   if(Object.prototype.toString.call( service ) === '[object Array]'){
-      for (var t = service.length - 1; t >= 0; t--) broadcast( {service: service[t], id: id} );
-   } else {
-      var message = new Buffer(service+":"+id);
-      console.log(service);
-      broadcaster.send( message, 0, message.length, 42002, "239.255.0.1");
-   }
-};
+function broadcast(signal){
+  var service = signal.service;
+  if( typeof service === 'undefined' ){
+    return console.warn('signal.service === undefined');
+  }
+  var id = signal.id;
+  var message = new Buffer(service+":"+id);
+  console.log(service);
+  broadcaster.send( message, 0, message.length, 42002, "239.255.0.1");
+}
 
+var q = async.queue( run, os.cpus().length );
 broadcaster.on("message", function (msg, rinfo) {
-  console.log("Drone got: " + msg + " from " +
-    rinfo.address + ":" + rinfo.port);
-});
+  console.log("Drone got: " + msg + " from " + rinfo.address + ":" + rinfo.port);
+  var args = msg.toString().split(':');
+  var service = args[0];
+  var id = args[1];
+  var mod = require(__dirname+'/services/'+service+".js");
 
+
+
+});
 
 /** ----------------------------------------------------------------------------
  * Breaks down messages recieved over the network and providea the requested 
@@ -58,7 +62,28 @@ broadcaster.on("message", function (msg, rinfo) {
  * @param  {Buffer} message The contents of the message.
  * @param  {object} remote  [Network info about the sender]
  * -------------------------------------------------------------------------- */
- 
+var Signal = Waterline.Collection.extend({
+
+  attributes: {
+    service: {
+      type : 'string',
+      required: true,
+    },
+    parent_id: {
+      type: 'integer',
+      requires: true,
+    },
+    analysis: {
+      type: 'json',
+    }
+  }
+});
+
+function run(req, next){
+
+
+
+}
 // var run = function(req, next){
 
 //    // TODO: Check that the service is available.
@@ -72,7 +97,7 @@ broadcaster.on("message", function (msg, rinfo) {
 //    var service = req.service;
 //    var parent_id = req.parent_id;
 
-//    //Signal.findOrCreate({ _id:parent_id },
+//    Signal.findOrCreate({ _id:parent_id },
 
 //    (function(err, signal){
 
@@ -80,10 +105,9 @@ broadcaster.on("message", function (msg, rinfo) {
 //          function(err, new_signal){
 
 //          // Attach broadcast to signal
-//          signal.broadcast = broadcast;
+         // signal.broadcast = broadcast;
 
 //          // Load the service module
-//          var mod = require(__dirname+'/services/'+service+".js");
 
 //          // Execute the service
 //          mod.run( signal, function(err, result){
@@ -94,10 +118,9 @@ broadcaster.on("message", function (msg, rinfo) {
 //             });
 //          });
 //       });
-//    })();
+//    });
 // };
 
-// var q = async.queue( run, os.cpus().length );
 
 // broadcaster.on('message', function(message, remote){
 
@@ -124,7 +147,7 @@ broadcaster.on("message", function (msg, rinfo) {
 //       services_needed:["consume_image","face_detection"],
 
 //    }, function(err, signal){
-      
+    
 //       console.log(err || "CREATED", signal);
 //       var service = service || "consume_image";
 //       var message = new Buffer( service +":"+ signal._id );

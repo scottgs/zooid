@@ -1,12 +1,11 @@
-#zooid <img src="http://recollectionbooks.com/bleed/images/BB/manowar1.gif" align=center> 
-
+#zooid 
 
 **An asynchronous research environment built to grow quickly and scale nicely.**
 
 - Self discovers on the cluster
-- Assilmilates services appropriate for it's hardware
+- Assimilates skills appropriate for it's hardware
 - Listens to the broadcast domain for events
-- Contributes to the work flow according to it's ability
+- Persists action potential until event requirements are met
 
 ####Services
 
@@ -56,5 +55,6 @@
 #####Torch7
 - https://github.com/torch/torch7/wiki/Cheatsheet
 
-#####Dom Encapsulation
-http://jsfiddle.net/rniemeyer/UHcs6/
+#####Design
+- http://jsfiddle.net/rniemeyer/UHcs6/
+- http://github.hubspot.com/messenger/docs/welcome/
