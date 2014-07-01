@@ -1,7 +1,74 @@
 extends container
 block body
-	script.
-		$('.nav > li').removeClass('active');
-		$('#nav-home').addClass('active');
-	img(src="images/mow.png" style="width:auto; height:350px;")
-	h1.cover-heading ZOOID
+  script.
+      $('.nav > li').removeClass('active');
+      $('#nav-home').addClass('active');
+
+  head
+    link(href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic', rel='stylesheet', type='text/css')
+
+  body
+    //- .col-lg-12
+       .panel.panel-default
+          .panel-body
+            include bibble
+
+    .col-lg-3
+      .panel-body
+          p
+            b Joe.  
+            br
+            i f u. put your sidebar here.
+
+      .panel.panel-info
+        .panel-body
+          form.form-horizontal
+            fieldset
+              legend New Signal
+              .control-group
+                label.control-label(for='a') Name
+                .controls
+                  input.form-control#a.input-xlarge(name='name', placeholder='name', value="UI TEST" type='text')
+                label.control-label(for='b') Service
+                .controls
+                  input.form-control#a.input-xlarge(name='service', placeholder='service', value="IMAGE" type='text')
+                label.control-label(for='b') Type
+                .controls
+                  input.form-control#b.input-xlarge(name='type', placeholder='Type', value="HEAD" type='text')
+                label.control-label(for='b') Location
+                .controls
+                  input.form-control#b.input-xlarge(name='location', placeholder='location', value="/cgi/home/bakerbp/zooid/web/assets/files/" type='text')
+                label.control-label(for='b') filename
+                .controls
+                  input.form-control#b.input-xlarge(name='filename', placeholder='filename', value="diverse.jpg" type='text')
+                label.control-label(for='b') Data
+                .controls
+                  input.form-control#b.input-xlarge(name='data', placeholder='data', value="data" type='text')
+              hr
+
+
+
+            a.btn.btn-default.createSignal Create a signal
+
+
+
+    .col-lg-7
+      .panel
+        .panel-heading.well-sm Activities
+          hr
+        #signal_container
+
+
+
+
+
+
+
+    .col-lg-2
+      hr
+
+      //- .col-lg-12.hide
+      //-   pre.panel(style="height:600px;")
+      //-     include dependencies
+
+      //- .col-lg-12.panel

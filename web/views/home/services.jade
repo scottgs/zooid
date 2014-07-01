@@ -18,35 +18,5 @@ body
       include dependencies
 
 
-   .container-fluid
-
-
-     .navbar.navbar-inverse.navbar-fixed-top(role='navigation')
-       .container-fluid
-         .navbar-header
-               button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-                 span.sr-only Toggle navigation
-                 span.icon-bar
-                 span.icon-bar
-                 span.icon-bar
-               a.navbar-brand(href='/', style="font-size:20px;") zooid
-         .navbar-collapse.collapse
-              ul.nav.navbar-nav
-                 li.dropdown.active
-                    a.dropdown-toggle(href='#', data-toggle='dropdown')
-                       | Tests
-                       b.caret
-                    ul.dropdown-menu
-                       li.divider
-                       li.dropdown-header Nav header
-                       li
-                          a(href='#') Separated link
-                       li
-              ul.nav.navbar-nav.navbar-right
-
-                 li.active
-                        a(href="https://github.com/benbaker/zooid").fa.fa-github-alt.fa-lg
-     br
-     hr
-     #signal_container
+   #signal_container
 

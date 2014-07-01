@@ -1,5 +1,5 @@
 var broadcaster = require('dgram').createSocket('udp4');
-
+var moment = require("moment");
 broadcaster.bind(42002, '239.255.0.1'); // port, ip
 
 broadcaster.on('listening', function () {
@@ -11,19 +11,24 @@ broadcaster.on('listening', function () {
 });
 
 var broadcast = function(signal){
-  var service = signal.service;
-  if( typeof service === 'undefined' ){
-    return console.warn('signal.service === undefined');
-  }
-  var id = signal.id;
-  var message = new Buffer(service+":"+id);
-  console.log(service);
+  var service = signal.service || signal.method || "none";
+
+  var message = new Buffer(service+":"+signal.id);
+  console.log("broadcasting: ",message);
   broadcaster.send( message, 0, message.length, 42002, "239.255.0.1");
 };
 
 broadcaster.on("message", function (msg, rinfo) {
-  console.log("server got: " + msg + " from " +
-    rinfo.address + ":" + rinfo.port);
+   // Turn buffer into an array of strings
+   var req = {}, args = msg.toString().split(":");
+   req.service = args[0];
+   req.parent_id = args[1];
+   console.log("Overmind got message: ", req)
+   var address = broadcaster.address();
+   var out = new Buffer('OVERMIND:' + address.address + ":" + address.port);
+
+   if(req.service === "cqcq") broadcast( out );
+
 });
 
 
@@ -34,6 +39,55 @@ broadcaster.on("message", function (msg, rinfo) {
  * @description :: A short summary of how this model works and what it represents.
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
+
+var crypto = require("crypto");
+var _ = require("underscore");
+
+module.exports = {
+
+  attributes: {
+
+    // _id:'ObjectId'
+
+    toJSON: function() {
+      var obj = this.toObject();
+      obj.created = moment( obj.createdAt ).fromNow();
+      // delete obj.type;
+      delete obj.updatedAt;
+      delete obj.createdAt;
+      return obj;
+    }
+
+  },
+
+  adapter: 'mongo_adapter',
+
+  beforeCreate: function(values, next) {
+    // var entropy = _.reduce( values, function(n, k){ return k + ";Ec.Q"}) + _.now();
+    // var hash = crypto.createHash("md5")
+    // .update( new Buffer( entropy ) )
+    // .digest("hex")
+    // values.id = hash
+    // values._id = hash
+    next();
+  },
+
+  afterCreate: function(record, next){
+    console.log('Created Signal: ', record);
+    if (record.service) broadcast(record);
+    next();
+  },
+  afterUpdate: function(record, next){
+    console.log('Updated Signal: ',record);
+    next();
+  },
+    afterDestroy: function(record, next){
+    console.log('Destroyed Signal: ',record);
+    next();
+  },
+};
+
+
 
 
 //  Callbacks run on Create:
@@ -48,23 +102,4 @@ broadcaster.on("message", function (msg, rinfo) {
 // - beforeDestroy / *fn(criteria, cb)*
 // - afterDestroy / *fn(cb)*
 
-module.exports = {
 
-  attributes: {
-
-  },
-
-  afterCreate: function(record, next){
-    console.log('Created Signal: ',record);
-    broadcast(record);
-    next();
-  },
-  afterUpdate: function(record, next){
-    console.log('Updated Signal: ',record);
-    next();
-  },
-    afterDestroy: function(record, next){
-    console.log('Destroyed Signal: ',record);
-    next();
-  },
-};

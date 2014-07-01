@@ -1,5 +1,5 @@
 /* Flatten das boostrap */
-.well, .navbar, .popover, paper-button, .panel, button, :host,  .btn, .tooltip, input, select, textarea, pre, .progress, .modal, .add-on, .alert, .table-bordered, .nav>.active>a, .dropdown-menu, .tooltip-inner, .badge, .label, .img-polaroid {
+*, .well, .navbar, .popover, paper-button, .panel, button, :host,  .btn, .tooltip, input, select, textarea, pre, .progress, .modal, .add-on, .alert, .table-bordered, .nav>.active>a, .dropdown-menu, .tooltip-inner, .badge, .label, .img-polaroid {
   -moz-box-shadow: none !important;
    -webkit-box-shadow: none !important;
    box-shadow: none !important;
@@ -11,6 +11,25 @@
    background-image: none !important;
 }
 
+.signal {
+}
+
+.h100 {
+  height:100px!important;
+  width:100px!important;
+}
+
+.popover {
+  opacity:0.5;
+}
+
+.signal .w2 {
+  width:50%;
+}
+
+.signal .w3 {
+  width:25%;
+}
 
 .node circle {
   cursor: pointer;
@@ -25,11 +44,15 @@
   cursor:pointer;
 }
 
+
 path.link {
   fill: none;
-  stroke-width: 5px;
+  stroke-width: 0px;
 }
 
+path {
+
+}
 
 rect {
   fill: none;
@@ -40,10 +63,6 @@ pre {
   font-size: 18px;
 }
 
-line {
-  stroke: #444;
-  stroke-width: 1.5px;
-}
 
 .string, .regexp {
   color: #f39;
@@ -66,14 +85,7 @@ line {
   color: #1181B8;
 }
 
-a:link, a:visited {
-  color: #000;
-  text-decoration: none;
-}
 
-a:hover {
-  color: #666;
-}
 
 .hint {
   position: absolute;

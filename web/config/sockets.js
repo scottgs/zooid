@@ -15,10 +15,7 @@ module.exports.sockets = {
   // Keep in mind that Sails' RESTful simulation for sockets 
   // mixes in socket.io events for your routes and blueprints automatically.
   onConnect: function(session, socket) {
-
-    // By default: do nothing
-    // This is a good place to subscribe a new socket to a room, inform other users that
-    // someone new has come online, or any other custom socket.io logic
+    // console.log(socket)
   },
 
   // This custom onDisconnect function will be run each time a socket disconnects
@@ -39,6 +36,7 @@ module.exports.sockets = {
   'websocket',
   'htmlfile',
   'xhr-polling',
+  'flashsocket',
   'jsonp-polling'
   ],
 
@@ -156,7 +154,7 @@ module.exports.sockets = {
 
   // Used by the HTTP transports. The Socket.IO server buffers HTTP request bodies up to this limit. 
   // This limit is not applied to websocket or flashsockets.
-  'destroy buffer size': '10E7',
+  'destroy buffer size': '10E10',
 
   // Do we need to destroy non-socket.io upgrade requests?
   'destroy upgrade': true,
@@ -182,7 +180,7 @@ module.exports.sockets = {
   // Does Socket.IO need to GZIP the static files?
   // This process is only done once and the computed output is stored in memory. 
   // So we don't have to spawn a gzip process for each request.
-  'browser client gzip': false,
+  'browser client gzip': true,
 
   // Optional override function to serve all static files, 
   // including socket.io.js et al.

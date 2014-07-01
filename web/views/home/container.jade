@@ -3,20 +3,19 @@ head
 	script(type="text/javascript" src="js/socket.io.js")
 	script(type="text/javascript" src="js/sails.io.js")
 	script(type="text/javascript" src="js/app.js")
+	script(type="text/javascript" src="js/isotope.js")
 	script(type="text/javascript" src="styles/js/bootstrap.min.js")
-	link(href="styles/css/bootstrap-slate.min.css" rel="stylesheet")
-	link(href="styles/css/nav.css" rel="stylesheet")
+
+	link(href="styles/css/bootstrap.min.css" rel="stylesheet")
+	link(href="styles/css/animate.css" rel="stylesheet")
+	link(href="styles/css/bootstrap-theme.min.css" rel="stylesheet")
+	//- link(href="styles/css/bootstrap-slate.min.css" rel="stylesheet")
+	link(href="styles/css/font-awesome.min.css" rel="stylesheet")
+	//- link(href="styles/css/googleTheme.css" rel="stylesheet")
+	link(href="styles/css/zooid.css" rel="stylesheet")
+	link(href="styles/css/animate.css" rel="stylesheet")
 body
-	.site-wrapper
-		.site-wrapper-inner
-			.cover-container
-				include nav
-				.inner.cover
-					block body
-					#signal_container
-				.mastfoot
-					.inner
-						p 
-							| Have a look inside  
-							a(href="https://github.com/benbaker/balls") Zooid
-							|!
+	include nav
+	
+	block body
+		

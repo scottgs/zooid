@@ -1,13 +1,21 @@
 block content
+body(style="width:100%!important;height:100%!important;")
    script(type="text/javascript" src="js/d3.js")
-   link(href="styles/css/bootstrap.min.css" rel="stylesheet")
-   #chart
+   //- link(href="styles/css/bootstrap.min.css" rel="stylesheet")
+   link(href="styles/css/zooid.css" rel="stylesheet")
+   #chart(style="width:100%;height:100%")
 
 
 
    script.
 
-
+      /**
+       * JOE DO SOMETHING GOOD WITH THIS GRAPHING STUFF
+       * @param {[type]} name     [description]
+       * @param {[type]} size     [description]
+       * @param {[type]} children [description]
+       */
+      
       function Node(name, size, children ){
          this.name = name || "SIGNAL"
          children ? (this.children = children) : this.children = null
@@ -15,37 +23,35 @@ block content
       }
 
       var data = 
-      new Node( "zooid", 89, [
-
-      new Node( "signal", 55, [ 
-         new Node("image", 34, [ 
-            new Node("outdoor", 21, [
-               new Node("geo"), 
-               new Node("xiff"), 
-               new Node("landmark"), 
-               new Node("vehicle"), 
-            ]),
-            new Node("indoor", 21, [
-               new Node("xiff"), 
-               new Node("text"), 
-            ]),
-            new Node("face", 21, [
-               new Node("face"), 
-               new Node("race"), 
-               new Node("tattoo")
-            ]), 
+      new Node( "Overmind", 0, [
+        new Node( "Drone", 1, [ 
+           new Node("image", 1, [ 
+              new Node("outdoor", 1, [
+                 new Node("geo"), 
+                 new Node("xiff"), 
+                 new Node("landmark"), 
+                 new Node("vehicle"), 
+              ]),
+              new Node("indoor", 1, [
+                 new Node("xiff"), 
+                 new Node("text"), 
+              ]),
+              new Node("face", 1, [
+                 new Node("face"), 
+                 new Node("race"), 
+                 new Node("tattoo")
+              ]), 
+           ]),
+           new Node("sound", 1, [
+           ]), 
+           new Node("video", 1, [
+              new Node("frames"), 
+              new Node("sound"), 
+           ]), 
+         
          ]),
-         new Node("sound", 34, [
-            new Node("music"), 
-            new Node("transcription"), 
-            new Node("voice id"), 
-         ]), 
-         new Node("video", 34, [
-            new Node("frames"), 
-            new Node("sound"), 
-         ]), 
-         ]),
-         ]);
+         
+       ]);
 
 
 
@@ -53,9 +59,9 @@ block content
 
       console.log(data)
 
-      var m = [10, 120, 10, 120],
-          w = 1080 - m[1] - m[3],
-          h = 450 - m[0] - m[2],
+      var m = [22, 22,  22, 2 ],
+          w = 1300 - m[1] - m[3],
+          h = 1100 - m[0] - m[2],
           i = 0,
           root;
 
@@ -63,8 +69,8 @@ block content
           .size([h, w]);
 
       var diagonal = d3.svg.diagonal().projection(function(d) { 
-      var r = (d.y)  , a = (d.x) ;
-        return [r , a];
+        var r = (d.y)  , a = (d.x) ;
+        return [a,r];
       });
 
       var vis = d3.select("#chart").append("svg:svg")
@@ -76,7 +82,7 @@ block content
       d3.json("/signal", function(json) {
         console.log("CHARTING", json)
         root = data;
-        root.x0 = h ;
+        root.x0 = w ;
         root.y0 = 0;
 
         function toggleAll(d) {
@@ -99,7 +105,7 @@ block content
         var nodes = tree.nodes(root).reverse();
 
         // Normalize for fixed-depth.
-        nodes.forEach(function(d) { d.y = d.depth * 110; });
+        nodes.forEach(function(d) { d.y = d.depth * 60; });
 
         // Update the nodes…
         var node = vis.selectAll("g.node")
@@ -108,32 +114,34 @@ block content
         // Enter any new nodes at the parent's previous position.
         var nodeEnter = node.enter().append("svg:g")
             .attr("class", "node")
-            .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+            .attr("transform", function(d) { return "translate(" + source.x0 + "," + source.y0 + ")"; })
             .on("click", function(d) { toggle(d); update(d); });
 
         nodeEnter.append("svg:circle")
             .attr("r", 1e-3)
-            .attr("r", 1e-3)
             .style("fill", function(d) { return d._children ? "#FFFFFF" : "#FFFFFF"; })
 
         nodeEnter.append("svg:text")
-            .attr("x", function(d) { return d.children || d._children ? 0 : 10; })
+            .attr("y", function(d) { return d.children || d._children ? 0 : 20; })
+            .attr("x", function(d) { return d.children || d._children ? -4 : -4; })
+            .attr("dx", ".35em")
             .attr("dy", ".35em")
             .attr("fill", function(d) { return d._children ? "#333339" : "#000000"; })
-            .attr("text-anchor", function(d) { return d.children || d._children ? "middle" : "start"; })
+            .style("fill-opacity", 1e-6)
+            .attr("text-anchor", function(d) { return d.children || d._children ? "middle" : "middle"; })
             .text(function(d) { return d.name; })
             .style("fill-opacity", 1e-6);
 
         // Transition nodes to their new position.
         var nodeUpdate = node.transition()
             .duration(duration)
-            .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
         nodeUpdate.select("circle")
             .attr("r", function(d){ return Math.round( d.size || 0 ) })
             .style("fill", function(d) { return d._children ? "#eeeeee" : "#ffffff"; })
-            .style("stroke", function(d) { return d._children ? "#eeeeee" : "#eeeeee"; })
-            .style("stroke-width", 3)
+            .style("stroke", function(d) { return d._children ? "#f2f2f2" : "#f2f2f2"; })
+            .style("stroke-width", 0)
 
         nodeUpdate.select("text")
             .style("fill-opacity", 1);
@@ -141,7 +149,7 @@ block content
         // Transition exiting nodes to the parent's new position.
         var nodeExit = node.exit().transition()
             .duration(duration)
-            .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+            .attr("transform", function(d) { return "translate(" + source.x + "," + source.y + ")"; })
             .remove();
 
         nodeExit.select("circle")
@@ -155,14 +163,14 @@ block content
             .data(tree.links(nodes), function(d) { return d.target.id; });
 
         // Enter any new links at the parent's previous position.
-        link.enter().insert("svg:path", "g")
+        link.enter().insert("path", "g")
             .attr("class", "link")
             .attr("d", function(d) {
               var o = {x: source.x0, y: source.y0};
               return diagonal({source: o, target: o});
             })
-            .style("stroke", "#eeeeee")
-            .style("stroke-width", 3)
+            .style("stroke", "#f5f5f5")
+            .style("stroke-width", 2)
           .transition()
             .duration(duration)
             .attr("d", diagonal);
