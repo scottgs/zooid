@@ -10,8 +10,9 @@ function broadcast(callback) {
 	}
 }
 
-function process_exit(){
-	process.send(process.reduced_index);
+function process_exit(results){
+	// process.send('string');
+	process.send(results);
 	process.exit(0);
 }
 
@@ -20,15 +21,13 @@ function process_exit(){
 	var search = argv[3];
 	var nCPUs = os.cpus().length;
 	var namespace = {};
-	var CPU = [];
+	var workers = [];
+	var reduced_index = new reduce.Index();
 	if (cluster.isMaster) {
 		// Fork workers.
 		//////////////////////////////////////////////////////
 		//					Before Fork						//
 		//////////////////////////////////////////////////////
-		process.on('message', function(msg){
-			console.log(msg);
-		})
 		cluster.on('exit', function(worker, code, signal) {
 			console.log('worker ' + worker.process.pid + " exited with\ncode: "+ code);
 		});
@@ -37,7 +36,10 @@ function process_exit(){
 		//						Fork						//
 		//////////////////////////////////////////////////////
 		for (var i = 0; i < nCPUs; i++) {
-			CPU[i] = cluster.fork();
+			workers[i] = cluster.fork();
+			workers[i].on('message', function(msg){
+				for(var i = 0; i < 3; i++) console.log()
+			});
 		}
 		//////////////////////////////////////////////////////
 		//					After Fork						//
@@ -47,18 +49,20 @@ function process_exit(){
 		// 	namespace[worker.process.pid].reverse_index = [];
 		// });
 		for(var i = 0; i < files.length; i++){
-			CPU[i%CPU.length].send(files[i]);
+			workers[i%workers.length].send(files[i]);
 		}
-		for(var i in CPU){
-			CPU[i].send('die');
+		for(var i in workers){
+			workers[i].send('die');
 		}
 	} else {
-		process.reduced_index = [];
-		process.on('message', function(file) {
+		//////////////////////////////////////////////////////
+		//					Child Process					//
+		//////////////////////////////////////////////////////
+		process.on('message', function onMessage(file) {
 			if(file == 'die'){
-				process_exit();
+				process_exit(reduced_index);
 			}
-			console.log(process.reduced_index.push(reduce.index(ri.reverse_index(file))));
+			reduced_index = ri.reverse_index(file);
 		});
 	}
 })(process.argv);

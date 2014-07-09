@@ -8,15 +8,12 @@ var _ = require('underscore');
 
 var reverse_index = require('./reverse_index.js');
 
-function index_reduce(indexes, next){
-	reduced_indices = {};
-	_.each(indexes, function(idx){
-		if(!(idx.word in reduced_indices)){
-			reduced_indices[idx.word] = new reverse_index.reducedIndex(idx.word);
-		}
-		reduced_indices[idx.word].consume(idx);
-	});
-	return reduced_indices;
+function Index(){
+
 }
 
-module.exports.index = index_reduce;
+Index.prototype.consume = function consume(list){
+
+};
+
+module.exports.Index = Index;

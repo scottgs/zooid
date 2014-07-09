@@ -2,8 +2,8 @@ var fs = require('fs');
 var _ = require('underscore');
 var path = require('path');
 
-function reverse_index(file_path){
-	var file = fs.readFileSync('../bibble/'+file_path, 'utf8')
+function reverse_index(file_path, next){
+	var file = fs.readFileSync('../bibble/'+file_path, 'utf8');
 		
 		var result = {}, l=0, lines = file.split("\n");
 
@@ -19,60 +19,42 @@ function reverse_index(file_path){
 
 				if(word === '') offset += word_offset;
 
-				if(!(word in result)) result[word] = new index(file_path);
+				if(!(word in result)) result[word] = new index(file_path, word);
 
 				result[word].index.push([Number(l) + 1, offset + 1]);
 				offset += word_offset;
-			})
-		})
-		for(var key in result){
-			result[key].word = key;
-		}
+			});
+		});
 		result = _.sortBy(result, function(word){
 			return -word.count;
 		});
 		return result;
 }
 
-var index = function index(file_path){
+var index = function index(file_path, word){
 		this.file_path = file_path;
+		this.word = word;
 		this.index = [];
 };
 
-index.prototype.toString = function(){
-	var str = this.file_path+": [";
-	var idx = this.index;
-	for(var i in idx){
-		str += "["+idx[i].toString()+"]";
-	}
-	return str + "]\n";
+index.prototype.consume = function(i){
+	
 };
 
-//constructor
-var reducedIndex = function reducedIndex(word){
-	this.word = word;
+index.prototype.talk = function(i){
+	var str = '';
+	str += 'word: ' + this.word + '\n';
+	str += 'book: ' + this.file_path + '\n';
+	str += 'indices: ' + this.index.length + '\n';
+};
+var reducedIndex = function reducedIndex(){
 	this.indices = [];
 };
 
 reducedIndex.prototype.consume = function(i){
-	switch (i.constructor.name){
-		case "reducedIndex":
-			this.indices = this.indices.concat(i.indices);
-			break;
-		case "index":
-			this.indices = this.indices.concat(i);
-			break;
-	}
+
 };
 
-reducedIndex.prototype.toString = function(){
-	var str = '"'+this.word+'":\n';
-	var idx = this.indices;
-	for(var i in idx){
-		str += idx[i].toString();
-	}
-	return str + "\n";
-};
 
 module.exports.reducedIndex = reducedIndex;
 module.exports.index = index;
