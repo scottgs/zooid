@@ -10,6 +10,23 @@ var Signal = require('./Signal.js');
 var request = require("request")
 
 
+var cluster = require('cluster');
+var http = require('http');
+var numCPUs = require('os').cpus().length;
+
+if (cluster.isMaster) {
+  // Fork workers.
+  for (var i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+
+  cluster.on('exit', function(worker, code, signal) {
+    console.log('worker ' + worker.process.pid + ' died');
+  });
+} else {
+
+
+
 /** ----------------------------------------------------------------------------
  * Once listening, configure the socket and log network info 
  * -------------------------------------------------------------------------- */
@@ -22,7 +39,7 @@ client.on('listening', function () {
    console.log('UDP Client listening on ' + address.address + ":" + address.port);
    client.setBroadcast(true);
    client.setMulticastTTL(128);
-   client.addMembership('239.255.0.1');
+   // client.addMembership('239.255.0.1');
    // findOvermind();
 });
 
@@ -32,10 +49,10 @@ client.on('message', function(message, remote){
    var req = {}, args = message.toString().split(":");
    req.service = args[0];
    req.parent_id = args[1];
-   console.log("WE HEARD: ", req)
+   // console.log("WE HEARD: ", req)
    // push the service to the queue
    run(req, function (err, result) {
-      console.log("WE DID:". result);
+      // console.log("WE DID:". result);
    });
 });
 
@@ -89,7 +106,7 @@ function Overmind(om){
 }
 
 Overmind.prototype.get = function(req, next){
-   console.log( "WE ASKED OVERMIND FOR:", req );
+   // console.log( "WE ASKED OVERMIND FOR:", req );
    var channel = "http://"+ this.ip +":"+ this.port +"/"+ this.model +"/"+req.id
    request(channel, function (err, response, body) {
        // console.log( "OVERMIND GAVE US:", err, body );
@@ -114,6 +131,8 @@ Overmind.prototype.cq = function(req, next){
 var overmind = new Overmind();
 
 overmind.cq()
+
+
 
 var run = function(req, next){
 
@@ -206,3 +225,4 @@ module.exports.test = test;
 // net_client.on('end', function() {
 //   console.log("net_client end");
 // });
+}

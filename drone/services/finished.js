@@ -42,10 +42,10 @@ var run = function run(req, next){
 
    q.drain = function() {
       console.log('ALL THINGS ARE DONE');
-      req.save( function(err, r){
-         if(err)req.broadcast('err', req._id);
+      // req.save( function(err, r){
+         // if(err)req.broadcast('err', req._id);
          // req.broadcast('next_thing', req._id);
-      })
+      // })
    }
    
    if(typeof req.data == 'array'){

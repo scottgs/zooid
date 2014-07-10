@@ -1,5 +1,11 @@
-/* Flatten das boostrap */
-*, .well, .navbar, .popover, paper-button, .panel, button, :host,  .btn, .tooltip, input, select, textarea, pre, .progress, .modal, .add-on, .alert, .table-bordered, .nav>.active>a, .dropdown-menu, .tooltip-inner, .badge, .label, .img-polaroid {
+@import url("//fonts.googleapis.com/css?family=Droid+Sans:400,700");
+
+body{
+  /*font-family: 'Droid Serif', serif;*/
+  
+}
+
+*, .well, .navbar, .popover, . .panel, button, :host,  .btn, .tooltip, input, select, textarea, pre, .progress, .modal, .add-on, .alert, .table-bordered, .nav>.active>a, .dropdown-menu, .tooltip-inner, .badge, .label, .img-polaroid {
   -moz-box-shadow: none !important;
    -webkit-box-shadow: none !important;
    box-shadow: none !important;
@@ -7,13 +13,22 @@
    -moz-border-radius: 0px !important;
    border-radius: 0px !important;
    border-collapse: collapse !important;
-   /*border:none!important;*/
-   background-image: none !important;
+   border:none!important;
 }
 
 .signal {
+
+  -webkit-box-shadow: 1px 2px 5px 2px rgba(170,170,170,0);
+  -moz-box-shadow: 1px 2px 5px 2px rgba(170,170,170,0);
+  box-shadow: 1px 2px 5px 2px rgba(170,170,170,0);
+
 }
 
+.thumbnail{
+  margin-bottom:6px!important;
+  margin-top:9px!important;
+  padding:2px;
+}
 .h100 {
   height:100px!important;
   width:100px!important;
@@ -93,3 +108,39 @@ pre {
   font-size: 12px;
   color: #999;
 }
+
+
+
+
+.signal_item {
+  background-color: white;
+
+
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
+
+    color: rgb(102, 102, 102);
+
+    letter-spacing: 0px;
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing:    border-box;
+  -ms-box-sizing:     border-box;
+  -o-box-sizing:      border-box;
+  box-sizing:         border-box;
+
+  -webkit-transition: opacity 1s;
+  -moz-transition:    opacity 1s;
+  -ms-transition:     opacity 1s;
+  -o-transition:      opacity 1s;
+  transition:         opacity 1s;
+}
+
+/** NOT SUPPORTED STYLES **/
+.not-supported section {
+  position: relative;
+  opacity: 1;
+  margin: 20px auto;
+}
+
+
+
