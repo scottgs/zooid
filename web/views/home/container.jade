@@ -1,21 +1,31 @@
 head
+
+	meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
+
 	script(type="text/javascript" src="js/jquery.js")
+	script(type="text/javascript" src="js/dropzone.js")
+	script(type="text/javascript" src="js/jmpress.js")
 	script(type="text/javascript" src="js/socket.io.js")
 	script(type="text/javascript" src="js/sails.io.js")
 	script(type="text/javascript" src="js/app.js")
 	script(type="text/javascript" src="js/isotope.js")
+	script(type="text/javascript" src="js/Chart.min.js")
 	script(type="text/javascript" src="styles/js/bootstrap.min.js")
 
 	link(href="styles/css/bootstrap.min.css" rel="stylesheet")
 	link(href="styles/css/animate.css" rel="stylesheet")
 	link(href="styles/css/bootstrap-theme.min.css" rel="stylesheet")
+	link(href="styles/css/googleTheme.css" rel="stylesheet")
 	//- link(href="styles/css/bootstrap-slate.min.css" rel="stylesheet")
 	link(href="styles/css/font-awesome.min.css" rel="stylesheet")
 	//- link(href="styles/css/googleTheme.css" rel="stylesheet")
 	link(href="styles/css/zooid.css" rel="stylesheet")
 	link(href="styles/css/animate.css" rel="stylesheet")
+
 body
-	include nav
 	
-	block body
+	include nav
+	.container-fluid
 		
+		block body
+			

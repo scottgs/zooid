@@ -6,6 +6,7 @@ var path = require('path');
 var async = require("async");
 var zlib = require('zlib');
 var cv = require("opencv")
+var histogram = require("histogram")
 
 var errorHandler = function(err, next){
    if(err){
@@ -25,17 +26,28 @@ var errorHandler = function(err, next){
 
 var service_action = function(req, next){
 
+   var parent_id = req.id;
+
    var image_location = path.join( req.location, req.filename);
    console.log(image_location)
 
    cv.readImage( image_location, function(err, mat){
 
-      // console.log(err || ("mat: ",mat));
+      var m = mat.copy()
 
       mat.detectObject(cv.FACE_CASCADE, {}, function(err, faces){
          
-         console.log(err||faces)
-         if( !faces || err ) next(null, "NO FACES OR ERR"); 
+         console.log(err|| "FACES:"+faces.length)
+         if(err) next(err); 
+
+         if(!faces){
+            req.overmind.create( { 
+               parent_id:parent_id, 
+               service:"finished", 
+               data:"NO FACES", 
+               text:"No Faces found in this image." 
+            }, function(a,b){  })
+         }
 
          var res = [];
 
@@ -46,21 +58,98 @@ var service_action = function(req, next){
             var face = faces[i]
             var ims  = mat.size()
             var im2  = mat.roi(face.x, face.y, face.width, face.height);
-            var filename = 'face'+i+'.jpg'
+            var filename = req.id+'_FACE_'+i+"_"+req.filename
+
+            var image_dir = path.join( req.location );
             var image_path = path.join( req.location , filename );
+
             im2.save( image_path );
+            console.log("SAVED TO", image_path);
             res.push( face )
-            req.overmind.create( { parent_id:req.id, service:"FACE", data:face, location:image_path, filename:filename }, function(err, body){
-            })
+            req.overmind.create( { proc:process.pid, parent_id:req.id, service:"FACE", data:face, location:image_dir, filename:filename }, function(a,b){ console.log(); })
          }
 
-         // req.broadcast('finished', req._id);
-         // 
-         // mat.save("../core/examples/FACE_DETECTION_RESULT.jpg");
-         next(null, "ALL_FACES");
+      }) // end detect faces
 
-      })
-   })
+
+      histogram(image_location || Buffer, function (err, data) {
+
+         var l = data.red.length
+
+         var red = data.red
+         var blue = data.blue
+         var green = data.green
+
+         var hist = 'Unique colors: ' + data.colors.rgb + '<br />'
+
+         var r = _.reduce( red,   function(a,b){ return Math.round( 100*( (a+b)/l) ) } )
+         var g = _.reduce( green, function(a,b){ return Math.round( 100*( (a+b)/l) ) } )
+         var b = _.reduce( blue,  function(a,b){ return Math.round( 100*( (a+b)/l) ) } )
+
+         var tots = g+b+r
+         r = Math.round( (r/tots) *100 )
+         g = Math.round( (g/tots) *100 )
+         b = Math.round( (b/tots) *100 )
+
+         hist+= "red: " +   r + "<br />"
+         hist+= "green: " + g + "<br />"
+         hist+= "blue: " +  b + "<br />"
+
+
+         // console.log(data.palettes.rgb)
+
+         req.overmind.create( { proc:process.pid, parent_id:parent_id, service:"finished", text:hist, histogram:data  }, function(a,b){ console.log(); })
+
+      });
+
+
+
+      var w = m.width()
+      var h = m.height()
+
+
+      // function getPrecision(scinum) {
+      //   var arr = new Array();
+      //   // Get the exponent after 'e', make it absolute.  
+      //   arr = scinum.split('e');
+      //   var exponent = Math.abs(arr[1]);
+
+      //   // Add to it the number of digits between the '.' and the 'e'
+      //   // to give our required precision.
+      //   var precision = new Number(exponent);
+      //   arr = arr[0].split('.');
+      //   precision += arr[1].length;
+
+      //   return precision;
+      // }
+
+
+      // for (var i = 0; i < w; i++) {
+
+
+         // for (var i = 0; i < w; i++) {
+         //    console.log(  getPrecision( new String( m.get(i,5) ) ) );
+         // };
+
+
+         // console.log(r)
+
+         // for (var j = 0; j < h; j++){
+
+            
+         //    var v = mat.get(i,j);
+         //    console.log( v )
+
+         // };         
+      // };         
+
+
+      
+
+   }); // end readImage
+
+   next(null, "ALL_FACES");
+
 }
 
 /**
@@ -80,7 +169,6 @@ var service_action = function(req, next){
 var run = function run(req, next){
 
    var q = async.queue( service_action, os.cpus().length );
-
 
    console.log(req.location);
 
