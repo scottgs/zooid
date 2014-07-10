@@ -14,28 +14,25 @@ block body
           .panel-body
             include bibble
 
-    .col-sm-10.animated.bounceInUp
-        #signal_container(data-template='auto')
 
 
+    .col-sm-12#fileUpload
+      .panel.well.well-sm.animated.bounceInUp
+        .panel-body
+            a.btn.btn-default.btn-sm.fileinput-button.dz-clickable   
+              fa.fa.fa-fw.fa-cloud-upload
+              oo Upload something
+            a.newSignalButton.btn.btn-default.btn-sm
+              fa.fa.fa-fw.fa-file
+              oo Create a new signal
 
-    .col-sm-2.animated.bounceInUp#fileUpload
-
-
-      .panel.panel-default.animated.bounceInUp
-        .panel-body(style="min-height:120px;").text-center
-            a.btn.btn-default.btn-block.btn-sm.fileinput-button.dz-clickable  
-              fa.fa.fa-fw.fa-upload.text-muted
-              b Upload
-            br
-            fa.fa.fa-fw.fa-4x.fa-cloud-upload.text-muted
             form(action='/file-upload')
                 .fallback
                   .dropzone
                     input(name='file', type='file', multiple='multiple')
 
-      #previews.animated.bounceInDown
-        #template.animated.bounceInDown(style="border-bottom:1px solid #eee;")
+      #previews
+        #template.animated.bounceInDown(style="border-bottom:1px solid #eee;").col-sm-4
           .row
             img(data-dz-thumbnail='data-dz-thumbnail', data-dz-remove='data-dz-remove').thumbnail.img-responsive.col-sm-3
             .well-sm.col-sm-9.text-right
@@ -55,13 +52,6 @@ block body
                   span Cancel
 
       br
-
-      a.newSignalButton.btn.btn-default.btn-xs.animated.bounceInUp
-        fa.fa.fa-caret-down.text-muted.fa-lg.animated.bounceInUp
-        oo  Create a new signal
-      br
-      br
-
         
       script.
         $(document).ready(function() {
@@ -100,13 +90,8 @@ block body
 
             a.btn.btn-sm.btn-primary.btn-block.createSignal Create
 
-
-
-
-      hr
-      p.lead
-        b Joe 
-        small Sidebar? 
+    .col-sm-12.animated.bounceInUp
+      #signal_container(data-template='auto')
 
     .col-lg-12
       hr

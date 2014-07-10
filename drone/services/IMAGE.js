@@ -1,11 +1,10 @@
-
 var _ = require('underscore');
 var os = require('os');
 var fs = require('fs');
-var path = require('path');
-var async = require("async");
-var zlib = require('zlib');
 var cv = require("opencv")
+var path = require('path');
+var zlib = require('zlib');
+var async = require("async");
 var histogram = require("histogram")
 
 var errorHandler = function(err, next){
@@ -74,38 +73,14 @@ var service_action = function(req, next){
 
       histogram(image_location || Buffer, function (err, data) {
 
-         var l = data.red.length
-
-         var red = data.red
-         var blue = data.blue
-         var green = data.green
-
-         var hist = 'Unique colors: ' + data.colors.rgb + '<br />'
-
-         var r = _.reduce( red,   function(a,b){ return Math.round( 100*( (a+b)/l) ) } )
-         var g = _.reduce( green, function(a,b){ return Math.round( 100*( (a+b)/l) ) } )
-         var b = _.reduce( blue,  function(a,b){ return Math.round( 100*( (a+b)/l) ) } )
-
-         var tots = g+b+r
-         r = Math.round( (r/tots) *100 )
-         g = Math.round( (g/tots) *100 )
-         b = Math.round( (b/tots) *100 )
-
-         hist+= "red: " +   r + "<br />"
-         hist+= "green: " + g + "<br />"
-         hist+= "blue: " +  b + "<br />"
-
-
-         // console.log(data.palettes.rgb)
-
-         req.overmind.create( { proc:process.pid, parent_id:parent_id, service:"finished", text:hist, histogram:data  }, function(a,b){ console.log(); })
+         req.overmind.create( { proc:process.pid, parent_id:parent_id, service:"finished",  histogram:data }, function(a,b){ console.log("a"); })
 
       });
 
 
 
-      var w = m.width()
-      var h = m.height()
+      // var w = m.width()
+      // var h = m.height()
 
 
       // function getPrecision(scinum) {

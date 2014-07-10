@@ -38,7 +38,7 @@ $.fn.serializeObject = function(){
   }
 
   function textBox(text){
-    return "<div class=' well well-sm '>"+text+"</div>";
+    return "<div class=' img-thumbnail well-sm '>"+text+"</div>";
   }
 
   function dump(item){ content = ""
@@ -156,7 +156,7 @@ $.fn.serializeObject = function(){
 
     var item = item_object;
 
-    var classes = (!item.parent_id) ? " panel panel-body well-sm container-fluid pull-left" : " pull-left  ";
+    var classes = (!item.parent_id) ? " sigStack panel panel-body well-sm container-fluid pull-left" : " pull-left sigStack ";
     var sub_classes = (item.type == "HEAD") ? "  " : "  ";
  
     var id = item.id || id
@@ -178,8 +178,6 @@ $.fn.serializeObject = function(){
         
         content+= item.text ? textBox(item.text, item.type) : "";
 
-        
-
         // content+= "<i>"+ item.created +"</i>  "
         // content+= item.filename ? "<code><small>"+ JSON.stringify( item.data || item.location ) + "</small></code>":"";
         content+= "</sig>"
@@ -197,7 +195,6 @@ $.fn.serializeObject = function(){
         var pend = item.parent_id ? "insertAfter" : "appendTo";
         if(item.type=="HEAD") pend = "prependTo"
         var pre  = item.parent_id ? "#"+item.parent_id : "#signal_container";
-        
 
         if(item.histogram){
           var u = Math.round( Math.random() *200 );
@@ -248,7 +245,7 @@ $.fn.serializeObject = function(){
 
     $(document).on('click', '.createSignal', function(e){
       // var f = $("form").submit()
-        socket.post("/signal/create", $("form").serializeObject(), function(a,b){console.log(a,b);} )
+      socket.post("/signal/create", $("form").serializeObject(), function(a,b){console.log(a,b);} )
     })
 
     var $container = $('#signal_container');
@@ -264,18 +261,18 @@ $.fn.serializeObject = function(){
     console.log("connected");
   });
 
-  // socket.get('/signal/find?type=HEAD&limit=1&sort=createdAt DESC', function(signals){
-  //   for(signal in signals.reverse()){
-  //     models['signal']['create'](signals[signal]);
-  //     socket.request('/signal/find?parent_id='+signals[signal].id, function(signals2){
-  //       for(signal2 in signals2.reverse()){
-  //         models['signal']['create'](signals2[signal2]);
-  //       }
-  //     });
-  //   }
-  // });
+  socket.get('/signal/find?type=HEAD&limit=1&sort=createdAt DESC', function(signals){
+    for(signal in signals.reverse()){
+      models['signal']['create'](signals[signal]);
+      socket.request('/signal/find?parent_id='+signals[signal].id, function(signals2){
+        for(signal2 in signals2.reverse()){
+          models['signal']['create'](signals2[signal2]);
+        }
+      });
+    }
+  });
 
-  socket.request('/signal/find?type=HEAD&limit=5', function(a,b){console.log(a,b)});
+  // socket.request('/signal/find?type=HEAD&limit=5', function(a,b){console.log(a,b)});
 
 
   function parseMessage(message){
@@ -311,7 +308,7 @@ $(document).ready(function() {
     url: "signal/upload", // Set the url
     thumbnailWidth: 100,
     thumbnailHeight: 100,
-    parallelUploads: 2,
+    parallelUploads: 4,
     previewTemplate: previewTemplate,
     autoQueue: true, 
     autoRemove: true, 
@@ -338,7 +335,8 @@ $(document).ready(function() {
    
   // Hide the total progress bar when nothing's uploading anymore
   myDropzone.on("queuecomplete", function(progress) {
-    document.querySelector("#total-progress").style.opacity = "0";
+    document.querySelector("#total-progress").destroy();
+
   });
    
   // Setup the buttons for all transfers

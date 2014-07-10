@@ -160,7 +160,7 @@ var service_action = function(req, next){
          // all.save( image_path );
          big.save( image_path );
 
-         req.overmind.create( { proc:process.pid, parent_id:req.id, service:"finished", location:image_path, filename:filename }, function(a,b){ console.log(a,b) })
+         req.overmind.create( { proc:process.pid, parent_id:parent_id, service:"finished", location:image_path, filename:filename }, function(a,b){ console.log(a,b) })
 
 
 
@@ -185,11 +185,7 @@ var service_action = function(req, next){
          hist+= "green: " + g + "<br />"
          hist+= "blue: " + b + "<br />"
 
-         req.overmind.create( { proc:process.pid, parent_id:parent_id, service:"finished", text:hist }, function(err,signal){ 
-
-            req.overmind.create( { proc:process.pid, parent_id:signal.id, service:"finished", histogram:data  }, function(a,b){ console.log(a,b) })
-
-         })
+         req.overmind.create( { proc:process.pid, parent_id:parent_id, service:"finished", histogram:data, text:hist  }, function(a,b){ console.log(a,b) })
       
       });
 
