@@ -1,13 +1,15 @@
 #An Event-Driven Compute Cluster 
 
-**Zooid** is an asynchronous research environment built in node.js to grow quickly and scale nicely. It uses a super-fast UDP messager for inter-process-communications, and a set of self-optimizing, adaptive broadcast domains to distribute signals through the cluster. 
+**Zooid** is an asynchronous research environment built in node.js to grow quickly and scale nicely. It uses a super-fast UDP messager for inter-process-communications, and a set of self-optimizing, adaptive broadcast domains to distribute signals through the cluster a little bit like how brains do.
 
-Each node:
+**New nodes
 
-- Self discovers on the network.
-- Assimilates skills appropriate for it's hardware.
-- Listens to the broadcast domain for events
-- Persists action potential until event requirements are met
+- Self-orient on the network.
+- Assimilate skills appropriate for it's hardware.
+- Queues action requests.
+- Listens for things, and tries to do stuff to them.
+
+- Persists action potential until event requirements are met.
 
 #Install
 
@@ -17,7 +19,7 @@ clone the repo
 
 build
  
-	npm build .
+	npm build . // <-- there is a "." there.
 
 #API
 	
