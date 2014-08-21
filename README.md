@@ -7,16 +7,9 @@ It's name sake is given for it's architectural likeness to the
  organism</a>.
 
 
-#Install
 
-	$ git clone this
-###
 
- 
-	$ npm build .
-	
-
-#####Zodes can
+###Zodes can
 
 - Self-orient on the network.
 - Saturate the machines thread pool with listeners.
@@ -24,14 +17,19 @@ It's name sake is given for it's architectural likeness to the
 - Accumulate temporary action potentials.
 - Prime anticipated events.
 
-#####Zodes can't yet
+###Zodes can't yet
 
 - Accumulate temporary action potentials.
 - Prime anticipated events.
-- 
 
+
+#Install
+
+	$ git clone this
+###
+
+	$ npm build .
 	
-
 #API
 	
 
