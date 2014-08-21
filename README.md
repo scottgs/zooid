@@ -23,7 +23,7 @@ It's name sake is given for it's architectural likeness to the
 - Prime anticipated events.
 
 
-#Install
+#Installation
 
 	$ git clone this
 ###
