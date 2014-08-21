@@ -1,6 +1,6 @@
-#zooid 
+##An Event-Driven Compute Cluster 
 
-**An asynchronous research environment built to grow quickly and scale nicely.**
+**Zooid** is an asynchronous research environment built to grow quickly and scale nicely.
 
 - Self discovers on the cluster
 - Assimilates skills appropriate for it's hardware
