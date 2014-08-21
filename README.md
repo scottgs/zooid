@@ -19,12 +19,6 @@ build
  
 	npm build .
 
-start
-
-	npm start
-	
-	
-
 #API
 	
 
@@ -61,6 +55,7 @@ start
 #####References
 - http://docs.opencv.org/modules/refman.html
 - http://en.wikipedia.org/wiki/Technological_singularity
+- 
 
 #####Utilities
 
@@ -69,6 +64,8 @@ start
 - http://lodash.com/docs
 - https://github.com/mikejihbe/metrics
 - http://jscheiny.github.io/Streams/
+- https://github.com/almende/vis
+- 
 
 #####OpenCV
 
