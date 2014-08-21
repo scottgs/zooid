@@ -1,16 +1,20 @@
 #An Event-Driven Compute Cluster 
 
-**Zooid** is an asynchronous research environment built in node.js to grow quickly and scale nicely. It uses a super-fast UDP messager for inter-process-communications, and a set of self-optimizing, adaptive broadcast domains to distribute signals through the cluster a little bit like how brains do.
+**Zooid** is an asynchronous research environment built in node.js to grow quickly and scale nicely. It uses a super-fast UDP messager for inter-process-communications, and a set of self-optimizing, adaptive broadcast domains to distribute signals to be consumed by a network of **zodes** - *worker instances*.
 
-#####Zodes
+#####Zodes Can
 
 - Self-orient on the network.
-- Saturate the thread pool with listeners.
-- Assimilate skills appropriate for it's hardware.
-- Queue action requests.
-- Listen for things, and try to do stuff to the things.
-- Persist action potential until event requirements are met.
+- Saturate the machines thread pool with listeners.
+- Assimilate hardware-specific skills from other zodes.
+- Accumulate temporary action potentials.
+- Prime anticipated events.
 
+#####Zodes Want to
+
+- Accumulate temporary action potentials.
+- Prime anticipated events.
+- 
 
 #Install
 
@@ -29,7 +33,6 @@ build
 
     Signal.create({  , function(err, res){
       
-      
     });
     
 <!--
@@ -42,7 +45,7 @@ build
     
     
     
-##Resources
+#Resources
 
 #####Full Dependencies
 
