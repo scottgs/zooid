@@ -1,21 +1,17 @@
 #An Event-Driven Compute Cluster 
 
-**Zooid** is an asynchronous research environment built in node.js to grow quickly and scale nicely. It uses a super-fast UDP messager for inter-process-communications, and a set of self-optimizing, adaptive broadcast domains to distribute signals through the zodes, (cluster entities).
+**Zooid** /ˈzoʊ.ɔɪd/ is an asynchronous research environment built in node.js to grow quickly and scale nicely. It uses a super-fast UDP messager for inter-process-communications, and a set of self-optimizing, adaptive broadcast domains to distribute signals through the cluster. 
 
-#### Zodes are adaptive.
-#####Zodes Can
+It's name sake is given for it's architectural likeness to the
+ <a href="http://en.wikipedia.org/wiki/Zooid" title="http://en.wikipedia.org/wiki/Zooid">
+ organism</a>.
 
-- Self-orient on the network.
-- Saturate the machines thread pool with listeners.
-- Assimilate hardware-specific skills from other zodes.
-- Accumulate temporary action potentials.
-- Prime anticipated events.
+Each node:
 
-#####Zodes Want to
-
-- Accumulate temporary action potentials.
-- Prime anticipated events.
-- 
+- Self discovers on the network.
+- Assimilates skills appropriate for it's hardware.
+- Listens to the broadcast domain for events
+- Persists action potential until event requirements are met
 
 #Install
 
@@ -25,7 +21,9 @@ clone the repo
 
 build
  
-	npm build . // <-- there is a "." there.
+	npm build .
+	
+	
 
 #API
 	
@@ -33,6 +31,7 @@ build
 ####Signals
 
     Signal.create({  , function(err, res){
+      
       
     });
     
@@ -46,7 +45,7 @@ build
     
     
     
-#Resources
+##Resources
 
 #####Full Dependencies
 
@@ -62,7 +61,6 @@ build
 #####References
 - http://docs.opencv.org/modules/refman.html
 - http://en.wikipedia.org/wiki/Technological_singularity
-- 
 
 #####Utilities
 
@@ -71,8 +69,6 @@ build
 - http://lodash.com/docs
 - https://github.com/mikejihbe/metrics
 - http://jscheiny.github.io/Streams/
-- https://github.com/almende/vis
-- 
 
 #####OpenCV
 
