@@ -1,18 +1,15 @@
 ##An Event-Driven Compute Cluster 
 
-**Zooid** is an asynchronous research environment built to grow quickly and scale nicely.
+**Zooid** is an asynchronous research environment built in node.js to grow quickly and scale nicely. It uses a super-fast UDP messager for inter-process-communications, and a set of self-optimizing, adaptive broadcast domains to distribute signals through the cluster. 
 
-- Self discovers on the cluster
-- Assimilates skills appropriate for it's hardware
+Each node:
+
+- Self discovers on the network.
+- Assimilates skills appropriate for it's hardware.
 - Listens to the broadcast domain for events
 - Persists action potential until event requirements are met
 
-####Services
 
-    Service.create({ , type:"CUDA" }, function(err, res){
-      
-      
-    });
 
 ####Signals
 
@@ -22,16 +19,31 @@
     });
     
     
+##Future
+
+####Services
+
+    
+    Service.create({ 
+        listener:"image", type:"CUDA", lib:"/nouns/detectFaces" 
+    });
+    
+    
+    
 ##Resources
 
-#####Architecture
+#####Full Dependencies
 
 - Sails.js http://sailsjs.org/#!
 - zlib http://nodejs.org/api/zlib.html
 - node-openCV https://github.com/peterbraden/node-opencv
+- cluster
+- axon
+- underscore
+- tesseract
+- leptonica
 
-
-#####Reference
+#####References
 - http://docs.opencv.org/modules/refman.html
 - http://en.wikipedia.org/wiki/Technological_singularity
 
@@ -44,7 +56,6 @@
 - http://jscheiny.github.io/Streams/
 
 #####OpenCV
-
 
 - http://docs.opencv.org/doc/tutorials/imgproc/table_of_content_imgproc/table_of_content_imgproc.html#table-of-content-imgproc
 - http://docs.opencv.org/doc/tutorials/imgproc/histograms/histogram_equalization/histogram_equalization.html#histogram-equalization
