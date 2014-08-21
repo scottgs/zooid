@@ -6,12 +6,6 @@ It's name sake is given for it's architectural likeness to the
  <a href="http://en.wikipedia.org/wiki/Zooid" title="http://en.wikipedia.org/wiki/Zooid">
  organism</a>.
 
-Each node:
-
-- Self discovers on the network.
-- Assimilates skills appropriate for it's hardware.
-- Listens to the broadcast domain for events
-- Persists action potential until event requirements are met
 
 #Install
 
@@ -23,6 +17,21 @@ build
  
 	npm build .
 	
+
+#####Zodes Can
+
+- Self-orient on the network.
+- Saturate the machines thread pool with listeners.
+- Assimilate hardware-specific skills from other zodes.
+- Accumulate temporary action potentials.
+- Prime anticipated events.
+
+#####Zodes Want to
+
+- Accumulate temporary action potentials.
+- Prime anticipated events.
+- 
+
 	
 
 #API
