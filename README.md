@@ -6,8 +6,8 @@ It's name sake is given for it's architectural likeness to the
  <a href="http://en.wikipedia.org/wiki/Zooid" title="http://en.wikipedia.org/wiki/Zooid">
  organism</a>.
 
-===
 
+###
 ###Zodes can
 
 - Self-orient on the network.
@@ -16,14 +16,13 @@ It's name sake is given for it's architectural likeness to the
 - Accumulate temporary action potentials.
 - Prime anticipated events.
 
-===
+
 ###Zodes can't yet
 
 - Accumulate temporary action potentials.
 - Prime anticipated events.
 
 ===
-
 
 ##Installation
 
