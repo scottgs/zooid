@@ -9,16 +9,14 @@ It's name sake is given for it's architectural likeness to the
 
 #Install
 
-clone the repo
+	$ git clone this
+###
 
-	git clone this
-
-build
  
-	npm build .
+	$ npm build .
 	
 
-#####Zodes Can
+#####Zodes can
 
 - Self-orient on the network.
 - Saturate the machines thread pool with listeners.
@@ -26,7 +24,7 @@ build
 - Accumulate temporary action potentials.
 - Prime anticipated events.
 
-#####Zodes Want to
+#####Zodes can't yet
 
 - Accumulate temporary action potentials.
 - Prime anticipated events.
