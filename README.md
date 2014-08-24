@@ -13,14 +13,13 @@ It's name sake is given for it's architectural likeness to the
 - Self-orient on the network.
 - Saturate the machines thread pool with listeners.
 - Assimilate hardware-specific skills from other zodes.
-- Accumulate temporary action potentials.
 - Prime anticipated events.
 
 
 ###Zodes can't yet
 
-- Accumulate temporary action potentials.
-- Prime anticipated events.
+- Accumulate action potentials.
+- Prime anticipated symbols.
 
 ===
 
@@ -49,6 +48,13 @@ It's name sake is given for it's architectural likeness to the
         listener:"image", type:"CUDA", lib:"/nouns/detectFaces" 
     });-->
     
+    
+    
+###Vernacular
+
+***zooid*** -
+***zode*** -
+
     
     
 ##Resources
