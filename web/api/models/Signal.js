@@ -1,35 +1,125 @@
-var broadcaster = require('dgram').createSocket('udp4');
+(function(){
+
+
+
+
+
+var fs = require("fs")
+var crypto = require("crypto")
+var path = require("path")
+
+var Axon = require('axon');
+var axon = Axon.socket('pub-emitter');
+axon.bind(42002);
+
+// setInterval(function(){
+//   // axon.emit('test', { name: 'testing' });
+//   Signal.create({noun:"test"}, function(err, res){
+//     Signal.publishCreate( res.toJSON() )
+//   })
+// }, 5000);
+
+var dendrites = Axon.socket('pull');
+dendrites.bind(42003);
+
+dendrites.on('message', function( signal ){
+  console.log( signal );
+  Signal.create( signal, function(err, res){
+    console.log(err || res)
+    if(res) Signal.publishCreate(res.toJSON() )
+  })
+});
+
+
+
+  // dendrites.on('*', function(event){
+  //   console.log(arguments);
+  // });
+
+
+
+
+
+
+
+
+
+// v1.on('zode:*', function( actionk, name, zode ){
+
+//   console.log(name, zode)
+
+//   System.findOne({ name:name }).exec(function(err,system){
+//     if(system){
+//       console.log(system)
+//       System.update( system.id, { 
+//           status:"ACTIVE"
+//         , new_actions:zode.actions
+//         , last_update: moment().valueOf()
+//       }, function(err, sys){
+//         if (err) 
+//           console.log("ERR",err)
+//         if (sys.length) 
+//           sys = sys[0]
+//         System.publishUpdate( system.id, sys.toJSON() )
+//       })
+//     } else {
+//       System.create({ 
+//           name:name
+//       }).done( function(err,sys){
+//         if(sys) 
+//           System.publishCreate(sys.toJSON())
+//       })
+//     }
+//   });
+// });
+
+// v1.on('*', function( verb, zode ){
+//   console.log(verb, zode );
+//   System.create(zode, function(err, sys){
+//   })
+// });
+
+// v1.on('zode:update:*', function( name, zode ){
+//   System.update(name, zode)
+//   console.log(name, zode);
+// });
+
+
+
+
+var _ = require("underscore");
 var moment = require("moment");
-broadcaster.bind(42002, '239.255.0.1'); // port, ip
+var timers = require("timers");
 
-broadcaster.on('listening', function () {
-   var address = broadcaster.address();
-   console.log('UDP broadcaster listening on ' + address.address + ":" + address.port);
-   broadcaster.setBroadcast(true);
-   broadcaster.setMulticastTTL(128);
-   broadcaster.addMembership('239.255.0.1');
-});
+// MUSTER AND DELETE DEAD NODES FROM THE MODEL
 
-var broadcast = function(signal){
-  var service = signal.service || signal.method || "none";
+var muster_interval = 4  // seconds
+var TTL             = 8  // seconds
 
-  var message = new Buffer(service+":"+signal.id);
-  console.log("broadcasting: ",message);
-  broadcaster.send( message, 0, message.length, 42002, "239.255.0.1");
-};
 
-broadcaster.on("message", function (msg, rinfo) {
-   // Turn buffer into an array of strings
-   var req = {}, args = msg.toString().split(":");
-   req.service = args[0];
-   req.parent_id = args[1];
-   console.log("Overmind got message: ", req)
-   var address = broadcaster.address();
-   var out = new Buffer('OVERMIND:' + address.address + ":" + address.port);
 
-   if(req.service === "cqcq") broadcast( out );
+timers.setInterval(function muster(){
+  
+  var senescence = moment().valueOf() - (TTL*1000)
 
-});
+  System.find( { last_update: { "<" : senescence }})
+    .limit(100)
+    .exec(function(err, sigs) {
+      console.log("EXPIRED NODES: ", sigs.length);
+      _.map(sigs, function(sig){ 
+        // System.publishUpdate( sig.id, { color:"warning", status:"Not responding..." }, function(err,s){
+        //   console.log(err || s);
+        // })
+        console.log("LOST COMMS WITH: ", sig.id);
+        System.destroy( sig.id, function(err,s){
+          if(!err) System.publishDestroy( sig.id )
+        })
+      });
+  });
+}, muster_interval*1000);
+
+
+
 
 
 /**
@@ -40,49 +130,40 @@ broadcaster.on("message", function (msg, rinfo) {
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
 
-var crypto = require("crypto");
-var _ = require("underscore");
 
 module.exports = {
 
   attributes: {
 
-    // _id:'ObjectId'
+    date:{ type: "integer", defaultsTo: function(){ return moment().valueOf();} },
+
 
     toJSON: function() {
       var obj = this.toObject();
       obj.created = moment( obj.createdAt ).fromNow();
       // delete obj.type;
       delete obj.updatedAt;
-      delete obj.createdAt;
+      // delete obj.createdAt;
       return obj;
     }
-
   },
 
   adapter: 'mongo_adapter',
 
   beforeCreate: function(values, next) {
-    // var entropy = _.reduce( values, function(n, k){ return k + ";Ec.Q"}) + _.now();
-    // var hash = crypto.createHash("md5")
-    // .update( new Buffer( entropy ) )
-    // .digest("hex")
-    // values.id = hash
-    // values._id = hash
     next();
   },
 
-  afterCreate: function(record, next){
-    console.log('Created Signal: ', record);
-    if (record.service) broadcast(record);
+  afterCreate: function(signal, next){
+    if(signal.noun || !signal.hide) 
+      axon.emit( signal.noun, signal );
     next();
   },
+
   afterUpdate: function(record, next){
-    console.log('Updated Signal: ',record);
     next();
   },
     afterDestroy: function(record, next){
-    console.log('Destroyed Signal: ',record);
     next();
   },
 };
@@ -101,5 +182,4 @@ module.exports = {
 // Callbacks run on Destroy:
 // - beforeDestroy / *fn(criteria, cb)*
 // - afterDestroy / *fn(cb)*
-
-
+}).call()
