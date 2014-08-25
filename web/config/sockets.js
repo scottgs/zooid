@@ -15,6 +15,10 @@ module.exports.sockets = {
   // Keep in mind that Sails' RESTful simulation for sockets 
   // mixes in socket.io events for your routes and blueprints automatically.
   onConnect: function(session, socket) {
+    
+    Service.subscribe(socket)
+    Signal.subscribe(socket)
+    System.subscribe(socket)
     // console.log(socket)
   },
 

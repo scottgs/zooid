@@ -3,16 +3,6 @@
  *
  * @module      :: Controller
  * @description	:: A set of functions called `actions`.
- *
- *                 Actions contain code telling Sails how to respond to a certain type of request.
- *                 (i.e. do stuff, then send some JSON, show an HTML page, or redirect to another URL)
- *
- *                 You can configure the blueprint URLs which trigger these actions (`config/controllers.js`)
- *                 and/or override them with custom routes (`config/routes.js`)
- *
- *                 NOTE: The code you write here supports both HTTP and Socket.io automatically.
- *
- * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
 
@@ -20,9 +10,30 @@ var fs = require("fs")
 var crypto = require("crypto")
 var path = require("path")
 
+var request = require("request")
+
+var download = function(uri, filename, next){
+  request.head(uri, function(err, res, body){
+    console.log('content-type:', res.headers['content-type']);
+    console.log('content-length:', res.headers['content-length']);
+
+    request(uri).pipe(fs.createWriteStream(filename)).on('close', function(a,b,c){
+      next(a,b,c)
+    });
+  });
+};
+
+
 module.exports = {
     
-  
+  test: function(req,res){
+    Signal.create({noun:"test"}, function(err, result){
+      Signal.publishCreate( result.toJSON() )
+      return res.send(res.id)
+    })
+  },
+
+
    pretty:function(req, res) {
 
       console.log(req.ip);
@@ -52,50 +63,103 @@ module.exports = {
   },
 
 
-  upload: function(req, res) {
+  getURL: function(req, res){
 
-    console.log(req.files);
 
-    fs.readFile(req.files.file.path, function (err, data) {
+    var url = req.body.getURL
 
-        // if(err) res.send(err);
+    var ext = url.split('.').pop() 
 
-        var hash = crypto.createHash("md5")
-          .update("o"+Math.random()+req.files.file.path)
-          .digest("hex");
+    if( ext == "jpg" || ext == "JPG" || ext == "JPEG" || ext == "png"){
 
-        var newPath = path.join( __dirname, "../../.tmp/public/files/" )
-        var filename = hash+".jpg"
-        var fullPath = path.join( newPath, filename );
-        console.log( "WRITING FILE TO:", newPath );
+      // var getMeArray = getMe.explode(" ")
+      // if(getMeArray.length)
+        // TODO do for each
 
-        fs.writeFile(fullPath, data, function (err) {
+      var hash = crypto.createHash('md5').update(url).digest('hex')
 
-          console.log(err || "FILE WAS SAVED");
+      var newPath = path.join( __dirname, "../../.tmp/public/files/" )
+      var filename = ""+hash+"."+ext
+      var fullPath = newPath + filename
+
+      console.log(newPath)
+
+      res.send({ model:"signal", verb:"create", id:res.id });
+
+
+      download( url, fullPath, function(){
 
           newSignal = {
-
-              name: "IMAGE TEST",
-              location      :newPath,
-              filename      :filename,
-              service       :"IMAGE",
-              type          :"HEAD",
-            }
+              name : "New Signal"
+              , noun : "new_signal"
+              , location : newPath
+              , filename : filename
+          }
 
           Signal.create(newSignal).done( function(err, result){
-            
-            Signal.publishCreate({id:result.id, location:result.location, filename:result.filename  , service:result.service  , type:result.type })
-            console.log("New Signal");
-            console.log("err", err);
-            console.log(result);
-
-            return res.send("success");
+            if(!err)Signal.publishCreate( result.toJSON() )
 
           })
+      })
+    
+    } else {
+
+        newSignal = {
+            name : "New Signal"
+            , noun : "web_page"
+            , url : url
+        }
+
+        Signal.create(newSignal).done( function(err, result){
+          if(!err) 
+            Signal.publishCreate( result.toJSON() )
+          return 1;
+        })
+
+      }
+  },
+
+
+  upload: function(req, res) {
+
+    // TODO -- Store file in mongo instead of in filesystem ?
+    
+    // TODO Async quee instead or run
+
+
+    // console.log(req.files);
+    fs.readFile(req.files.file.path, function (err, data) {
+      if(err) return res.send(err);
+
+      var hash = crypto.createHash('md5').update(JSON.stringify(req.files.file)).digest('hex')
+
+      var newPath = path.join( __dirname, "../../.tmp/public/files/" )
+      var filename = ""+hash+".jpg"
+      var fullPath = path.join( newPath, filename );
+      console.log( "WRITING FILE TO:", newPath );
+
+      fs.writeFile(fullPath, data, function (err) {
+
+        newSignal = {
+            name : " ? "
+            , noun : "new_signal"
+            , type : "HEAD"
+            , location : newPath
+            , filename : filename
+        }
+
+        Signal.create(newSignal).done( function(err, result){
+          Signal.publishCreate( result.toJSON() )
+          var id = result.id
+            return 1;
+        })
+
       });
     });
   },
 
+
+  
 
 
 

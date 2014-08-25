@@ -46,6 +46,9 @@ module.exports.routes = {
 
   '/dependencies': {
     view: 'home/dependencies'
+  },
+  '/joe': {
+    view: 'home/joe'
   }
 
   /*
