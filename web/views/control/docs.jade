@@ -1,0 +1,112 @@
+script(type="text/javascript" src="/js/jquery_ui.js")
+script(type="text/javascript" src="/js/jquery.toc.js")
+link(href="/styles/css/jquery.tocify.css"  rel="stylesheet")
+
+.col-sm-3.col-md-3
+  br
+  #toc
+
+.col-sm-9.col-md-9
+
+  .docs
+
+    h1.huge Documentation
+
+    p.lead Zooid is an asynchronous, event-driven, computation framework that ...
+    p.lead How ? 
+
+
+    h2 Abstract
+    p A restatement of the problem or goal statement, which provides a short (executive summary styled) overview of the semesters problem/task and solution.
+    h2 Goals
+
+    h2  Summary
+    p Introductory knowledge (and references) the reader needs to understand the rest of the report.
+    h2 Purpose
+    p Why?
+    p Who?
+
+    h1.huge Design 
+    p High level if appropriate, along with and component interactions.
+
+    h1.huge Architecture
+
+    h2 Data
+
+    h3 mongodb
+    h3 RethinkDB
+    h3 Cassandra
+
+    h1.huge Implementation
+    p Implementation Concepts, Notes, Details, etc.; to include pseudo code from your design
+
+
+    h1.huge Technologies
+
+    h2 Core
+
+    h3 node.js
+    h3 axon.js
+    h3 sails.js
+
+    h2 Interface
+
+    h3 Jasmine
+    h3 CoffeeScript
+    h3 underscore.js
+
+    h2 Architecture
+
+    h3 Cluster
+    h3 Node
+
+    h2 Sockets
+
+    h3 Broadcast Domains
+    h3 UDP
+    h3 TCP/IP
+
+
+    h2 Heavy Lifting
+
+    h3 Leptonica
+    h3 Tesseract
+    h3 OpenCV
+    h3 C++
+    h3 Cuda
+
+
+    h1.huge Integrations
+
+    h2 Node particularities
+    
+    h3 Native Architectures
+
+    h2 IPC
+
+    h2 Events
+
+    h2 Nouns
+
+    h2 Ontology
+
+    h3 Signal
+
+    h3 System
+
+    h3 Noun
+
+
+    h1.huge Experiments
+
+
+    h1.huge API
+    
+    h1.huge Future directions
+
+
+
+
+
+script.
+  $(function(){$("#toc").tocify();});

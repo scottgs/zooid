@@ -1,0 +1,33 @@
+.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+  .container
+    .navbar-header
+      button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+        span.sr-only Toggle navigation
+        fa.fa.fa-fw.fa-caret-down
+      a(href='/')
+        .navbar-brand Zooid
+      
+    .navbar-collapse.collapse.scootRight
+
+      ul#myTab.nav.navbar-nav.navbar-left(role='navigation', style="margin-bottom:-1px;")
+        include nav_tabs
+
+        ul.nav.navbar-nav.navbar-left
+
+
+          form.navbar-form.getURL(role='search').navbar-left
+            .form-group
+              input.form-control.input-sm(type='text', name="getURL" placeholder='Search by noun or ID')
+              .submitURL.btn
+                o.fa.ion-ios7-search-strong.fa-lg.text-muted
+
+      ul.nav.navbar-nav.navbar-right(style="margin-right:8px;margin-top:2px;")
+
+        li
+          a(href="#").test_signal
+            .fa.fa-fw.fa-lg.fa-code-fork
+            small Fork
+
+div(style="margin-bottom:62px!important;")
+
+

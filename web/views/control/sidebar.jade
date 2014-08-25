@@ -1,0 +1,135 @@
+br
+.text-center
+  .fileinput-button.dz-clickable(href="#").button-wrapl.btn-block
+    .button.button-bordered.button-tiny.btn-block
+      b.ion.ion-upload.fa-lg.fa-fw
+      b upload
+br
+
+ul.nav.nav-stacked.nav-pills.nav-stacked-sm(role='navigation')
+
+  li
+    a(href='#', data-toggle="modal",  data-target="#inputUrlModal")
+      .fa.fa-fw.ion-refresh(style="margin-right:12px;")
+      oo Enter a URL
+  li
+    a.dropdown-toggle( href="#", data-toggle='dropdown')
+        .fa.fa-fw.ion-beaker(style="margin-right:12px;")
+        oo Tests
+        .fa.fa-fw.ion-arrow-down-b.small(style="margin-left:4px").text-muted
+              
+    ul.dropdown-menu(role='menu', style="margin-right:12px;")
+      li
+        a(href="#").test_signal
+          .fa.fa-fw.ion-play(style="margin-right:12px;")
+          oo Test Image
+      li
+        a(href='#').bounce_server 
+          .fa.fa-fw.ion-refresh(style="margin-right:12px;")
+          oo Bounce 
+      li
+        a(href='#').test_cluster 
+          .fa.fa-fw.ion-beaker(style="margin-right:12px;")
+          oo Run Tests
+            a(href='#').test_cluster 
+
+  li
+    a.dropdown-toggle( href="#", data-toggle='dropdown')
+        .fa.fa-fw.ion-beaker(style="margin-right:12px;")
+        oo  Forgot...
+        .fa.fa-fw.ion-arrow-down-b.small(style="margin-left:4px").text-muted
+              
+    ul.dropdown-menu(role='menu', style="margin-right:12px;")
+      li
+        a(href="#").test_signal
+          .fa.fa-fw.ion-shuffle(style="margin-right:12px;")
+          oo  
+
+
+  li
+    a(href="#").test_signal
+      .fa.fa-fw.ion-shuffle(style="margin-right:12px;")
+      oo Random
+  
+
+
+#inputUrlModal.modal.fade(role="dialog")
+  .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal')
+            span(aria-hidden='true') ×
+            span.sr-only Close
+          h4.modal-title Modal title
+        .modal-body
+          p One fine body…
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+          button.btn.btn-primary(type='button') Save changes
+
+
+form(action='/file-upload').fallback.hide
+  .dropzone
+    input(name='file', type='file', multiple='multiple')
+    br
+    input(name='parent_id', type='text', value='fdsa').form-control
+
+script.
+  $(document).ready(function() {
+    $(".newSignalForm").hide()
+    $(".newSignalButton").on("click", function(){
+      $(".newSignalForm").slideToggle("slow")
+    })
+  })
+
+
+//- .panel.panel-default
+
+
+  ul#myTab.nav.nav-pills.nav-stacked(role='navigation', style="margin-bottom:-1px;")
+   
+    li
+      a(href="#").test_signal.btn-sm
+        .fa.fa-arrow-right.fa-fw.text-muted
+        scootRight(style="color:#666;") Run Test
+    li
+      a(href="#").test_signal.btn-sm
+        .fa.fa-arrow-right.fa-fw.text-muted
+        scootRight(style="color:#666;") Run Test
+    li
+      a(href='#systemTab', data-toggle='tab').btn-sm
+        .fa.fa-upload.fa-fw.text-muted
+        scootRight(style="color:#666;") asd
+    li
+      a(href='#signalsTab', data-toggle='tab').btn-sm
+        .fa.fa-upload.fa-fw.text-muted
+        scootRight(style="color:#666;") asd
+
+
+        
+        .panel-default
+          .col-md-4.col-lg-3
+            h4.lead.text-muted SERVICES
+            table.table.table-hover#service_container
+
+        .panel-default
+          .col-md-8.col-lg-9
+            #service_description
+
+  #activityTab.tab-pane.col-sm-12
+
+    form(action='/file-upload').fallback.hide
+      .dropzone
+        input(name='file', type='file', multiple='multiple')
+        br
+        input(name='parent_id', type='text', value='fdsa').form-control
+
+    script.
+      $(document).ready(function() {
+        $(".newSignalForm").hide()
+        $(".newSignalButton").on("click", function(){
+          $(".newSignalForm").slideToggle("slow")
+        })
+      })
+
+

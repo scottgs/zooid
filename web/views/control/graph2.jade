@@ -1,0 +1,39 @@
+h1 test
+canvas#springydemo( width="640" height="480" )
+
+script.
+
+    
+    var graphJSON = {
+      "nodes": [
+        "Amphitryon",
+        "Alcmene",
+        "Iphicles",
+        "Heracles"
+      ],
+      "edges": [
+        ["Amphitryon", "Alcmene"],
+        ["Alcmene", "Amphitryon"],
+        ["Amphitryon", "Iphicles"],
+        ["Amphitryon", "Heracles"]
+      ]
+    };
+
+
+    var layout = new Springy.Layout.ForceDirected(
+      graph,
+      400.0, // Spring stiffness
+      400.0, // Node repulsion
+      0.5 // Damping
+    );
+
+
+    $(function(){
+
+      var graph = new Springy.Graph();
+      graph.loadJSON(graphJSON);
+
+      var springy = $('#springydemo').springy({
+        graph: graph
+      });
+    });
