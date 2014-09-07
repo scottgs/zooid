@@ -93,7 +93,7 @@ var timers = require("timers");
 
 // MUSTER AND DELETE DEAD NODES FROM THE MODEL
 
-var muster_interval = 4  // seconds
+var muster_interval = 10  // seconds
 var TTL             = 8  // seconds
 
 

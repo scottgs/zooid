@@ -1,13 +1,17 @@
-br
-.text-center
-  .fileinput-button.dz-clickable(href="#").button-wrapl.btn-block
-    .button.button-bordered.button-tiny.btn-block
-      b.ion.ion-upload.fa-lg.fa-fw
-      b upload
-br
+//- br
+//- .text-center
+//-   .fileinput-button.dz-clickable(href="#").btn-block.button.button-bordered
+    
+//-       b.ion.ion-upload.fa-lg.fa-fw
+//-       b upload
+//- br
 
 ul.nav.nav-stacked.nav-pills.nav-stacked-sm(role='navigation')
 
+  li
+    a.fileinput-button.dz-clickable
+      .fa.fa-fw.fa-upload(style="margin-right:12px;")
+      oo Upload
   li
     a(href='#', data-toggle="modal",  data-target="#inputUrlModal")
       .fa.fa-fw.ion-refresh(style="margin-right:12px;")
@@ -60,12 +64,14 @@ ul.nav.nav-stacked.nav-pills.nav-stacked-sm(role='navigation')
           button.close(type='button', data-dismiss='modal')
             span(aria-hidden='true') ×
             span.sr-only Close
-          h4.modal-title Modal title
+          h2.modal-title Get and analyze:
         .modal-body
-          p One fine body…
+          p.lead Enter a link to specific media content or to a webpage from which you would like to scrape all of the content.
+          form.form.getURL(role='search')
+            input.form-control(type='text', name="getURL" placeholder='URL:')
         .modal-footer
-          button.btn.btn-default(type='button', data-dismiss='modal') Close
-          button.btn.btn-primary(type='button') Save changes
+          button.btn.btn-link(type='button', data-dismiss='modal') Close
+          .button.button-flat-caution.button-rounded.submitURL Done
 
 
 form(action='/file-upload').fallback.hide

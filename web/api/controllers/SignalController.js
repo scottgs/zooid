@@ -84,17 +84,18 @@ module.exports = {
 
       console.log(newPath)
 
-      res.send({ model:"signal", verb:"create", id:res.id });
+
+      newSignal = {
+          name : "New Signal"
+          , noun : "new_signal"
+          , location : newPath
+          , filename : filename
+      }
 
 
       download( url, fullPath, function(){
 
-          newSignal = {
-              name : "New Signal"
-              , noun : "new_signal"
-              , location : newPath
-              , filename : filename
-          }
+        res.send({ model:"signal", verb:"create", data:newSignal });
 
           Signal.create(newSignal).done( function(err, result){
             if(!err)Signal.publishCreate( result.toJSON() )
@@ -113,7 +114,7 @@ module.exports = {
         Signal.create(newSignal).done( function(err, result){
           if(!err) 
             Signal.publishCreate( result.toJSON() )
-          return 1;
+            res.send({ model:"signal", verb:"create", id:res.id });
         })
 
       }
@@ -151,7 +152,7 @@ module.exports = {
         Signal.create(newSignal).done( function(err, result){
           Signal.publishCreate( result.toJSON() )
           var id = result.id
-            return 1;
+            return res.send("success");
         })
 
       });

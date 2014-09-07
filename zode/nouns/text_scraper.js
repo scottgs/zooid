@@ -8,7 +8,6 @@ var _ = require('underscore');
 var tesseract = require('node-tesseract');
 
 
-
 /******************************************************************************
  * SET UP LISTENERS
  * Adds listeners for whatever to do whatever. Yep.
@@ -23,55 +22,56 @@ module.exports = function(collective){
  * both the event-positive and event-negative systems of signal processing.
 ******************************************************************************/
 
-
   collective.on( "test", function testScrapeText(signal){
     collective.fire({ parent_id:signal.id, name: "Tesseract OCR: Okay"})
   })
 
 
-  collective.on( "image", function scrapeTextListener(signal){
+/******************************************************************************
+ * LISTEN FOR IMAGES
+ * Send the signal and collective object into the text scraper function.
+ * Let the next function deal with emitting events out to the cluster.
+******************************************************************************/
 
+  collective.on( "image", function scrapeTextListener(signal){
     var work = {}
     work.collective = collective
-    work.signal = signal
-
-    scrapeText(work, function(){
-      console.log("scraped text")
-      return 1
-    })
+    work.signal     = signal
+    scrapeText( work, console.log )
   })
-
-
 
 }
 
 
-
+/******************************************************************************
+ * SCRAPE ENGLISH TEXT FROM IMAGES
+ * Execute the tesseract OCR with English on images.
+******************************************************************************/
 
 function scrapeText( work, done ){
 
   var signal = work.signal
   var collective = work.collective
-
-  var parent_id = signal.id;
   var image_location =  path.join( signal.location, signal.filename )
 
-  // console.log("image_location => ",image_location);
-
-
+  // any language in any format
   var options = {
       l: 'eng',
-      psm: 6,
+      psm: 4,
       binary: '/usr/local/bin/tesseract'
   };
 
-  // Recognize text of any language in any format
   tesseract.process( image_location, function(err, text) {
+
     console.log(err || text)
-    collective.send( { parent_id:signal.id, noun:"language", name:"Language", text:(err || text) })
+    collective.send( { 
+      parent_id:signal.id
+    , noun:"text"
+    , name:"English"
+    , text:(err || text) 
+  })
     done(null, text)
   });
-
 } 
 
 

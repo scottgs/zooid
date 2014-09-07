@@ -21,10 +21,10 @@ dendrites.connect(42002);
  * @exports {Object} zode
 ******************************************************************************/
 
-dendrites.fire  = function(signal){ axon.send(signal) }
-dendrites.send  = function(signal){ axon.send(signal) }
-dendrites.emit  = function(signal){ axon.send(signal) }
-dendrites.emote = function(signal){ axon.send(signal) }
+dendrites.fire     = function(signal){ axon.send(signal) }
+dendrites.send     = function(signal){ axon.send(signal) }
+dendrites.emit     = function(signal){ axon.send(signal) }
+dendrites.respond  = function(signal){ axon.send(signal) }
 
 
 /******************************************************************************

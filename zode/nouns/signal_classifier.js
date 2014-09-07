@@ -15,6 +15,16 @@ var download = function(uri, filename, next){
 
 module.exports = function(zode){
 
+  zode.on('test', function(data){
+
+    console.log(data)
+    zooid.text = "signal_classifier Good"
+    data.parent_id = data.id
+    delete data.id
+    zode.fire(data)
+  });
+
+
   zode.on('new_signal', function(data){
 
     console.log(data)
@@ -33,7 +43,6 @@ module.exports = function(zode){
     var cheerio = require('cheerio')
     , format = require('util').format;
 
-
       request( signal.url, function (err, response, body) {
         if (err) zode.fire( err );
         var $ = cheerio.load(body);
@@ -51,25 +60,45 @@ module.exports = function(zode){
               , src:$(this).attr('src') 
               , noun:"web_image" 
             })
+
+          } else {
+
+            zode.fire({ 
+              parent_id:signal.id
+              , name:$(this).text()
+              , href:$(this).attr('href')
+            })
+
           }
-
-
-          zode.fire({ 
-            parent_id:signal.id
-            , name:$(this).text()
-            , href:$(this).attr('href')
-            , text:$(this).attr('href')
-          })
         });
 
+
+        $('img').each(function () {
+
+          var url = $(this).attr('src');
+          var name = $(this).attr('title');
+          var ext = url.split('.').pop() 
+
+          if( ext == "jpg" || ext == "JPG" || ext == "JPEG" || ext == "png"){
+
+            zode.fire({ 
+              parent_id:signal.id
+              , name:name
+              , src:$(this).attr('src') 
+              , noun:"web_image" 
+            })
+          } 
+        });
+
+
       });
-
-
   })
 
 
 
   zode.on("web_image", function(signal){
+
+    console.log("getting web image")
 
     var cheerio = require('cheerio')
     , format = require('util').format
@@ -88,7 +117,7 @@ module.exports = function(zode){
       console.log(err,done)
 
         newSignal = {
-            name : "New Image"
+            name : "Web Image"
             , noun : "image"
             , location : newPath
             , filename : filename
