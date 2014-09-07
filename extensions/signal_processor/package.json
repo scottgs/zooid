@@ -1,0 +1,5 @@
+{
+    "name": "Signal_processor_module",
+    "version": "0.0.1",
+    "main": "./run.js"
+}
