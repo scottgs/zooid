@@ -1,35 +1,45 @@
-.navbar.navbar-static-top(role='navigation')
-  .container
+.navbar.navbar-fixed-top.navbar-special(role='navigation', style="border-top:1px solid #83a2ba;margin-bottom:0px;")
+  .container-fluid
     .navbar-header
       button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
         span.sr-only Toggle navigation
         fa.fa.fa-fw.fa-caret-down
       a(href='/')
-        .navbar-brand.brand-color Zooid
+        .navbar-brand.scootRight
+          b.scootRight Zooid  
       
     .navbar-collapse.collapse.scootRight
 
-      ul#myTab.nav.navbar-nav.navbar-left(role='navigation', style="margin-bottom:-1px;")
+      ul#myTab.nav.navbar-nav.navbar-left(role='navigation')
         include nav_tabs
 
-      ul.nav.navbar-nav.navbar-right(style="margin-right:8px;")
-        li
-          a(href="#").test_signal
-            .fa.fa-fw.fa-lg.fa-github
-            small fork
+
+
 
         li
+          a(href="#").fileinput-button.dz-clickable
+            b Upload
+        li
+          a(href='/docs', data-toggle='tab')
+            oo Documentation
+        li
+          a(href="#").test_signal
+            .text-muted.fa.fa-fw.fa-lg.fa-github
+            o Code
+
+      ul.nav.navbar-nav.navbar-right(style="margin-right:0px;")
+        li
+          form.navbar-form.getURL(role='search').scootRight
+            .form-group.scootRight
+              input.form-control(type='text', name="" placeholder='Search')
+              .submitURL.btn
+                o.fa.ion-ios7-search-strong.fa-lg.text-muted
+        //- li
           a(href="#").test_signal
             .fa.fa-fw.fa-lg.fa-question
             small help
 
-      form.navbar-form.getURL(role='search').navbar-left
-        .form-group
-          input.form-control.input-sm(type='text', name="" placeholder='Search by noun or ID')
-          .submitURL.btn
-            o.fa.ion-ios7-search-strong.fa-lg.text-muted
 
-
-//- div(style="margin-bottom:62px!important;")
+div(style="margin-bottom:48px!important;")
 
 

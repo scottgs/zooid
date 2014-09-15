@@ -1,108 +1,92 @@
 block body
+  
   #fileUpload
-    .container
-      include nav
-    .container
-          .row
+
+    include nav
+
+      //- h3.text-info Very computer, much cluster.
+        //- a(href="https://github.com/benbaker/zooid").scootLeft.scootRight
+        //-   .button.button-flat-highlight.button-circle
+        //-     o  Code
+        //-       //- o.fa.fa-fw.ion-social-github.fa-lg.scootRight
+
+        //- a(href="#docsTab", data-toggle='tab')
+        //-   .button.button-flat-primary.button-circle
+        //-     o  Docs
+        //-       //- o.fa.fa-fw.ion-ios7-information-outline.fa-lg.scootRight
+
+        //- a(href="#docsTab", data-toggle='tab').scootRight
+        //-   .button.button-flat-caution.button-circle
+        //-     o  Test
+        //-       //- o.fa.fa-fw.fa-bar-chart-o.fa-lg.scootRight
+
+    .container-fluid
+      .row
+            br
             .tab-content
-              
-                //- #welcomeTab.tab-pane.active.text-center(style="padding-top:20px;")
+                
+                #welcomeTab.tab-pane.active
+                    
+                          
+                                    
+                  //- .panel.lightBlue.well-sm
+                    h2 
+                      o  So future.  
                   //- .brand
                     .zooid-title.brand-color(style="opacity:0.9;")
                       oo Zooid
 
-                  .zooid-montra     
-                    o  
-                    b Very future.
-                  
+                  //- .zooid-montra 
 
-                  .button-wrap
-                    a(href="https://github.com/benbaker/zooid").scootLeft
-                      .button.button-flat-highlight.button-pill
-                        .fa.fa-fw.ion-social-github
-                        oo  Code
-                  
-                    a(href="#docsTab", data-toggle='tab').docs
-                      .button.button-flat-caution.button-pill
-                        .fa.fa-fw.ion-ios7-information
-                        oo  Docs
-
-                    a(href="#docsTab", data-toggle='tab').scootRight
-                      .button.button-flat-royal.button-pill
-                        .fa.fa-fw.fa-bar-chart-o
-                        oo  Test
-                  
-                  br
-                  br
-                  br
                   //.button.button-flat-primary.button-circle
                       //.fa.fa-fw.ion.ion-ios7-play
                       oo TEST
-                  hr
+                  //- hr
 
 
-                #docsTab.tab-pane
+                //- #docsTab.tab-pane
                   .container-fluid
+                    br
                     include docs
 
 
                 #signalsTab.tab-pane.active
-                  .row
 
-                    .col-md-3.col-lg-2
-                        .panel.panel-default
-                          br
+                    .col-md-3.col-lg-2.hide
+                      .panel.panel-default
+                        ul.nav.nav-stacked.nav-pills.nav-stacked-sm(role='navigation')
                           include sidebar
-                          br
-                        
-                    .col-md-9.col-lg-10
-                      .row
-                        #signal_container
 
-                          #previews
-                            #template
-                              .killMe.col-sm-3
-                                img.col-sm-2(style="text-align:center;width:80px;", data-dz-thumbnail='data-dz-thumbnail', data-dz-remove='data-dz-remove')
-                                .col-sm-10
-                                  .btn.btn-sm.text-muted.delete(data-dz-remove='data-dz-remove').button-link
-                                    fa.fa.fa-fw.fa-trash
-                                    i.glyphicon.glyphicon-trash.text-muted
-                                  #total-progress
-                                  .progress(style="height:5px;", role='progressbar', aria-valuemin='0', aria-valuemax='100', aria-valuenow='0')
-                                    .progress-bar.progress-bar-default(style='width: 0%;', data-dz-uploadprogress='data-dz-uploadprogress')
-                                  
-                                  div(style="display:none!important;")
-                                    
-                                    button.button.button-primary.start.hide
-                                      i.glyphicon.glyphicon-upload
-                                      span Start
-                                    button.button.button-warning.cancel(data-dz-remove='data-dz-remove').hide
-                                      i.glyphicon.glyphicon-ban-circle
-                                      span Cancel
-                    
+                    //- .col-md-3.col-lg-2
+                    //-   .panel.panel-default
+                    //-     ul.nav.nav-stacked.nav-pills.nav-stacked-sm(role='navigation')
+                    //-       include sidebar
+                          //- include nav_tabs
+                    .col-md-9.col-lg-10
+                        #signal_container
 
                           //- a.btn.button.button-border-action.button-pill
                           //-   oo asdf
 
 
-                          include d3_chart
+                          //- include d3_chart
 
 
                     
                   
-                #connectionsTab.tab-pane.active
+                //- #connectionsTab.tab-pane.active
                   
-                  #visualization
+                //-   #visualization
 
 
-                #hierarchyTab.tab-pane.active
+                //- #hierarchyTab.tab-pane.active
 
-                  #graphVisualization(style="width:100%;height:400px;")
+                //-   #graphVisualization(style="width:100%;height:400px;")
 
 
                 #systemTab.tab-pane
 
-                  .col-md-12.col-lg-12.jumbotron.darkBlue
+                  .col-md-12.jumbotron.darkBlue
                     
 
 
@@ -163,14 +147,13 @@ block body
 
 
 
-    script.
+  script.
               
         (function (io) {
           
 
 
           socket = io.connect();
-          var graph  = forceGraph()
 
           /**
            * DOM UTILITIES
@@ -181,7 +164,7 @@ block body
 
           function img(link){
             // TODO popover
-            return "<img src='/files/"+link+"' class='img-responsive img-circle'/>"
+            return "<img src='/files/"+link+"' class='img-responsive '/>"
           }
           function web_img(link){
             // TODO popover
@@ -278,24 +261,24 @@ block body
 
 
             if(item.parent_id){
-                graph.addLink( id, item.parent_id, "Parent" )
-                graph.addLink( item.parent_id, id, "Child"  )
+                //- graph.addLink( id, item.parent_id, "Parent" )
+                //- graph.addLink( item.parent_id, id, "Child"  )
 
               if(filename)
-                graph.addNode( id, filename )
+                //- graph.addNode( id, filename )
 
               if(item.text && !(item.text =="" || typeof item.text == 'undefined') ){
                 var txt = item.text
-                graph.addNode( txt, txt )
-                graph.addLink( txt, id, "Child" )
-                graph.addLink( txt, id, "Parent" )
+                //- graph.addNode( txt, txt )
+                //- graph.addLink( txt, id, "Child" )
+                //- graph.addLink( txt, id, "Parent" )
               }
               if(item.text){
-                graph.addNode( item.text, item.text )
-                graph.addLink( item.text, id, "Parent" )
-                graph.addLink( item.text, id, "Child" )
-                graph.addLink( item.text, item.parent_id, "Parent" )
-                graph.addLink( item.text, item.parent_id, "Child" )
+                //- graph.addNode( item.text, item.text )
+                //- graph.addLink( item.text, id, "Parent" )
+                //- graph.addLink( item.text, id, "Child" )
+                //- graph.addLink( item.text, item.parent_id, "Parent" )
+                //- graph.addLink( item.text, item.parent_id, "Child" )
               }
             }
             //- var background = (!item.parent_id) ? {} : {"background":"url(/files/"+ filename +") no-repeat left center "}
@@ -317,8 +300,9 @@ block body
 
             .append(function(){
 
-                var name = item.name || item.noun || item.service
+                var name = item.name 
                 var content = ""
+                if(name == "new_signal" || name == "New Signal"){ name=null; }
                 
                 var head_class = (!item.parent_id) ? " head_class " : " sigStack ";
 
@@ -639,7 +623,7 @@ block body
 
             // MAKE IMAGES BIG ON CLICK
             $(document).on('click', '.signal', function(){
-              $(this).find("img").toggleClass("bigSignal img-circle");
+              $(this).find("img").toggleClass("bigSignal img-rounded");
             })
 
             });
@@ -648,31 +632,30 @@ block body
 
             $(document).ready(function() {
 
-              //- socket.get('/signal/find?type=HEAD&sort=createdAt DESC&limit=2', function(signals){
-              //-   for (var i = 0; i < signals.length; i++) {
-              //-     models['signal']['create'](signals[i]);
-
-              //-     socket.get('/signal/find/',{parent_id:signals[i].id}, function(ch1s){
-              //-       for (var i = 0; i < ch1s.length; i++) {
-              //-         models['signal']['create'](ch1s[i]);
-
-              //-         socket.get('/signal/find/',{parent_id:ch1s[i].id}, function(ch2s){
-              //-           for (var i = 0; i < ch2s.length; i++) {
-              //-             models['signal']['create'](ch2s[i]);
-
-              //-           };
-              //-         });
-              //-       };
-              //-     });
-              //-   };
-              //- });
-
-              socket.get('/signal/find?type=HEAD&sort=createdAt DESC&limit=4', function(signals){
+              socket.get('/signal/find?type=HEADlimit=18&sort=date DESC', function(signals){
                 for (var i = 0; i < signals.length; i++) {
                   models['signal']['create'](signals[i]);
+
+                  socket.get('/signal/find/',{parent_id:signals[i].id}, function(ch1s){
+                    for (var i = 0; i < ch1s.length; i++) {
+                      models['signal']['create'](ch1s[i]);
+
+                      socket.get('/signal/find/',{parent_id:ch1s[i].id}, function(ch2s){
+                        for (var i = 0; i < ch2s.length; i++) {
+                          models['signal']['create'](ch2s[i]);
+
+                        };
+                      });
+                    };
+                  });
                 };
               });
 
+              //- socket.get('/signal/find?type=HEAD&limit=4&sort=date DESC', function(signals){
+              //-   for (var i = 0; i < signals.length; i++) {
+              //-     models['signal']['create'](signals[i]);
+              //-   };
+              //- });
 
               //- socket.get('/service/find', function(services){
               //-   console.log(services)
@@ -688,7 +671,6 @@ block body
               //-   };
               //- });
 
-          
           });
 
 
@@ -723,386 +705,6 @@ block body
 
 
 
-
-
-
-                // JOE!
-
-
-
-          //- var container = document.getElementById('visualization');
-          //- var data = [
-          //-   {id: 1, content: 'item 1', start: '2013-04-20'},
-          //-   {id: 2, content: 'item 2', start: '2013-04-14'},
-          //-   {id: 3, content: 'item 3', start: '2013-04-18'},
-          //-   {id: 4, content: 'item 4', start: '2013-04-16', end: '2013-04-19'},
-          //-   {id: 5, content: 'item 5', start: '2013-04-25'},
-          //-   {id: 6, content: 'item 6', start: '2013-04-27'}
-          //- ];
-          //- var options = {};
-          //- var timeline = new vis.Timeline(container, data, options);
-
-
-          //- var data = null;
-          //- var graph = null;
-
-          //- function custom(x, y) {
-          //-   return (1 * Math.round(Math.random())* 50 + 50);
-          //- }
-
-          //- // Called when the Visualization API is loaded.
-          //- function drawVisualization() {
-          //-   // Create and populate a data table.
-          //-   data = new vis.DataSet();
-          //-   // create some nice looking data with sin/cos
-          //-   var counter = 0;
-          //-   var steps = 50;  // number of datapoints will be steps*steps
-          //-   var axisMax = 314;
-          //-   var axisStep = axisMax / steps;
-          //-   for (var x = 0; x < axisMax; x+=axisStep) {
-          //-     for (var y = 0; y < axisMax; y+=axisStep) {
-          //-       var value = custom(x,y);
-          //-       data.add({id:counter++,x:x,y:y,z:value,style:value});
-          //-     }
-          //-   }
-
-          //-   // specify options
-          //-   var options = {
-          //-     width:  '600px',
-          //-     height: '600px',
-          //-     style: 'surface',
-          //-     showPerspective: true,
-          //-     showGrid: true,
-          //-     showShadow: false,
-          //-     keepAspectRatio: true,
-          //-     verticalRatio: 0.5
-          //-   };
-
-          //-   // Instantiate our graph object.
-          //-   var container = document.getElementById('visualization');
-          //-   graph = new vis.Graph3d(container, data, options);
-          //- }
-
-
-
-          var nodes = null;
-          var edges = null;
-          var network = null;
-          var DIR = "/"
-
-          function draw() {
-             nodes = [
-              {id: 1,  label: 'Algie',   image: DIR + 'Smiley-Angry-icon.png', shape: 'image'},
-              {id: 2,  label: 'Alston',  image: DIR + 'Smiley-Grin-icon.png', shape: 'image'},
-              {id: 3,  label: 'Barney',  image: DIR + 'User-Administrator-Blue-icon.png', shape: 'image'},
-              {id: 4,  label: 'Coley',   image: DIR + 'User-Administrator-Green-icon.png', shape: 'image'},
-              {id: 5,  label: 'Grant',   image: DIR + 'User-Coat-Blue-icon.png', shape: 'image'},
-              {id: 6,  label: 'Langdon', image: DIR + 'User-Coat-Green-icon.png', shape: 'image'},
-              {id: 7,  label: 'Lee',     image: DIR + 'User-Coat-Red-icon.png', shape: 'image'},
-              {id: 8,  label: 'Merlin',  image: DIR + 'User-Executive-Green-icon.png', shape: 'image'},
-              {id: 9,  label: 'Mick',    image: DIR + 'User-Preppy-Blue-icon.png', shape: 'image'},
-              {id: 10, label: 'Tod',     image: DIR + 'User-Preppy-Red-icon.png', shape: 'image'}
-            ];
-
-            // create connections
-            var color = '#BFBFBF';
-            edges = [
-              {from: 1,   to: 8,  value: 3,   label: 3,   color: color},
-              {from: 1,   to: 9,  value: 5,   label: 5,   color: color},
-              {from: 2,   to: 10, value: 1,   label: 1,   color: color},
-              {from: 4,   to: 6,  value: 8,   label: 8,   color: color},
-              {from: 5,   to: 7,  value: 2,   label: 2,   color: color},
-              {from: 4,   to: 5,  value: 1,   label: 1,   color: color},
-              {from: 9,   to: 10, value: 2,   label: 2,   color: color},
-              {from: 2,   to: 3,  value: 6,   label: 6,   color: color},
-              {from: 3,   to: 9,  value: 4,   label: 4,   color: color},
-              {from: 5,   to: 3,  value: 1,   label: 1,   color: color},
-              {from: 2,   to: 7,  value: 4,   label: 4,   color: color}
-            ];
-
-            // create a network
-            var container = document.getElementById('visualization');
-            var data = {
-              nodes: nodes,
-              edges: edges
-            };
-
-
-
-          var options = {
-              stabilize: false,
-              smoothCurves: true,
-
-              //- hierarchicalLayout: {
-              //-     direction: 'UD'
-              //- }
-          };
-            network = new vis.Network(container, data, options);
-
-            // add event listeners
-            network.on('select', function(params) {
-              document.getElementById('selection').innerHTML = 'Selection: ' + params.nodes;
-            });
-
-            //- console.log(network)
-            //- network.addNode({id: 1,  label: 'Algie',   image: DIR + 'Smiley-Angry-icon.png', shape: 'image'})
-          }
-
-            draw()
-
-
-         
-
-
-
-
-
-
-
-
-        function forceGraph() {
-            // This demo shows how to create an SVG node which is a bit more complex
-            // than single image. Do accomplish this we use 'g' element and
-            // compose group of elements to represent a node.
-            graph = Viva.Graph.graph();
-
-            var graphics = Viva.Graph.View.svgGraphics(),
-                nodeSize = 28;
-
-            graphics.node(function(node) {
-
-              nodeSize = node.size || nodeSize
-
-
-              console.log(node.data || node.id)
-
-              var ui      = Viva.Graph.svg('g'),
-                  title   =  ( node.data || node.id ),
-                  svgText = Viva.Graph.svg('text')
-                    .attr('y', '-4px')
-                    .text(title),
-
-                  img     = Viva.Graph.svg('image')
-                             .attr('width', nodeSize)
-                             .attr('height', nodeSize)
-                             .link('/files/' + node.data);
-
-              //- if(node.data) ui.append(svgText);
-              if( node.data ) 
-                if( node.data.split('.').pop() === "jpg"  ) 
-                  ui.append(img);
-                else
-                  ui.append(svgText);
-
-
-
-              return ui;
-            }).placeNode(function(nodeUI, pos) {
-                // 'g' element doesn't have convenient (x,y) attributes, instead
-                // we have to deal with transforms: http://www.w3.org/TR/SVG/coords.html#SVGGlobalTransformAttribute
-                nodeUI.attr('transform',
-                            'translate(' +
-                                  (pos.x - nodeSize/2) + ',' + (pos.y - nodeSize/2) +
-                            ')');
-            });
-
-            graphics.link(function(link){
-                var isParent = (link.data === 'Child'),
-                    ui = Viva.Graph.svg('path')
-                           .attr('stroke', isParent ? '#e7e7e7' : '#e7e7e7')
-                           .attr('fill', "none");
-
-                ui.isParent = isParent; // remember for future.
-
-                return ui;
-            }).placeLink(function(linkUI, fromPos, toPos) {
-                
-                // linkUI - is the object returend from link() callback above.
-                var ry = linkUI.isParent ? 1: -1,
-
-                // using arc command: http://www.w3.org/TR/SVG/paths.html#PathDataEllipticalArcCommands
-                    data = 'M' + fromPos.x + ',' + fromPos.y +
-                           ' A 1,' + ry + ',-30,0,0,' + toPos.x + ',' + toPos.y;
-
-                // 'Path data' (http://www.w3.org/TR/SVG/paths.html#DAttribute )
-                // is a common way of rendering paths in SVG:
-                linkUI.attr("d", data);
-            });
-
-
-
-            var createMarker = function(id) {
-
-              return Viva.Graph.svg('marker')
-                .attr('id', id)
-                .attr('viewBox', "0 0 10 10")
-                .attr('refX', "10")
-                .attr('refY', "5")
-                .attr('markerUnits', "strokeWidth")
-                .attr('markerWidth', "10")
-                .attr('markerHeight', "5")
-                .attr('orient', "auto");
-            }
-
-
-
-            var layout = Viva.Graph.Layout.forceDirected(graph, {
-                springLength : 14,
-                springCoeff : 0.0001,
-                dragCoeff : 0.05,
-                gravity : -1.4
-            });
-
-            //- graph.addLink('a', 'c', 'Parent');
-            //- graph.addLink('a', 'c', 'Child');
-            //- graph.addLink('b', 'c', 'Child');
-
-            // Render the graph
-            var renderer = Viva.Graph.View.renderer(graph, {
-                graphics : graphics
-              , layout : layout
-              , container : document.getElementById('graphVisualization')
-
-                });
-            
-
-            renderer.run();
-
-            return graph
-            console.log("trying to renderer")
-        }
-
-
-
-
-
-
-
-
-
-
-
-          function columnChart(opts){
-
-            return { chart: {
-              //- inverted:true,
-              renderTo: (opts.div || "body"),
-              animation:{ easing:"linear", duration:255 },
-              backgroundColor:'rgba(0,0,0,0)',
-              type: "area",
-              },
-              credits: {enabled:false},
-              legend:  {enabled:false},
-                    title: {
-                        text: ''
-                    },
-                    subtitle: {
-                        text: ''
-                    },
-                    xAxis: {
-                gridLineWidth: 0,
-                  minorGridLineWidth: 0, lineColor: 'transparent', minorTickLength: 5, tickLength: 0, 
-                        type: 'category',
-                        labels: {
-                            //- rotation: -45,
-                            style: {
-                                fontSize: '10px',
-                                fontFamily: 'Verdana, sans-serif'
-                            }
-                        }
-                    },
-                    yAxis: {
-                  minorGridLineWidth: 0, lineColor: 'transparent', minorTickLength: 5, tickLength: 0, 
-                gridLineWidth: 0,
-                        min: 0,
-                        title: {
-                            text: ''
-                        }
-                    },
-                    legend: {
-                        enabled: false
-                    },
-                    tooltip: {
-                        pointFormat: '<b>{point.y:.1f} </b>',
-                    },
-                    series: [{
-                        lineWidth: 0,
-                        color:'#444',
-                        shadow : { color:'#000000', offsetX:0, offsetY:2, opacity:0.5, width:3 },
-                        name: '',
-                        data: [],
-                        dataLabels: {
-                            color: '#ccc',
-                            align: 'right',
-                            x: 4,
-                            y: 10,
-                            style: {
-                                fontSize: '10px',
-                                fontFamily: 'Verdana, sans-serif',
-                                textShadow: '0 0 3px black'
-                            }
-                        }
-                    }]
-            };
-
-          }
-
-
-          function chartOptions(div, type, categories){
-            return {
-              chart: {
-              //- inverted:true,
-                renderTo: (div || "body"),
-              backgroundColor:'rgba(0,0,0,0)',
-                animation:{ easing:"linear", duration:200 },
-               type: (type || "line")
-              },
-              title: { text: '' },
-                 xAxis: { 
-                  type: categories || null,
-                  lineWidth: 0,
-                  minorGridLineWidth: 0, lineColor: 'transparent', minorTickLength: 5, tickLength: 0, 
-                  title: null, 
-                  labels : { enabled: false }, gridLineWidth: 0},
-                yAxis: { title: null, labels : { enabled: false }, gridLineWidth: 0},
-                gridLineWidth: 0,
-              tooltip: { enabled: false },
-              legend: {
-                  enabled: false,
-                  align: 'right',
-                  verticalAlign: 'middle',
-                  borderWidth: 0
-              },
-              plotOptions: {
-                line: {
-                    pointStart: 0,
-                    lineWidth: 2,
-                    max:100,
-                    marker: {
-                        enabled: false,
-                        symbol: 'circle',
-                        radius: 0,
-                        states: { hover: { enabled: true } }
-                    }
-                }
-              },
-              credits: {enabled:false},
-              legend:  {enabled:false},
-              series: [{                 
-                name: 'system',
-                //- shadow : { color:'#222222', offsetX:0, offsetY:2, opacity:0.5, width:3 },
-                color:'#222'
-              }
-              ]
-              };
-
-          }
-
-
-          chart = new Highcharts.Chart(chartOptions("system_chart", "line"));
-
-          nodes_chart = new Highcharts.Chart(columnChart( { div:"nodes_chart" } ));
-
           /**
            * Dispatches socket message to DOM elements
            * @param  {Object} message 
@@ -1136,6 +738,10 @@ block body
         })(window.io);
 
 
+
+
+
+
         $.fn.serializeObject = function(){
             var o = {};
             var a = this.serializeArray();
@@ -1151,4 +757,14 @@ block body
             });
             return o;
         };
+
+
+
+
+
+
+
+
+
+
 

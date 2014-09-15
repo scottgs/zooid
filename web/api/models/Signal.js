@@ -87,20 +87,23 @@ dendrites.on('message', function( signal ){
 
 
 
-var _ = require("underscore");
+var _      = require("underscore");
 var moment = require("moment");
 var timers = require("timers");
 
 // MUSTER AND DELETE DEAD NODES FROM THE MODEL
 
-var muster_interval = 10  // seconds
-var TTL             = 8  // seconds
+var muster_interval = 30  // seconds
+var TTL             = 89  // seconds
 
 
 
 timers.setInterval(function muster(){
   
+  axon.emit( "muster", { parent:"this ip or something." } )
+
   var senescence = moment().valueOf() - (TTL*1000)
+  console.log("Killing older than: ", senescence );
 
   System.find( { last_update: { "<" : senescence }})
     .limit(100)

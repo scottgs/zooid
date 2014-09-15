@@ -1,15 +1,9 @@
-//- li.active
-//-   a(href='#welcomeTab', data-toggle='tab')
-//-     oo About
-li
-  a(href='#docsTab', data-toggle='tab')
-    oo Docs
-li
-  a(href='#signalsTab', data-toggle='tab')
-    oo Signals
-li
-  a(href='#connectionsTab', data-toggle='tab')
-    oo Associations
-li
-  a(href='#systemTab', data-toggle='tab')
-    oo Cluster
+ul#myTab.nav.navbar-nav.navbar-left(role='navigation')
+  li.dropdown
+    a.dropdown-toggle(href='#', data-toggle='dropdown').scootRight
+      b   
+      o  Control
+      b.caret
+      ul.dropdown-menu(role='menu',style="min-width:220px;").scootRight
+        include sidebar
+

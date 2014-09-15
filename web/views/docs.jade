@@ -1,0 +1,147 @@
+extends layout
+block body
+    
+  include control/nav
+  script(type="text/javascript" src="/js/jquery_ui.js")
+  script(type="text/javascript" src="/js/jquery.toc.js")
+  link(href="/styles/css/jquery.tocify.css"  rel="stylesheet")
+
+  .col-sm-9.col-md-9
+    .row
+
+        //- p It's more of an exploratory research tool and the architecture disregards
+        //-   | some conventions to emphasize simplicity, fault-tolerance, flexibility, and 
+        //-   | horizontal scalability. 
+
+        //- p  Zooid was built on a flow control foundation 
+        //-   | of transactional, event driven actions the flow of which was partially 
+        //-   | inspired by Jeff Hawkins bio-mimetic memory prediction model, That one 
+        //-   | guy, and other things.
+      
+
+        //- p The framework offers a broadcast domain for IPC and extending it's funcitonality
+        //-   | is as simple as creating a listener on a machine which can find a zooid cluster. 
+        //-   | It will primarily be used for the purpose of performing complex computation in 
+        //-   | a modular, highly parrallell, asynchronous fashion.
+          
+    .panel.panel-default.docs.well-lg
+
+      .panel-body
+
+        br
+        br
+
+        //- o.fa.fa-fw.fa-2x.ion-ios7-information-outline.text-info
+        h1.mega
+          b Distributed Apophenia
+        br
+        small.lead Zood is a janky, event-driven cluster architecture that emphasizes fast development.
+        br
+        br
+        br
+        br
+
+      .panel-body
+        
+          h1 Design 
+          p 
+
+          h2 Architecture
+
+          h2 Data
+
+          h3 mongodb
+
+          //- pre Signal.create({ noun:"image", path:"test.jpg"})
+
+          h2 Technologies
+
+          h2 Core
+
+          h3 node.js
+          h3 axon.js
+          h3 sails.js
+
+          h2 Interface
+
+          h3 Jasmine
+          h3 CoffeeScript
+          h3 underscore.js
+
+          h2 Architecture
+
+          h3 Cluster
+          h3 Node
+
+          h2 Sockets
+
+          h3 Broadcast Domains
+          h3 UDP
+          h3 TCP/IP
+
+
+          h2 Heavy Lifting
+
+          h3 Leptonica
+          h3 Tesseract
+          h3 OpenCV
+          h3 C++
+          h3 Cuda
+
+    .docs.panel.panel-default
+      .panel-body
+
+        h1 Implementation
+        p Implementation Concepts, Notes, Details, etc.; to include pseudo code from your design
+
+
+    .docs.panel.panel-default
+      .panel-body
+        h1.huge Integrations
+
+        h2 Node particularities
+        
+        h3 Native Architectures
+
+        h2 IPC
+
+        h2 Events
+
+        h2 Nouns
+
+        h2 Ontology
+
+        h3 Signal
+
+        h3 System
+
+        h3 Noun
+
+
+    .docs.panel.panel-default
+      .panel-body
+        h1.huge Experiments
+
+    .docs.panel.panel-default
+      .panel-body
+        h1.huge API
+        
+    .docs.panel.panel-default
+      .panel-body
+        h1.huge Future directions
+
+    .docs.panel.panel-default
+      .panel-body
+        h1 Paper
+
+        h2 Abstract
+        p 
+        h2 Goals
+
+
+  .col-sm-3.col-md-3(style="margin-top:20px;")
+    #toc
+
+
+    script.
+      $(function(){$("#toc").tocify();});

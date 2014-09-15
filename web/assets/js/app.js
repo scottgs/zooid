@@ -411,9 +411,10 @@
  * Instantiates and configures Dropzone.js in the DOM
  * @return {}
  */
+$(function(){
 
-$(document).ready(function() {
 
+  console.log("LOADED")
   var r = Math.round(Math.random()*1000)
   // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
   var previewNode = document.querySelector("#template");
@@ -426,7 +427,7 @@ $(document).ready(function() {
     url: "signal/upload", // Set the url
     thumbnailWidth: 100,
     thumbnailHeight: 100,
-    parallelUploads: 4,
+    parallelUploads: 8,
     previewTemplate: previewTemplate,
     autoQueue: true, 
     autoRemove: true, 
@@ -472,8 +473,6 @@ $(document).ready(function() {
   // };
 
 
-});
-
 
 /**
  * Extends jQuery with an obvious object serializer
@@ -495,3 +494,5 @@ $.fn.serializeObject = function(){
     });
     return o;
 };
+
+})

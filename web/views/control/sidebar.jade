@@ -6,55 +6,73 @@
 //-       b upload
 //- br
 
-ul.nav.nav-stacked.nav-pills.nav-stacked-sm(role='navigation')
+li
+  a(href='/')
+    .fa.fa-fw.fa-tasks(style="margin-right:12px;")
+    oo Control 
 
-  li
-    a.fileinput-button.dz-clickable
-      .fa.fa-fw.fa-upload(style="margin-right:12px;")
-      oo Upload
-  li
-    a(href='#', data-toggle="modal",  data-target="#inputUrlModal")
-      .fa.fa-fw.ion-refresh(style="margin-right:12px;")
-      oo Enter a URL
-  li
-    a.dropdown-toggle( href="#", data-toggle='dropdown')
+li
+  a(href='/control/system')
+    .fa.fa-fw.fa-cloud(style="margin-right:12px;")
+    oo System
+li
+  a(href='/control/charts')
+    .fa.fa-fw.fa-bar-chart-o(style="margin-right:12px;")
+    oo Charts
+li
+  a(href='/control/apophenia')
+    .fa.fa-fw.fa-unsorted(style="margin-right:12px;")
+    oo Apophenia
+    
+li
+  hr
+li
+  a.fileinput-button.dz-clickable
+    .fa.fa-fw.fa-upload(style="margin-right:12px;")
+    oo Upload
+li
+  a(href='#', data-toggle="modal",  data-target="#inputUrlModal")
+    .fa.fa-fw.ion-refresh(style="margin-right:12px;")
+    oo Enter a URL
+li
+  a.dropdown-toggle( href="#", data-toggle='dropdown')
+      .fa.fa-fw.ion-beaker(style="margin-right:12px;")
+      oo Tests
+      .fa.fa-fw.ion-arrow-down-b.small(style="margin-left:4px").text-muted
+            
+  ul.dropdown-menu(role='menu', style="margin-right:12px;")
+    li
+      a(href="#").test_signal
+        .fa.fa-fw.ion-play(style="margin-right:12px;")
+        oo Test Image
+    li
+      a(href='#').bounce_server 
+        .fa.fa-fw.ion-refresh(style="margin-right:12px;")
+        oo Bounce 
+    li
+      a(href='#').test_cluster 
         .fa.fa-fw.ion-beaker(style="margin-right:12px;")
-        oo Tests
-        .fa.fa-fw.ion-arrow-down-b.small(style="margin-left:4px").text-muted
-              
-    ul.dropdown-menu(role='menu', style="margin-right:12px;")
-      li
-        a(href="#").test_signal
-          .fa.fa-fw.ion-play(style="margin-right:12px;")
-          oo Test Image
-      li
-        a(href='#').bounce_server 
-          .fa.fa-fw.ion-refresh(style="margin-right:12px;")
-          oo Bounce 
-      li
-        a(href='#').test_cluster 
-          .fa.fa-fw.ion-beaker(style="margin-right:12px;")
-          oo Run Tests
-            a(href='#').test_cluster 
+        oo Run Tests
+          a(href='#').test_cluster 
 
-  li
-    a.dropdown-toggle( href="#", data-toggle='dropdown')
-        .fa.fa-fw.ion-beaker(style="margin-right:12px;")
-        oo  Forgot...
-        .fa.fa-fw.ion-arrow-down-b.small(style="margin-left:4px").text-muted
-              
-    ul.dropdown-menu(role='menu', style="margin-right:12px;")
-      li
-        a(href="#").test_signal
-          .fa.fa-fw.ion-shuffle(style="margin-right:12px;")
-          oo  
+li.hide
+  a.dropdown-toggle( href="#", data-toggle='dropdown')
+      .fa.fa-fw.ion-beaker(style="margin-right:12px;")
+      oo  Forgot...
+      .fa.fa-fw.ion-arrow-down-b.small(style="margin-left:4px").text-muted
+            
+  ul.dropdown-menu(role='menu', style="margin-right:12px;")
+    li
+      a(href="#").test_signal
+        .fa.fa-fw.ion-shuffle(style="margin-right:12px;")
+        oo  
 
 
-  li
-    a(href="#").test_signal
-      .fa.fa-fw.ion-shuffle(style="margin-right:12px;")
-      oo Random
-  
+li.hide
+  a(href="#").test_signal
+    .fa.fa-fw.ion-shuffle(style="margin-right:12px;")
+    oo Random
+
 
 
 #inputUrlModal.modal.fade(role="dialog")

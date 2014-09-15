@@ -6,6 +6,34 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
+
+var Axon = require('axon');
+var ganglion = Axon.socket('pull');
+ganglion.bind(42001);
+
+ganglion.on('message', function( signal ){
+
+  System.find({name:signal.name}, function(err,sig){
+    console.log(err || sig);
+    if(sig.length){
+      console.log("UPDATING", sig[0])
+      System.update( {id:sig[0].id}, signal ).exec(function(err,updated){
+        console.log(err, updated)
+        System.publishUpdate( sig[0].id, signal );
+      })
+    } else {
+      System.create( signal, function(err, res){
+        console.log("UPDATING" + err || res)
+        if(res) System.publishCreate( res.toJSON() )
+      })
+    }
+  })
+
+})
+
+
+
+
 var moment = require("moment");
 
 module.exports = {
@@ -33,7 +61,8 @@ module.exports = {
   },
 
   beforeUpdate: function(record, next){
-    record.last_report = moment().valueOf();
+    var update = moment().valueOf();
+    record.last_update = update
     next();
   },
 

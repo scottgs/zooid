@@ -32,32 +32,47 @@ svg{
   color:white!important;
 }
 
+.nav-stacked-sm {
+  margin-top:0px;
+  padding-top:12px;
+  padding-bottom:12px;
 
+}
 .nav-stacked-sm li a{
-  padding:3px;
-  padding-left:26px;
-  font-size:12px;
+  padding:6px;
+  padding-left:22px;
+  font-size:13px;
+}
 
+.boxShadow{
+  border:1px solid #d2d2d2;
+  -webkit-box-shadow: 3px 2px 12px -2px rgba(1, 1, 1, 0.1);
+  -moz-box-shadow:    3px 2px 12px -2px rgba(1, 1, 1, 0.1);
+  box-shadow:         3px 2px 12px -2px rgba(1, 1, 1, 0.1);
 }
 
 .navbar{
   letter-spacing: 0.4;
   font-family: 'Helvetica Neue', Helvetica, Times New Roman, times-roman, georgia, serif;
   font-weight:400;
+  border-bottom:1px solid #d2d2d2;
   /*border-bottom:1px solid #e7e7e7!important;*/
 }
 
 .navbar-brand{
   color:#314!important;
-  font-size:18px;
-  font-weight: 600;
-  /*text-shadow:1px -1px 2px #!important;*/
-  /*background: -webkit-linear-gradient(#00619B, #08344E);*/
+  font-size:19px;
+  font-weight: 400;
+  background: -webkit-linear-gradient(#00619B, #004Aa7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
 
 }
 .navbar-brand:hover{
   color:#314!important;
-  background: -webkit-linear-gradient(#00619B, #119AE7);
+  text-shadow:1px -1px 2px #!important;
+  background: -webkit-linear-gradient(#00619B, #08344E);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -84,6 +99,22 @@ clear{
   opacity:0;
 }
 
+
+.btn.square, .button.square {
+  font-family: 'Helvetica Neue', times, Times New Roman, times-roman, georgia, serif;
+
+  font-size:15px;
+  -moz-border-radius: 0px 0px 0px 0px!important;
+  -webkit-border-radius: 0px 0px 0px 0px!important;
+}
+
+/*.square *{
+  position: relative;
+  top: 40%;
+  transform: translateY(-50%);
+
+}*/
+
 .signalText{
   font-family: 'Helvetica Neue', Helvetica, Times New Roman, times-roman, georgia, serif;
   color:#666;
@@ -92,8 +123,8 @@ clear{
 
 .signalName{
   font-weight: 600;
-  color:#008;
-  padding-left:20px;
+  color:#447;
+  padding-left:16px;
 }
 
 
@@ -111,7 +142,7 @@ clear{
 
 
 .brand .zooid-title{
-  font-size:72;
+  font-size:72!important;
   line-height:82px;
   font-family: 'Helvetica Neue', times, Times New Roman, times-roman, georgia, serif;
 
@@ -129,20 +160,27 @@ clear{
 
 
 .docs h1 {
-  color:#444!important;
+  color:#11112f!important;
   font-size:32;
   font-weight:700;  
   letter-spacing: -1;
-
+  line-height:46px;
   border-bottom:1px solid #ddd;
 }
 
 .docs .mega {
-  font-size:37;
+  font-size:47;
+  font-weight:200;  
   text-shadow:0px -1px 1px white;
+  line-height:56px;
+  border:none;
 
 }
+.docs {
+  font-family: 'Helvetica Neue', times, Times New Roman, times-roman, georgia, serif;
+}
 .docs p {
+  font-family: 'Helvetica Neue', times, Times New Roman, times-roman, georgia, serif;
   font-size:16;
 }
 .docs p.lead {
@@ -162,7 +200,7 @@ clear{
 
 .docs h3 {
   color:#314!important;
-  font-size:13px;
+  font-size:16px;
   font-weight:600;  
   line-height: 16px;
   background: -webkit-linear-gradient(#08344E, #00619B);
@@ -213,7 +251,7 @@ clear{
 
 
 .navbar-nav li a{
-  color:#666666;
+  color:#666668;
 }
 
 .darkBlue{
@@ -223,6 +261,17 @@ clear{
 .lightBlue{
   background-color:#08344E!important;
   color:white;
+  letter-spacing:1;
+}
+
+.veryLightBlue{
+  color:white;
+  background-color:#5A64B4!important;
+}
+
+.darkRed{
+  color:white;
+  background-color: #91410c;
 }
 
 .lightRed{
@@ -230,13 +279,19 @@ clear{
   background-color: #BF331D;
 }
 
-
-
-.navbar-nav li.active a{
+ul.nav.navbar-nav > li{
+padding-top:1px;
+}
+ul.nav.navbar-nav li a:hover{
+  background-color:#f2f2f2;
+}
+ul.nav.navbar-nav li.active a{
   background-color:#f2f2f2;
   color:#002!important;
 }
-
+.navbar-special{
+  background-color: rgba(255,255,255,0.95);
+}
 
 .navbar-inverse {
   background-color: #ffffff;
@@ -298,7 +353,9 @@ clear{
   }
 }
 
-
+.jumbotron{
+  margin-bottom: 6px;
+}
 
 
 .lead{
@@ -326,42 +383,58 @@ a.vr{
 }
 
 .signal_HEAD {
-  display:block;
-  padding:6px;
-  padding-bottom:0px;
-  margin:0px;
-  margin-bottom:12px;
-  border:1px solid #c2c2c2;
+  display:inline-block;
+  padding:8px;
+  vertical-align: top;
+  padding-top:12px;
+  margin:4px;
+  margin-top:0px;
+  margin-bottom:6px;
+  background-color:#fcfcfc;
+  border:1px solid #e2e2e2;
+  -webkit-box-shadow: 3px 2px 12px -2px rgba(1, 1, 1, 0.1);
+  -moz-box-shadow:    3px 2px 12px -2px rgba(1, 1, 1, 0.1);
+  box-shadow:         3px 2px 12px -2px rgba(1, 1, 1, 0.1);
+
 }
 .signal_HEAD *{
-  margin-bottom:5px;
-  display:inline;
-}
-
-.signal_HEAD:first{
-  margin-bottom:5px;
 }
 
 .signal img{
   -webkit-transition:all 0.2s ease; /* For Safari 3.1 to 6.0 */
   transition: all 0.2s ease;
-  width:36px;
-  height:auto;
 }
 
 .zood {
   width:33px!important;
   height:auto;
 }
-img .signal_HEAD {
+
+.signal_HEAD img  {
   -webkit-transition:all 0.28s ease; /* For Safari 3.1 to 6.0 */
   transition: all 0.28s ease;
-  width:72px;
+  width:160px;
   height:auto;
 }
 
+.signal_HEAD .signal {
+  margin-bottom:3px;
+  display:block;
+}
+
+.sigStack .sigStack img  {
+  -webkit-transition:all 0.28s ease; /* For Safari 3.1 to 6.0 */
+  transition: all 0.28s ease;
+  width:24px;
+  height:auto;
+}
+
+
 .signal{
 
+/*-webkit-box-shadow: inset -1px -1px 11px 0px rgba(0, 0, 8, 0.56);
+-moz-box-shadow:    inset -1px -1px 11px 0px rgba(0, 0, 8, 0.56);
+box-shadow:         inset -1px -1px 11px 0px rgba(0, 0, 8, 0.56);*/
 /*   -webkit-filter: blur(0px)!important;
   -moz-filter: blur(0px)!important;
   -o-filter: blur(0px)!important;
@@ -373,38 +446,36 @@ img .signal_HEAD {
 }
 
 
-.bigSignal{
+.bigSignal, .sigStack .bigSignal{
   width:100%!important;
   height:auto!important;
 }
+
 
 hr{
   border-color:#ddd;
 }
 
-.sigStack .signal {
-  padding:6px;
-  margin-left:18px;
-  display:inline-block;
+.sigStack .signal{
+  padding:1px;
+  padding-bottom:3px;
   /*background-size: 100% 100%;*/
   /*background-repeat: no-repeat;*/
 
-
-}
-.sigStack  {
-  padding:6px;
 }
 
-.sigStack .sigStack{
+
+.sigStack{
+  margin-left:12px;
 }
 
 .sigStack .sigStack *{
-  display:inline;
+  display:inline-block;
 }
 
 
 .sigStack .sigStack .sigStack img {
-  max-width:25%;
+  max-width:50%;
 }
 
 .sigStack{

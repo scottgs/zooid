@@ -23,8 +23,6 @@
     });
   });
 
-
-
   socket.on('message', function(item) {
     if(models[item.model] && models[item.model][item.verb]){
       models[item.model][item.verb](item);
@@ -57,7 +55,7 @@
       'class': 'signal alert alert-info',
       id: item.id,
       href: 'http://google.com',
-      title: 'TITTY DICKS',
+      title: '',
       rel: 'external',
       text: item.name
     }).appendTo('#signal_container');

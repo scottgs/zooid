@@ -1,8 +1,8 @@
 {
-  "name": "zode",
+  "name": "zooid_core",
   "version": "0.0.0",
-  "description": "a node on the zooid cluster",
-  "main": "app.js",
+  "description": "connectivity to the cluster",
+  "main": "./app.js",
   "scripts": {
     "test": "node app.js"
   },

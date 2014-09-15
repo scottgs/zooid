@@ -1,0 +1,19 @@
+{
+  "name": "signal_classifier",
+  "version": "0.0.1",
+  "description": "Classifies input signals by distinguishing characteristics of known content patterns",
+  "main": "signal_classifier.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "signal",
+    "classify",
+    "classify"
+  ],
+  "author": "Benjamin Baker",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "cheerio": "~0.17.0"
+  }
+}
