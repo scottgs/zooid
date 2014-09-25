@@ -1,0 +1,318 @@
+#mapdiv.mapdiv
+.hide
+
+  #marker
+    .fa.fa-fw.fa-angle-right.fa-3x
+
+  #arrow
+    //- .fa.fa-fw.fa-long-arrow-right
+    b=">"
+
+  #info &nbsp;
+  script.
+
+
+
+      //    map = new ol.Map({
+      //       controls: ol.control.defaults( { "zoom":false }).extend([
+      //          new ol.control.FullScreen()
+      //       ]),
+      //      interactions: ol.interaction.defaults().extend([
+      //          new ol.interaction.DragRotateAndZoom()
+      //      ]),
+      //      layers:  [ bing ] ,
+      //      target: 'mapdiv',
+      //      view: view
+      //    });
+
+      //     pan = ol.animation.pan({
+      //          duration: 500,
+      //          easing: ol.easing.easeOut,
+      //          source: /** @type {ol.Coordinate} */ (view.getCenter())
+      //       });
+
+      //    map.beforeRender(pan);
+      // });
+           
+
+      // var rotation = 0;
+
+      // jQuery.fn.rotate = function(degrees) {
+      //     $(this).css({'-webkit-transform' : 'rotate('+ degrees +'deg)',
+      //                  '-moz-transform' : 'rotate('+ degrees +'deg)',
+      //                  '-ms-transform' : 'rotate('+ degrees +'deg)',
+      //                  'transform' : 'rotate('+ degrees +'deg)'});
+      // };
+
+      // // $('.rotate').click(function() {
+      // //     rotation += 5;
+      // //     $(this).rotate(rotation);
+      // // });
+
+
+      // putOnMap = function( results ){
+
+      //    updateListeners();
+
+      //    console.log("Results to map: ");
+      //    console.log(results);
+
+      //    view.setCenter(ol.proj.transform([ results[0].lat, results[0].lon ], 'EPSG:4326', 'EPSG:3857'));
+
+      //    cl = mapColors.length
+
+      //    //- console.log(results);
+      //    for(var i = 0; i<results.length; i++) {
+
+      //       var mrkr = $("#marker").clone();
+      //       var pos  = ol.proj.transform( [results[i].lat, results[i].lon], 'EPSG:4326', 'EPSG:3857');
+
+      //       mrkr.css("color", "#FF2B0A");
+
+      //       mrkr.rotate( (-1*results[i].orientation)+90 );
+
+      //       mrkr.css("text-shadow","0px 0px 5px rgba(44,0,0, 1)");
+
+      //       var color = function(){
+      //           var r = 10+Math.floor(Math.random() * 100 );
+      //           var g = 10+Math.floor(Math.random() * results[i].score );
+      //           var b = Math.floor( (1 / results[i].score)*255 );
+      //           return 'rgba(' + r + ',' + g + ',' + b + ', 1 )';
+      //       }
+
+      //       mrkr.css("color", mapColors[i%cl]);
+
+      //       var marker = new ol.Overlay({
+      //         position: pos,
+      //         positioning: 'top-center',
+      //         element: mrkr,
+      //         stopEvent: false
+      //       });
+
+      //       map.addOverlay(marker);
+      //       features = [];
+
+
+      //       for(var j = 0; j<results[i].points.length; j++) {
+    
+      //          var score         = results[i].points[j].score;
+      //          var orientation   = results[i].points[j].orientation;
+      //          var arrow_pos     = ol.proj.transform( [results[i].points[j].lat, results[i].points[j].lon], 'EPSG:4326', 'EPSG:3857');
+      //          var arrow         = $("#arrow").clone();
+
+      //          features[j] = new ol.Feature({
+      //             'geometry': new ol.geom.MultiPoint([pos, arrow_pos]),
+      //             anchor: pos
+      //          });
+
+
+      //          mrkr.rotate( (-1*orientation)+90 );
+
+
+      //          arrow.css("color", mapColors[i%cl]);
+
+      //          var arrow_marker = new ol.Overlay({
+      //            position: arrow_pos,
+      //             positioning: 'top-center',
+      //            element: arrow,
+      //            stopEvent: false
+      //          });
+
+      //          map.addOverlay(arrow_marker);
+
+      //          }
+
+      //           var vector = new ol.layer.Vector({
+      //             source: new ol.source.Vector({
+      //               features: features
+      //             }),
+      //             style: new ol.style.Style({
+      //               stroke: new ol.style.Stroke({
+      //                 color: mapColors[i%cl],
+      //                 width: 2
+      //               })
+      //             })
+      //           });
+      //           map.addLayer(vector);
+
+
+      //       }
+
+      //   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      //- var styleFunction = (function() {
+
+      //-   /* jshint -W069 */
+      //-   var styles = {};
+      //-   var image = new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+      //-     anchor: [0.5, 46],
+      //-     anchorXUnits: 'fraction',
+      //-     anchorYUnits: 'pixels',
+      //-     opacity: 0.75,
+      //-     rotation: 180,
+      //-     src: 'images/marker1.png'
+      //-   }))
+
+
+      //-   styles['Point'] = [new ol.style.Style({image: image})];
+      //-   styles['Polygon'] = [new ol.style.Style({
+      //-     stroke: new ol.style.Stroke({
+      //-       color: 'blue',
+      //-       width: 3
+      //-     }),
+      //-     fill: new ol.style.Fill({
+      //-       color: 'rgba(0, 0, 255, 0.1)'
+      //-     })
+      //-   })];
+      //-   styles['MultiLinestring'] = [new ol.style.Style({
+      //-     stroke: new ol.style.Stroke({
+      //-       color: 'green',
+      //-       width: 3
+      //-     })
+      //-   })];
+      //-   styles['MultiPolygon'] = [new ol.style.Style({
+      //-     stroke: new ol.style.Stroke({
+      //-       color: 'yellow',
+      //-       width: 1
+      //-     }),
+      //-     fill: new ol.style.Fill({
+      //-       color: 'rgba(255, 255, 0, 0.1)'
+      //-     })
+      //-   })];
+      //-   styles['default'] = [new ol.style.Style({
+      //-     stroke: new ol.style.Stroke({
+      //-       color: 'red',
+      //-       width: 3
+      //-     }),
+      //-     fill: new ol.style.Fill({
+      //-       color: 'rgba(255, 0, 0, 0.1)'
+      //-     }),
+      //-     image: image
+      //-   })];
+      //-   return function(feature, resolution) {
+      //-     return styles[feature.getGeometry().getType()] || styles['Point'];
+      //-   };
+      //-   /* jshint +W069 */
+      //- })();
+
+
+      putKMLOnMap = function( hash ){
+
+        var vector = new ol.layer.Vector({
+          style: styleFunction,
+          source: new ol.source.KML({
+            projection: 'EPSG:3857',
+            url: '/kml/'+hash+'.kml'
+          })
+        });
+
+        var raster = new ol.layer.Tile({
+          source: new ol.source.BingMaps({
+            imagerySet: 'Aerial',
+            key: 'Ak-dzM4wZjSqTlzveKz5u0d4IQ4bRzVI309GxmkgSVr1ewS6iPSrOvOKhA-CJlm3'
+          })
+        });
+
+        console.log(vector)
+
+        var map = new ol.Map({
+          layers: [raster, vector],
+          target: document.getElementById('mapdiv'),
+          view: new ol.View2D({
+            center: [ 0, 0 ],
+            zoom: 8
+          })
+        });
+
+
+      }
+      //- var displayFeatureInfo = function(pixel) {
+      //-   var features = [];
+      //-   map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+      //-     features.push(feature);
+      //-   });
+      //-   console.log(features[0]);
+      //-   if (features.length > 0) {
+      //-     console.log(features)
+      //-     var info = [];
+      //-     var i, ii;
+      //-     for (i = 0, ii = features.length; i < ii; ++i) {
+      //-       info.push(features[i].get('name'));
+      //-     }
+      //-     document.getElementById('info').innerHTML = info.join(', ') || '(unknown)';
+      //-     map.getTarget().style.cursor = 'pointer';
+      //-   } else {
+      //-     document.getElementById('info').innerHTML = '&nbsp;';
+      //-     map.getTarget().style.cursor = '';
+      //-   }
+      //- };
+
+      //- $(map.getViewport()).on('mousemove', function(evt) {
+      //-   var pixel = map.getEventPixel(evt.originalEvent);
+      //-   displayFeatureInfo(pixel);
+      //- });
+
+      //- map.on('click', function(evt) {
+      //-   displayFeatureInfo(evt.pixel);
+      //- });
+
+
+
+
+
+      //- io.emit('fake_geolocate', [], function(data) {
+
+      //-       plotResults( data );
+      //-       $(".fa-globe").show();
+      //-       $(".loader").hide();
+
+      //-   })
+
+
+
+    
+
+
+
+   //-    //- // Popup showing the position the user clicked
+   //-    //- var popup = new ol.Overlay({
+   //-    //-   element: document.getElementById('popup')
+   //-    //- });
+   //-    //- map.addOverlay(popup);
+
+   //-    //- map.on('click', function(evt) {
+   //-    //-   var element = popup.getElement();
+   //-    //-   var coordinate = evt.coordinate;
+   //-    //-   var hdms = ol.coordinate.toStringHDMS(ol.proj.transform(
+   //-    //-       coordinate, 'EPSG:3857', 'EPSG:4326'));
+
+   //-    //-   $(element).popover('destroy');
+   //-    //-   popup.setPosition(coordinate);
+   //-    //-   // the keys are quoted to prevent renaming in ADVANCED_OPTIMIZATIONS mode.
+   //-    //-   $(element).popover({
+   //-    //-     'placement': 'top',
+   //-    //-     'animation': true,
+   //-    //-     'html': true,
+   //-    //-     'content': '<p>The location you clicked was:</p><code>' + hdms + '</code>'
+   //-    //-   });
+   //-    //-   $(element).popover('show');
+   //-    //- });
+
+   //-    });
+
+page

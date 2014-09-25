@@ -5,19 +5,20 @@ var zlib = require('zlib');
 var async = require("async");
 var _ = require('underscore');
 var moment = require("moment")
+var merge = require("merge")
 
 var zooid = require("../../zooid_core")
-console.log("face blurring intiated.")
-
-var zode = { 
+var zode = merge( require("./package.json"), { 
     name:"Face Blurring"
   , filename:"face_blurring.js"
   , takes:"image"
   , gives:"blurred_faces"
-  , status:"active"
+  , ip:zooid.ip || 'unkown'
+  , status:"?"
   , work:0
   , actions:0 
-}
+})
+console.log(zode.name, "intiated.")
 
 /******************************************************************************
  * TEST WITH BASE CASE
@@ -30,18 +31,10 @@ var zode = {
 
 zooid.on( "test", function (signal){
   
- //  var test_image = {
- //    name:"Face Detection Test"
- //  , location:path.join( __dirname , 
- //  "../../web/.tmp/public/files/diverse.jpg" )
- //  , filename:"group.jpg"
- //  , noun:"image"
- //  , parent_id:signal.id
- // }
+  zode.status="active"
+  zooid.muster(zode)
+  zooid.send({ parent_id:signal.id, name:zode.name, text:"okay"})
 
- // detectFaces( test_image, zooid )
-
- zooid.fire({ parent_id:signal.id, name: "Face Blurring: Okay"})
 })
 
 

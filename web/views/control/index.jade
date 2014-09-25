@@ -1,34 +1,17 @@
 block body
   
-  #fileUpload
+  
 
     include nav
 
-      //- h3.text-info Very computer, much cluster.
-        //- a(href="https://github.com/benbaker/zooid").scootLeft.scootRight
-        //-   .button.button-flat-highlight.button-circle
-        //-     o  Code
-        //-       //- o.fa.fa-fw.ion-social-github.fa-lg.scootRight
-
-        //- a(href="#docsTab", data-toggle='tab')
-        //-   .button.button-flat-primary.button-circle
-        //-     o  Docs
-        //-       //- o.fa.fa-fw.ion-ios7-information-outline.fa-lg.scootRight
-
-        //- a(href="#docsTab", data-toggle='tab').scootRight
-        //-   .button.button-flat-caution.button-circle
-        //-     o  Test
-        //-       //- o.fa.fa-fw.fa-bar-chart-o.fa-lg.scootRight
-
     .container-fluid
       .row
-            br
             .tab-content
                 
                 #welcomeTab.tab-pane.active
                     
                           
-                                    
+                  
                   //- .panel.lightBlue.well-sm
                     h2 
                       o  So future.  
@@ -52,24 +35,75 @@ block body
 
                 #signalsTab.tab-pane.active
 
-                    .col-md-3.col-lg-2.hide
-                      .panel.panel-default
-                        ul.nav.nav-stacked.nav-pills.nav-stacked-sm(role='navigation')
-                          include sidebar
+                    //- .col-md-3.col-lg-2.hide
+                    //-   .panel.panel-default
+                    //-     ul.nav.nav-stacked.nav-pills.nav-stacked-sm(role='navigation')
+                    //-       include sidebar
 
                     //- .col-md-3.col-lg-2
                     //-   .panel.panel-default
                     //-     ul.nav.nav-stacked.nav-pills.nav-stacked-sm(role='navigation')
                     //-       include sidebar
                           //- include nav_tabs
-                    .col-md-9.col-lg-10
-                        #signal_container
-
-                          //- a.btn.button.button-border-action.button-pill
-                          //-   oo asdf
 
 
-                          //- include d3_chart
+
+                  .jumbotron.darkBlue.text-center
+                    h2.text-center
+                      br
+                      b.big Very future.   
+                      br
+                      //- o.fa.fa-fw.fa-bar-chart-o.fa-lg.scootRight
+
+
+
+                      //- a.btn.button.button-border-action.button-pill
+                      //-   oo asdf
+
+
+                      //- include d3_chart
+
+
+
+                    br
+
+
+                  .col-md-12
+
+                  
+
+
+                  //- .col-md-6
+                    //- include system
+
+                  //- .col-md-6
+                    //- include apophenia
+                  .col-md-12
+                    .text-center
+                      br
+                      br
+                      span.button-wrap
+                        a(href="https://github.com/benbaker/zooid").scootLeft
+                          .button.button-flat-highlight.button-pill
+                            o  Code
+                              //- o.fa.fa-fw.ion-social-github.fa-lg.scootRight
+
+                        a(href="#docsTab", data-toggle='tab')
+                          .button.button-flat-caution.button-pill
+                            o  Docs
+                              //- o.fa.fa-fw.ion-ios7-information-outline.fa-lg.scootRight
+
+                      span.button-wrap.scootRight
+                        a.test_cluster
+                          .button.button-flat-primary.button-circle
+                            o  Test
+                            //- o.fa.fa-fw.fa-bar-chart-o.fa-lg.scootRight
+
+
+                    #signal_container
+
+
+                            //- include d3_chart
 
 
                     
@@ -203,6 +237,7 @@ block body
               + questions[i].response+"'>"
             } return content + "</form>";
           }
+
           function confirmation(signal){
             var content = "<scootRight>"
             for(var i=0;i<confirmation.length;i++){
@@ -258,7 +293,6 @@ block body
             var filename = item.filename || null
             var classes = (!item.parent_id) ? " signal_HEAD " : " sigStack ";
             var id = item.id || id
-
 
             if(item.parent_id){
                 //- graph.addLink( id, item.parent_id, "Parent" )
@@ -632,24 +666,24 @@ block body
 
             $(document).ready(function() {
 
-              socket.get('/signal/find?type=HEADlimit=18&sort=date DESC', function(signals){
-                for (var i = 0; i < signals.length; i++) {
-                  models['signal']['create'](signals[i]);
+              //- socket.get('/signal/find?type=HEAD&limit=4&sort=date DESC', function(signals){
+              //-   for (var i = 0; i < signals.length; i++) {
+              //-     models['signal']['create'](signals[i]);
 
-                  socket.get('/signal/find/',{parent_id:signals[i].id}, function(ch1s){
-                    for (var i = 0; i < ch1s.length; i++) {
-                      models['signal']['create'](ch1s[i]);
+              //-     socket.get('/signal/find/',{parent_id:signals[i].id}, function(ch1s){
+              //-       for (var i = 0; i < ch1s.length; i++) {
+              //-         models['signal']['create'](ch1s[i]);
 
-                      socket.get('/signal/find/',{parent_id:ch1s[i].id}, function(ch2s){
-                        for (var i = 0; i < ch2s.length; i++) {
-                          models['signal']['create'](ch2s[i]);
+              //-         socket.get('/signal/find/',{parent_id:ch1s[i].id}, function(ch2s){
+              //-           for (var i = 0; i < ch2s.length; i++) {
+              //-             models['signal']['create'](ch2s[i]);
 
-                        };
-                      });
-                    };
-                  });
-                };
-              });
+              //-           };
+              //-         });
+              //-       };
+              //-     });
+              //-   };
+              //- });
 
               //- socket.get('/signal/find?type=HEAD&limit=4&sort=date DESC', function(signals){
               //-   for (var i = 0; i < signals.length; i++) {

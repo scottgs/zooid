@@ -1,9 +1,138 @@
 ul#myTab.nav.navbar-nav.navbar-left(role='navigation')
   li.dropdown
-    a.dropdown-toggle(href='#', data-toggle='dropdown').scootRight
-      b   
-      o  Control
-      b.caret
-      ul.dropdown-menu(role='menu',style="min-width:220px;").scootRight
-        include sidebar
+    a.dropdown-toggle(href='#', data-toggle='dropdown')
+      .fa.ion-navicon.fa-lg
+      o  Menu
+      o  
+      .fa.fa-fw.ion-arrow-down-b.small.text-muted.small
 
+
+      ul.dropdown-menu(role='menu',style="min-width:220px;").scootRight
+
+        li
+          a(href='/')
+            .fa.fa-fw.fa-tasks(style="margin-right:12px;")
+            oo App
+
+        li
+          a(href='/control/system')
+            .fa.fa-fw.fa-cloud(style="margin-right:12px;")
+            oo Cluster
+        li
+          a(href='/control/charts')
+            .fa.fa-fw.fa-bar-chart-o(style="margin-right:12px;")
+            oo Charts
+        li
+          a(href='/control/apophenia')
+            .fa.fa-fw.fa-unsorted(style="margin-right:12px;")
+            oo Apophenia
+            
+        li
+          hr
+        li
+          a.fileinput-button.dz-clickable
+            .fa.fa-fw.fa-upload(style="margin-right:12px;")
+            oo Upload
+        li
+          a(href='#', data-toggle="modal",  data-target="#inputUrlModal")
+            .fa.fa-fw.ion-refresh(style="margin-right:12px;")
+            oo Enter a URL
+        
+        li.hide
+          a.dropdown-toggle( href="#", data-toggle='dropdown')
+              .fa.fa-fw.ion-beaker(style="margin-right:12px;")
+              oo  Forgot...
+              .fa.fa-fw.ion-arrow-down-b.small(style="margin-left:4px").text-muted
+                    
+          ul.dropdown-menu(role='menu', style="margin-right:12px;")
+            li
+              a(href="#").test_signal
+                .fa.fa-fw.ion-shuffle(style="margin-right:12px;")
+                oo  
+
+
+        li.hide
+          a(href="#").test_signal
+            .fa.fa-fw.ion-shuffle(style="margin-right:12px;")
+            oo Random
+
+
+
+        #inputUrlModal.modal.fade(role="dialog")
+          .modal-dialog
+              .modal-content
+                .modal-header
+                  button.close(type='button', data-dismiss='modal')
+                    span(aria-hidden='true') ×
+                    span.sr-only Close
+                  h2.modal-title Get and analyze:
+                .modal-body
+                  p.lead Enter a link to specific media content or to a webpage from which you would like to scrape all of the content.
+                  form.form.getURL(role='search')
+                    input.form-control(type='text', name="getURL" placeholder='URL:')
+                .modal-footer
+                  button.btn.btn-link(type='button', data-dismiss='modal') Close
+                  .button.button-flat-caution.button-rounded.submitURL Done
+
+
+        form(action='/file-upload').fallback.hide
+          .dropzone
+            input(name='file', type='file', multiple='multiple')
+            br
+            input(name='parent_id', type='text', value='fdsa').form-control
+
+        script.
+          $(document).ready(function() {
+            $(".newSignalForm").hide()
+            $(".newSignalButton").on("click", function(){
+              $(".newSignalForm").slideToggle("slow")
+            })
+          })
+  li
+    a(href="#").fileinput-button.dz-clickable
+      b Upload
+ul.nav.navbar-nav.navbar-right(role='navigation')
+
+  //- li
+    a.dropdown-toggle( href="#", data-toggle='dropdown')
+        oo  Tests
+        .fa.fa-fw.ion-arrow-down-b.small.text-muted
+              
+    ul.dropdown-menu(role='menu', style="margin-right:12px;")
+      li
+        a(href="#").test_signal
+          .fa.fa-fw.ion-play(style="margin-right:12px;")
+          oo Test Image
+      li
+        a(href='#').bounce_server 
+          .fa.fa-fw.ion-refresh(style="margin-right:12px;")
+          oo Bounce 
+      li
+        a(href='#').test_cluster 
+          .fa.fa-fw.ion-beaker(style="margin-right:2px;")
+          oo Run Tests
+
+  li
+    a(href='/mads').test_cluster 
+      oo mads!!
+
+
+
+
+
+  //- li
+  //-   a(href='/docs', data-toggle='tab')
+  //-     oo Documentation
+
+  //- li
+  //-   a(href="#").test_signal
+  //-     .text-muted.fa.fa-fw.fa-lg.fa-github
+  //-     o Code
+
+            //- br
+            //- .text-center
+            //-   .fileinput-button.dz-clickable(href="#").btn-block.button.button-bordered
+                
+            //-       b.ion.ion-upload.fa-lg.fa-fw
+            //-       b upload
+            //- br

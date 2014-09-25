@@ -3,23 +3,41 @@ extends ../layout
 block body
   include nav
   br
-  .container-fluid.row
+  .container-fluid
+
     // .col-sm-3.col-lg-2
       // ul.nav.nav-stacked.nav-pills.nav-stacked-sm(role='navigation').panel.panel-default
         // include sidebar
 
     // .col-sm-9.col-lg-10
 
+    .col-sm-8
+      table.table.table-condensed.table-striped.table-bordered#system_container
+        tr.small
+          td.text-center
+          td.fa.fa-sitemap.fa-lg
+          td
+          td.fa.fa-headphones.fa-lg
+          td.fa.fa-bullhorn.fa-lg
+          td.fa.fa-bar-chart-o.fa-lg
+          td.fa.fa-clock-o.fa-lg
+
+    .col-sm-4.text-center
+      br
+      br
+      span.button-wrap.scootRight
+        a.test_cluster
+          .button.button-flat-primary.button-circle
+            o  Test
+    
     .col-sm-12
-      .panel.panel-info
-        table.table#system_container
-          tr.text-muted.small
-            td Name
-            td Events
-            td Work (ms)
-            td Takes
-            td Gives
-            td Uptime
+      hr
+    .col-sm-12.text-center
+      #signal_container.panel.panel-default
+
+
+
+
     .hide
       .col-sm-4
         .panel.well
@@ -63,6 +81,21 @@ block body
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     script.
               
         (function (io) {
@@ -79,6 +112,12 @@ block body
            * @return {html}      
            */
 
+          function print_r(o){
+          return JSON.stringify(o,null,'\t')
+            .replace(/\n/g,'<br>')
+            .replace(/\t/g,'&nbsp;&nbsp;&nbsp;'); 
+          }
+
           function img(link){
             // TODO popover
             return "<img src='/files/"+link+"' class='img-responsive img-circle'/>"
@@ -93,9 +132,16 @@ block body
           function icon(name){
             return " <i class='icon ion-"+name+" '></i> "
           }
+          function fa(i){
+            return " <i class='fa fa-"+i+" '></i> "
+          }
           function cell(a, id) {
             return "<td class='"+id+"'>"+a+"</td>"
           }
+          function well(a, id) {
+            return "<div class='well'>"+a+"</div>"
+          }
+
           function head(a, id) {
             return "<tr class='"+id+"'>"+a+"</tr>"
           }
@@ -109,28 +155,38 @@ block body
             return "<a id='"+ id +"'>"+icon("ios7-minus-outline fa-lg text-success")+"</a>";
           }
 
-          function question(questions){
-            var content = "<span class='  '>"
-            for(var i=0;i<questions.length;i++){
-              content +="<input class=' input ' type='"
-              + (questions[i].type || "text") 
-              + "' placeholder='"
-              + questions[i].question
-              + "' name='"
-              + questions[i].response+"'>"
-            } return content + "</form>";
-          }
-          function confirmation(signal){
-            var content = "<scootRight>"
-            for(var i=0;i<confirmation.length;i++){
-              content += confirmButton(signal.id)
-              content += rejectButton(signal.id)
-              content +=  "</scootRight>"
+          function statusIcon(status){
+            switch (status) { 
+                case 'active': 
+                    return fa("check");
+                    break;
+                case 'error': 
+                    return fa("warning");
+                    break;
+                case '?': 
+                    return fa("caret-square-o-up");
+                    break;
+                default:
+                    return fa("circle");
             }
-              content += "</form>"
-            return content;
-
           }
+          
+          function statusColor(status){
+            switch (status) { 
+                case 'active': 
+                    return "success";
+                    break;
+                case 'error': 
+                    return "danger";
+                    break;
+                case '?': 
+                    return "info";
+                    break;
+                default:
+                    return "default";
+            }
+          }
+
           /**
            * recursively walk and print an object.
            * @param  {Object} item 
@@ -162,96 +218,39 @@ block body
           function createServiceDiv(item){ 
             
               var content = ""
-              content+= "<a id = '"+item.id+"' class='button button-sm button-default  getService'>"
+              content+= "<a id = '"+item.id+"' class='button button-sm button-default getService'>"
               content+= item.name
               content+= "</a>"
               return content
           }
 
 
-          function createSignalDiv(item_object){
+          function createSignalDiv(item){
+            var content = ""
 
-            var item     = item_object
-            var filename = item.filename || null
-            var classes = (!item.parent_id) ? " signal_HEAD " : " sigStack ";
-            var id = item.id || id
+            var hue = 'rgba('
+                + (Math.floor(Math.random() * 128)) + ','
+                + (Math.floor(Math.random() * 128)) + ','
+                + (Math.floor(Math.random() * 256)) + ',0.1)';
 
+            console.log(hue)
 
-            if(item.parent_id){
-                // graph.addLink( id, item.parent_id, "Parent" )
-                // graph.addLink( item.parent_id, id, "Child"  )
-
-              if(filename)
-                // graph.addNode( id, filename )
-
-              if(item.text && !(item.text =="" || typeof item.text == 'undefined') ){
-                var txt = item.text
-                // graph.addNode( txt, txt )
-                // graph.addLink( txt, id, "Child" )
-                // graph.addLink( txt, id, "Parent" )
-              }
-              if(item.text){
-                // graph.addNode( item.text, item.text )
-                // graph.addLink( item.text, id, "Parent" )
-                // graph.addLink( item.text, id, "Child" )
-                // graph.addLink( item.text, item.parent_id, "Parent" )
-                // graph.addLink( item.text, item.parent_id, "Child" )
-              }
-            }
-            //- var background = (!item.parent_id) ? {} : {"background":"url(/files/"+ filename +") no-repeat left center "}
-
-            var div = $('<div/>', {
-
-              id: ""+id
-              , class: classes
-              , title: item.created
-
-              , service: item.name  || item.operation || item.service 
-              , "data-content": function(item){ return img(filename, 12) + " " + dump(item) ; }
-              , "data-toggle":"popover"
-              , "data-placement":"top"
+            content += "<table class='table-condensed'>"
+            content+= "<tr id="+ item.id +" class='' style='background-color:"+hue+"';>"
             
-            })
+            var name = item.name || item.text || ""
 
-            //- .css( background )
+            content+= cell( link( name, "/system/find/" + item.id, " small btn-link text-black scootLeft scootRight" ) )
 
-            .append(function(){
+            // TODO add parent id
 
-                var name = item.name || item.noun || item.service
-                var content = ""
-                
-                var head_class = (!item.parent_id) ? " head_class " : " sigStack ";
+            // content+= cell("<a id='"+ item.id +"' class='delete button-sm small' model-name='system'>"+
+            //           "<fa class='fa fa-fw fa-times'></fa></a>")
 
-                content+= item.href ? " "+ link( name, item.href)+" " : "";
-
-                content+= "<div id=item'"+item.id+"' class=' signal "+head_class+" '>"
-                content+= item.filename ? img(filename) : "";
-                content+= item.src ? web_img(item.src) : "";
-
-                content+= name ? icon("ios7-caret-right") + "<span class='signalName'>"+name+"</span> " : "";
-
-                content+= item.text ? text(item.text, item.type) : "";
-
-                content+= item.questions ? question(item.questions) : "";
-                content+= item.confirm ? confirmation(item) : "";
-                content+= item.listeners ? item.listeners : "";
-
-                //- content+= "<small>"+ item.created +"</small>  "
-                content+= item.histogram ? "<pre><small>"
-                  + JSON.stringify( item.histogram )
-                  + "</small></pre>":"";
-                content+= link(icon("ios7-information-outline fa-lg"), "/signal/"+item.id, " text-right " )
-                content+= "</div>"
-
-                return content 
-            })
-            //- .popover({ 
-            //-     trigger: 'click'
-            //-   , html:true
-            //-   , target:'body'
+            content+= "</tr>"
+            content+= "</table>"
+            return content
             
-            //- })
-            return div
           };//createSignalDiv
 
 
@@ -260,14 +259,15 @@ block body
 
             var content = ""
 
-            content+= "<tr id="+ item.id +" class='small' style='color:#77777b' >"
+            content+= "<tr id="+ item.id +" class='small "+ "" +" '>"
             
-            content+= cell( link( item.name, "/system/find/" + item.id ) )
-            content+= cell(item.actions, "actions")
-            content+= cell(item.work, "work")
+            content+= cell( statusIcon(item.status),"status text-center "+statusColor(item.status) )
+            content+= cell( link( item.name, "/system/find/" + item.id, " btn-link text-black " ) )
+            content+= cell( item.ip )
             content+= cell(item.takes, "takes")
             content+= cell(item.gives, "gives")
-            content+= cell(item.created, "created")
+            content+= cell(item.actions, "actions")
+            content+= cell(item.work, "work")
             //- content+= cell("<small>"+item.last_update+"</small>", "last_update")
             //- content+= cell(item.status, "status")
             // content+= cell(item.new_actions, "new_actions")
@@ -280,7 +280,12 @@ block body
           } 
 
 
+        var dom = {
 
+          map: function(){
+            console.log("map");
+          }
+        }
 
 
 
@@ -313,7 +318,7 @@ block body
               update : function(item){
                 $("#item"+item.id)
                   .replaceWith(createServiceDiv(item))
-                  .show("animated pulse")
+                  .show("animated tada")
               } //update
             }, //signal
 
@@ -329,7 +334,7 @@ block body
               update : function(item){
                 $("#item"+item.id)
                   .replaceWith(createServiceDiv(item))
-                  .show("animated pulse")
+                  .show("animated tada")
               } //update
             }, //signal
 
@@ -356,19 +361,21 @@ block body
                   $("#"+item.id)
                     .find("."+attr)
                     .html(item[attr])
-                };
+                }
+
+                console.log(status)
+
+                $("#"+item.id+" .status")
+                  .removeClass( "success alert info danger default warning")
+                  .addClass( statusColor(item.status) );
                 
-                // var node_id = item.info.address+":"+item.node
-                // var ch = nodes_chart.get(node_id);
-                // if(item.new_actions) ch.update(item.new_actions)
+                $("#"+item.id)
+                  .find(".status")
+                  .html( statusIcon(item.status) )
+                  .children()
+                  .removeClass("animated tada")
+                  .addClass("animated tada")
 
-                //   var chrt = chart.get(item.info.address)
-                //   var shift = (chrt.data.length > 5)
-                //     console.log(shift)
-                //     chrt.addPoint( [item.last_report, item.new_actions] , true, shift)
-
-                //- nodes_chart.get(item.id).update( [ item.id, item.new_actions ] )
-                //- chart.series[0].addPoint( Math.random() , true, (chart.series[0].data.length > 10) );
               } 
             }, 
 
@@ -380,24 +387,14 @@ block body
               
                 var item = signal
                 var pend = signal.parent_id ? "appendTo" : "prependTo" 
-                var target  = item.parent_id ? "#"+item.parent_id : "#signal_container";
+                if ( item.parent_id )
+                  if( !$("#"+item.parent_id ).length == 0 )
+                    var target = "#"+item.parent_id
+                  else 
+                    var target = "#signal_container"
+
                 $( createSignalDiv(item) )[pend](target);
 
-
-                if(item.histogram){
-                  var u = Math.round( Math.random() *200 );
-                  $('<div class=" sigStack " date="'+ item.date +'"  ><canvas class="signal" id="chart'+u+item.parent_id
-                    +'" ></canvas></div>')[pend]( target )
-                  histogram( item.histogram, u+item.parent_id )
-                } 
-
-                //- $(target).children().not(".head_class").sort(function (a, b) {
-                //-     return $(a).attr('date') > $(b).attr('date');
-                //- }).each(function(){
-                //-     var elem = $(this);
-                //-     elem.remove();
-                //-     $(elem).appendTo(target);
-                //- })
 
               }, //create
 
@@ -408,10 +405,12 @@ block body
               update: function(item){
 
                 for(var i in item){
-                  $("#item"+item.id ).find('.'+i).html(item[i]).addClass("animated pulse");
+                  $("#item"+item.id ).find('.'+i).html(item[i])
+                  .removeClass("animated tada")
+                  .addClass("animated tada")
                 }
                 
-                // $("#item"+item.id ).replaceWith(createSignalDiv(item)).addClass("animated pulse")
+                // $("#item"+item.id ).replaceWith(createSignalDiv(item)).addClass("animated tada")
                 // 
               } //update
 
@@ -528,38 +527,38 @@ block body
 
             $(document).ready(function() {
 
-              //- socket.get('/signal/find?type=HEAD&sort=createdAt DESC&limit=2', function(signals){
-              //-   for (var i = 0; i < signals.length; i++) {
-              //-     models['signal']['create'](signals[i]);
-
-              //-     socket.get('/signal/find/',{parent_id:signals[i].id}, function(ch1s){
-              //-       for (var i = 0; i < ch1s.length; i++) {
-              //-         models['signal']['create'](ch1s[i]);
-
-              //-         socket.get('/signal/find/',{parent_id:ch1s[i].id}, function(ch2s){
-              //-           for (var i = 0; i < ch2s.length; i++) {
-              //-             models['signal']['create'](ch2s[i]);
-
-              //-           };
-              //-         });
-              //-       };
-              //-     });
-              //-   };
-              //- });
-
-              socket.get('/signal/find?type=HEAD&sort=createdAt DESC&limit=4', function(signals){
+              socket.get('/signal/find?type=HEAD&limit=4&sort=date DESC', function(signals){
                 for (var i = 0; i < signals.length; i++) {
                   models['signal']['create'](signals[i]);
+
+                  socket.get('/signal/find/',{parent_id:signals[i].id}, function(ch1s){
+                    for (var i = 0; i < ch1s.length; i++) {
+                      models['signal']['create'](ch1s[i]);
+
+                      socket.get('/signal/find/',{parent_id:ch1s[i].id}, function(ch2s){
+                        for (var i = 0; i < ch2s.length; i++) {
+                          models['signal']['create'](ch2s[i]);
+
+                        };
+                      });
+                    };
+                  });
                 };
               });
 
+              // socket.get('/signal/find?type=HEAD&sort=createdAt DESC&limit=4', function(signals){
+              //   for (var i = 0; i < signals.length; i++) {
+              //     models['signal']['create'](signals[i]);
+              //   };
+              // });
 
-              socket.get('/service/find', function(services){
-                console.log(services)
-                for (var i = 0; i < services.length; i++) {
-                  models['service']['create'](services[i]);
-                };
-              });
+
+              // socket.get('/service/find', function(services){
+              //   console.log(services)
+              //   for (var i = 0; i < services.length; i++) {
+              //     models['service']['create'](services[i]);
+              //   };
+              // });
 
               socket.get('/system/', function(system){
                 console.log("system", system)

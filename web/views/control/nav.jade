@@ -1,33 +1,18 @@
-.navbar.navbar-fixed-top.navbar-special(role='navigation', style="border-top:1px solid #83a2ba;margin-bottom:0px;")
+.navbar.navbar-fixed-top.navbar-special(role='navigation', style="margin-bottom:0px;")
   .container-fluid
     .navbar-header
       button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
         span.sr-only Toggle navigation
         fa.fa.fa-fw.fa-caret-down
-      a(href='/')
-        .navbar-brand.scootRight
-          b.scootRight Zooid  
+      a(href='/').navbar-brand
+        o Zooid
       
     .navbar-collapse.collapse.scootRight
-
-      ul#myTab.nav.navbar-nav.navbar-left(role='navigation')
-        include nav_tabs
+      include nav_tabs
 
 
-
-
-        li
-          a(href="#").fileinput-button.dz-clickable
-            b Upload
-        li
-          a(href='/docs', data-toggle='tab')
-            oo Documentation
-        li
-          a(href="#").test_signal
-            .text-muted.fa.fa-fw.fa-lg.fa-github
-            o Code
-
-      ul.nav.navbar-nav.navbar-right(style="margin-right:0px;")
+      //- navbar-form
+      ul.nav.navbar-nav.navbar-left(style="margin-right:0px;")
         li
           form.navbar-form.getURL(role='search').scootRight
             .form-group.scootRight

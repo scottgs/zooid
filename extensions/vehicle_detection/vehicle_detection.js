@@ -7,23 +7,27 @@ var _ = require('underscore');
 var moment = require("moment")
 
 var zooid = require("../../zooid_core")
-console.log("vehicle detection intiated.")
 
-var zode = { 
+var merge = require('merge')
+
+var zode = merge( require("./package.json"), { 
     name:"Vehicle Detection"
   , filename:"vehicle_detection.js"
   , takes:"image"
   , gives:"vehicles"
-  , status:"active"
+  , ip:zooid.ip||'unknown'
+  , status:"?"
   , work:0
   , actions:0 
-}
+})
 
+console.log(zode.name, "intiated.")
 zooid.on( "muster", function(signal){
   zooid.muster(zode)
 })
-
 zooid.muster(zode)
+
+
 
 /******************************************************************************
  * TEST WITH BASE CASE
@@ -33,21 +37,10 @@ zooid.muster(zode)
 ******************************************************************************/
 
 zooid.on( "test", function testVehicleRecognition(signal){
-  
- //  var test_image = {
- //    name:"Face Detection Test"
- //  , location:path.join( __dirname , 
- //  "../../web/.tmp/public/files/diverse.jpg" )
- //  , filename:"group.jpg"
- //  , noun:"image"
- //  , parent_id:signal.id
- // }
-
- // detectFaces( test_image, zooid )
-
- zooid.fire({ parent_id:signal.id, name: "Face detection: Okay"})
+  zode.status="active"
+  zooid.muster(zode)
+  zooid.send({ parent_id:signal.id, name:zode.name, text:"okay"})
 })
-
 
 /******************************************************************************
  * SET UP LISTENERS
@@ -64,45 +57,7 @@ zooid.on( "image", function detectVehiclesListenerImage(signal){
   });
 })
 
-
-
-// zooid.on( "image", function detectVehicles(signal){
-//   // detectFaces( signal,  zooid );
-// })
-
-// zooid.on( "face", function askHuman(signal){
-//   if(signal.parent_id){
-//     var new_signal = {};
-//     new_signal.questions = [
-//       { response:"name", question:"Who is this?"}
-//     ];
-//     new_signal.parent_id = signal.id
-//     zooid.emit("finished", new_signal)
-//   }
-// })
-
-
-
-
-
-
-
-
 function detectVehicles( signal, done ){
-
-  // cv.readImage("./car1.jpg", function(err, im){
-
-  //   im.detectObject("../data/hogcascade_cars_sideview.xml", {}, function(err, cars){  
-
-  //   for (var i=0;i<cars.length; i++){
-  //     var x = cars[i];
-  //     im.rectangle([x.x, x.y], [x.width, x.height]);
-  //   }
-
-  //   // im.save('./cars.jpg');   
-  //   });
-  // });
-
 
   var parent_id = signal.id;
   var image_location =  path.join( signal.location, signal.filename )
@@ -195,6 +150,21 @@ function detectVehicles( signal, done ){
     }) /// detectObjects
   }) /// readimage
 }  /// detectFaces
+
+
+
+// cv.readImage("./car1.jpg", function(err, im){
+
+//   im.detectObject("../data/hogcascade_cars_sideview.xml", {}, function(err, cars){  
+
+//   for (var i=0;i<cars.length; i++){
+//     var x = cars[i];
+//     im.rectangle([x.x, x.y], [x.width, x.height]);
+//   }
+
+//   // im.save('./cars.jpg');   
+//   });
+// });
 
 
 

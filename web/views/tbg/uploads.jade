@@ -1,0 +1,13 @@
+block content
+   .well-sm
+      form.dropzone(method="post" action="/squiggle/upload", enctype="multipart/form-data").text-center
+         input(type="file", name="displayImage").hide
+         welcome
+            b.text-muted(style="border:none!important;")
+               br
+               b Drop 
+               fa.fa.fa-fw.fa-picture-o.text-danger
+               b  here to upload 
+               br
+               small Or click
+            br

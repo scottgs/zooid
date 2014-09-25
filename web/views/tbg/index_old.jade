@@ -1,0 +1,126 @@
+extends layout
+block content
+  .draggable.front(style="left:382px;top:6px;")
+    include canvas_tools
+  body.fullH#paddingWrapper.dropzone
+
+    .pane.ui-layout-west.bg3.innerShadow
+
+      .well-sm
+        ul#myTab.nav.nav-tabs.nav-justified
+          li
+              a(href='#historyTab', data-toggle='tab')
+                .fa.fa-f2.fa-clock-o.fa-lg
+          //- li
+          //-     a(href='#imagesTab', data-toggle='tab')
+          //-       .fa.fa-f2.fa-folder-o.fa-lg
+
+          li
+              a(href='#configTab', data-toggle='tab')
+                .fa.fa-f2.fa-cog.fa-lg
+
+      .tab-content
+
+        #historyTab.tab-pane.fade
+          .well-sm.col-sm-12
+            #history_container
+            hr
+
+
+        #configTab.tab-pane.fade
+          .well-sm.col-sm-12
+            form.configForm
+              #config
+              hr
+          .col-sm-12
+            .row
+              .col-sm-12
+                  a.btn.btn-sm.btn-default.btn-block.saveChanges Save Changes
+                  br
+                  a.btn.btn-sm.btn-link.setDefaults 
+                    small.smallLoad Load Defaults
+                  br
+                  #configStatus.inner-shadow
+
+     
+        //- #imagesTab.tab-pane.fade
+        //-   include uploads
+        //-   .well-sm
+        //-     #squigglesContainer
+
+
+
+
+    .pane.ui-layout-center.innerBody
+        
+      .pane.ui-layout-center.bg1.fullH
+        .row
+          include trace
+          //- #infoChart
+
+      .pane.ui-layout-south
+        #mapHolder
+          #map-canvas(style="width:100%;height:100%;")
+
+    script.
+
+      $(document).ready(function () {
+                    
+        $("body").layout({
+
+          //-  reference only - these options are NOT required because 'true' is the default
+          //- , resizable:          true  // when open, pane can be resized 
+          //- , livePaneResizing:     true
+
+          //  some resizing/toggling settings
+          //- , north__slidable:      true // OVERRIDE the pane-default of 'slidable=true'
+           south__togglerLength: '100%' // toggle-button is full-width of resizer-bar
+          , north__spacing_closed:    20    // big resizer-bar when open (zero height)
+          , south__resizable:     true // OVERRIDE the pane-default of 'resizable=true'
+          //- , south__spacing_open:    0   // no resizer-bar when open (zero height)
+          , south__spacing_closed:    20    // big resizer-bar when open (zero height)
+          , slidable:         false  // when closed, pane can 'slide' open over other panes - closes on mouse-out
+
+          //-  some pane-size settings
+          , west__resizable:   true // OVERRIDE the pane-default of 'resizable=true'
+          , west__size:        330
+          , east__size:        250
+          //- , west__maxSize:        .3
+          //- , east__size:         300
+          //- , east__minSize:        200
+          //- , center__minWidth:     100
+
+          //-  some pane animation settings
+          , west__animatePaneSizing:  true
+          , west__fxSpeed_size:     "fast"  // 'fast' animation when resizing west-pane
+          //- , west__fxSpeed_open:     1000  // 1-second animation when opening west-pane
+          //- , west__fxName_close:     "none"  // NO animation when closing west-pane
+
+          //-  enable showOverflow on west-pane so CSS popups will overlap north pane
+          //- , west__showOverflowOnHover:  false
+
+          //  enable state management
+          //- , stateManagement__enabled: true // automatic cookie load & save enabled by default
+
+          , showDebugMessages:      false // log and/or display messages from debugging & testing code
+          , showErrorMessages: false
+        });
+
+        $(".innerBody").layout({
+
+            south__size:        .529
+          , north__size:        36
+          , closable:         false  // pane can open & close
+          , north__resizable:     false // OVERRIDE the pane-default of 'resizable=true'
+          , south__togglerLength: '90%' // toggle-button is full-width of resizer-bar
+     
+          , south__spacing_closed:    20    // big resizer-bar when open (zero height)
+
+          , showDebugMessages:      false // log and/or display messages from debugging & testing code
+          , showErrorMessages: false
+
+
+        });
+      });
+
+page

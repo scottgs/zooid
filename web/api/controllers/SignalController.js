@@ -9,6 +9,7 @@
 var fs = require("fs")
 var crypto = require("crypto")
 var path = require("path")
+var _ = require("underscore")
 
 var request = require("request")
 
@@ -27,11 +28,27 @@ var download = function(uri, filename, next){
 module.exports = {
     
   test: function(req,res){
-    Signal.create({noun:"test"}, function(err, result){
+    Signal.create({text:"<h4>System Test</h4>",noun:"test"}, function(err, result){
       Signal.publishCreate( result.toJSON() )
       return res.send(res.id)
     })
   },
+
+  clean: function(req,res){
+      Signal.find()
+         .limit(5000)
+         .done(function (err, signals) {
+          _.map(signals, function(signal){
+            console.log("deleting", signals.length)
+            Signal.destroy(signal.id, function(err, res){
+              console.log(err, res);
+            })
+
+          })
+          return res.send("Cleaned...")
+      })
+  },
+
 
 
    pretty:function(req, res) {
@@ -86,7 +103,7 @@ module.exports = {
 
 
       newSignal = {
-          name : "New Signal"
+            name : "?"
           , noun : "new_signal"
           , location : newPath
           , filename : filename
@@ -106,7 +123,7 @@ module.exports = {
     } else {
 
         newSignal = {
-            name : "New Signal"
+            name : "?"
             , noun : "web_page"
             , url : url
         }

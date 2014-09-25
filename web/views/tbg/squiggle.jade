@@ -1,0 +1,59 @@
+.panel.panel-default
+   img(src="#{squiggle.path}", width="100%").image-responsive
+   .panel-body
+      h5
+         b=squiggle.id
+         small=" ("+squiggle.status+" )"
+         .text-muted.pull-right=squiggle.clusterResults.length + " results"
+   
+   div(id="#{squiggle.hash}")
+
+   #map
+   script.
+
+      $(document).ready( function(){
+
+         socket.on('ready', function(){
+
+         var createChart = function(div, data){
+         
+            c = {
+               chart:    { type: 'column', height:140, renderTo: div },
+               credits:  { enabled:false },
+               legend:   { enabled:false },
+               title:    { text: '' },
+               subtitle: { text: '' },
+               xAxis: {
+                  labels: { enabled: false },
+                  },
+
+               yAxis: {
+                  min: 0,
+                  max:1,
+                  gridLineWidth: 0,
+                  labels: { enabled: false },
+                  title: {
+                      text: ''
+                  }
+               },
+               series: [{
+                  name: 'score',
+                  data: data,
+               }]
+             }
+             return c;
+         } // end createChart
+        
+
+         socket.get("/squiggle", { id : "#{squiggle.id}" }, function(err, squig){
+
+            var chartData = squig.searchPath;
+
+            console.log(chartData);
+            var chart = new Highcharts.Chart( createChart( "#{squiggle.hash}", chartData ) );
+
+            })
+         })
+      })
+
+

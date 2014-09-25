@@ -1,0 +1,31 @@
+block content
+
+.well-sm
+   .panel-body
+      h4 Settings
+
+      mixin setting(name)
+         p
+            input.checkBox(type="checkbox", name="#{name}").fa-fw  
+            o=" "+name 
+
+
+      +setting('Asd fdaff')
+      +setting('fdas we')
+
+   .panel-body
+      h4 Options
+
+      mixin option(name)
+         .row
+            .col-xs-7
+               h5= name 
+            .col-xs-5.row
+               input(type="number", name="#{name}").input.form-control
+
+      +option(' ')
+
+   script.
+
+
+

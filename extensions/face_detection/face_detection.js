@@ -8,17 +8,17 @@ var moment = require('moment');
 
 var zooid = require("../../zooid_core")
 console.log("face detection intiated.")
+var merge = require('merge')
 
-
-var zode = { 
+var zode = merge( require("./package.json"), { 
     name:"Face Detection"
-  , filename:"face_detection.js"
   , takes:"image"
   , gives:"face, faces"
-  , status:"active"
+  , ip:zooid.ip||'unknown'
+  , status:"?"
   , work:0
   , actions:0 
-}
+})
 
 zooid.on( "muster", function(signal){
   zooid.muster(zode)
@@ -46,7 +46,9 @@ zooid.on( "test", function testFaceRecognition(signal){
 
  // detectFaces( test_image, zooid )
 
- zooid.fire({ parent_id:signal.id, name: "Face detection: Okay"})
+  zode.status = "active"
+  zooid.muster(zode)
+  zooid.send({ parent_id:signal.id, name:zode.name, text: "okay"})
 })
 
 
@@ -83,10 +85,6 @@ zooid.on( "image", function detectFacesListenerImage(signal){
 //     zooid.emit("finished", new_signal)
 //   }
 // })
-
-
-
-
 
 
 
@@ -176,7 +174,7 @@ function detectFaces( signal, done ){
           , filename:"faces_"+signal.filename
         }
 
-        zooid.send( response );
+        zooid.send( response )
         done( null, response )
 
       }  /// if

@@ -1,0 +1,60 @@
+block content
+
+.well-sm.container-fluid
+   .col-sm-12
+      h5 Configure
+
+   mixin option(name)
+      .row
+      .col-sm-6.col-xs-12
+         h6= name 
+      .col-sm-6.col-xs-12
+         input(type="number", name="#{name}", width=80).input.form-control.input-sm
+
+   +option('Rea')
+
+   .col-sm-12
+      h5 Optimize
+
+
+      mixin setting(name)
+         input.checkBox(type="checkbox", name="#{name}").fa-fw  
+         o=" "+name
+         br
+         br
+      +setting('')
+
+
+
+
+
+   script.
+      $.fn.bootstrapSwitch.defaults.size = 'mini';
+      $.fn.bootstrapSwitch.defaults.onColor = 'default';
+      $.fn.bootstrapSwitch.defaults.offColor = 'default';
+
+
+      //- $(document).ready(function() {
+      //-    $(".checkBox").bootstrapSwitch();
+      //-    $( "#slider" ).slider({
+      //-       value: 60,
+      //-       orientation: "horizontal",
+      //-       range: "min",
+      //-       animate: true
+      //-     });
+      //- })
+
+
+      $(document).on('click', '.panel-heading', function(e){
+          var $this = $(this);
+         if(!$this.hasClass('panel-collapsed')) {
+            $this.parents('.panel').find('.panel-body').slideUp();
+            $this.addClass('panel-collapsed');
+            $this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+         } else {
+            $this.parents('.panel').find('.panel-body').slideDown();
+            $this.removeClass('panel-collapsed');
+            $this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+         }
+      })
+      //- $("[name='my-checkbox']").bootstrapSwitch();

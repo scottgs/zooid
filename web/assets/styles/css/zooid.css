@@ -51,38 +51,33 @@ svg{
   box-shadow:         3px 2px 12px -2px rgba(1, 1, 1, 0.1);
 }
 
+.transparent{
+  background:rgba(255,255,255.0.2);
+}
+
 .navbar{
   letter-spacing: 0.4;
   font-family: 'Helvetica Neue', Helvetica, Times New Roman, times-roman, georgia, serif;
   font-weight:400;
-  border-bottom:1px solid #d2d2d2;
+  border-bottom:1px solid #d7d7d7;
   /*border-bottom:1px solid #e7e7e7!important;*/
 }
 
 .navbar-brand{
-  color:#314!important;
-  font-size:19px;
-  font-weight: 400;
-  background: -webkit-linear-gradient(#00619B, #004Aa7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-
+  margin-top:2px;
+  color:#429!important;
+  font-size:20px;
 }
+
 .navbar-brand:hover{
   color:#314!important;
-  text-shadow:1px -1px 2px #!important;
-  background: -webkit-linear-gradient(#00619B, #08344E);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  text-shadow:1px -1px 2px #ddf!important;
 }
 
 .navbar-brand * {
   margin-top:4px;
 }
-.navbar-form *{
-  margin-top:1px;
-}
+
 
 .brand-color{
   /*font-family: "Averia Serif Libre";*/
@@ -99,6 +94,9 @@ clear{
   opacity:0;
 }
 
+.text-black{
+  color:black;
+}
 
 .btn.square, .button.square {
   font-family: 'Helvetica Neue', times, Times New Roman, times-roman, georgia, serif;
@@ -256,7 +254,7 @@ clear{
 
 .darkBlue{
   background-color:#00619B!important;
-  color:white;
+  color:#e2fff2;
 }
 .lightBlue{
   background-color:#08344E!important;
@@ -355,8 +353,23 @@ ul.nav.navbar-nav li.active a{
 
 .jumbotron{
   margin-bottom: 6px;
+  color: #bbeeff;
+  letter-spacing: 2;
 }
+.jumbotron b{
+  letter-spacing: 1;
+  color: #fafffa;
+  font-weight: 100;
+}
+.jumbotron .big{
+  font-size:42px;
+}
+.jumbotron h1{
+  font-size:62px;
+  font-weight:100!important;
+  font-family: 'Neue Helvetica', sans-serif;
 
+}
 
 .lead{
   font-family: 'Neue Helvetica', sans-serif;
@@ -466,11 +479,11 @@ hr{
 
 
 .sigStack{
-  margin-left:12px;
 }
 
 .sigStack .sigStack *{
-  display:inline-block;
+  display:inline;
+  margin-left:4px;
 }
 
 

@@ -20,25 +20,52 @@ var fs    = require("fs")
  * dendrites, and axon.
 ******************************************************************************/
 
-var base_port = require("../config.js").base_port || 42100
+var config = require("../config.js")
+
+var base_port = config.base_port || 42100
+var broadcast_ip = config.broadcast_ip || '128.206.116.239'
 
 var spine = Nerve.socket('sub-emitter');
-spine.connect( base_port );
+spine.connect( base_port, broadcast_ip );
 
 var ganglion = Nerve.socket('push');
-ganglion.connect( ++base_port );
+ganglion.connect( ++base_port, broadcast_ip );
 
 var dendrites = Nerve.socket('sub-emitter');
-dendrites.connect( ++base_port );
+dendrites.connect( ++base_port, broadcast_ip );
 
 var axon  = Nerve.socket('push');
-axon.connect( ++base_port );
+axon.connect( ++base_port, broadcast_ip );
 
+var sock = Nerve.socket('sub');
+sock.connect(42002, broadcast_ip);
+
+/******************************************************************************
+ * Find out who I am.
+******************************************************************************/
+
+function introspect(done){
+  var os = require('os');
+  var ifaces = os.networkInterfaces();
+  for (var dev in ifaces) {
+    var alias=0;
+    ifaces[dev].forEach(function(details){
+      if (details.family=='IPv4') {
+        // console.log(dev+(alias?':'+alias:''),details.address);
+        if(details.address != '127.0.0.1')
+          dendrites.ip = details.address
+        ++alias;
+      }
+    });
+  }
+}
+introspect()
 
 /******************************************************************************
  * Flexible language for sending
 ******************************************************************************/
 
+// dendrites.ip       = function(signal){ return introspect() }
 dendrites.fire     = function(signal){ axon.send(signal) }
 dendrites.send     = function(signal){ axon.send(signal) }
 dendrites.emit     = function(signal){ axon.send(signal) }
@@ -56,19 +83,17 @@ dendrites.muster  = function(signal){ ganglion.send(signal) }
  * Responds to tests and errors and stuff!
 ******************************************************************************/
 
-dendrites.on('test', function(data){
-  console.log(data)
-  zode.fire( { parent_id : data.id, name:"Cluster: Okay" })
-})
+// dendrites.on('test', function(data){
+//   console.log("TEST REQUEST", data)
+//   dendrites.fire( { parent_id : data.id, name:"Cluster: Okay" })
+// })
+// dendrites.on("error", function(err){
+//   dendrites.send({error:err})
+// })
 
-dendrites.on("error", function(err){
-  zode.send({error:err})
-})
-
-dendrites.on("*", function(err){
-  // dendrites.send("muster", "Zode reporting for duty.")
-  console.log("signal transmission")
-})
+// dendrites.on("*", function(err){
+  // console.log("signal transmission")
+// })
 
 
 /******************************************************************************

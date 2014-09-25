@@ -1,0 +1,119 @@
+block content
+    
+    .maskTools.btn-group.btn-sm.boxShadow
+        a.btn.btn-default.dragHandle
+            oo.fa.fa-bars.text-muted
+                
+        a.btn.btn-important.dragHandle.btn-finishMasking
+            .fa.fa-fw.fa-check
+            oo Finish masking
+
+    .scissorTools.btn-group.btn-sm.boxShadow(style="display:none;")
+
+        a.btn.btn-default.dragHandle
+            oo.fa.fa-bars.text-muted
+
+        a.btn.btn-important.requestGeoLocate
+            .fa.fa-fw.fa-globe
+            oo Geolocate
+
+        a.btn-default.btn.btn-undo
+            oo Undo 
+
+        a.btn-default.btn.btn-clear
+            oo Clear
+
+        a.btn-default.btn.btn-stopDrawing
+            oo Stop drawing
+    
+        a.btn-default.btn.btn-startMasking
+            oo Redraw mask
+
+
+    script.
+        $(document).ready(function() {
+
+            $( ".draggable" ).draggable({ handle: ".dragHandle" });
+
+            // UI BUTTONS
+
+            $(document).on("click", ".btn-finishMasking", function(){
+                endMasking();
+            })
+
+            $(document).on("click", ".btn-undo", function(){
+                scs.undo();
+            })
+
+            $(document).on("click", ".btn-clear", function(){
+                scs.clearLines();
+            })
+
+            $(document).on("click", ".btn-stopDrawing", function(){
+                stopDrawing();
+            })
+
+            $(document).on("click", ".btn-startMasking", function(){
+                startMasking();
+            })
+
+        });
+        
+
+
+
+        //- $(document).ready(function() {
+  
+
+        //- // geolocation button, loader and socket
+
+
+        //- $( ".draggable" ).draggable({ handle: ".dragHandle" });
+
+
+        //- console.log(socket);
+
+        //- window.socket.get("/squiggle", {}, function(resp){
+        //-     console.log(resp);
+        //- });
+
+
+
+                // socket.put('/squiggle/geolocate', { limit: 10, sort: "id asc" }, function(squiggles) {
+                  
+                //   console.log(squiggles);
+                  
+                //   for (var i = squiggles.length - 1; i >= 0; i--) {
+
+                //     $( createBlock( squiggles[i] ) )
+                //       .prependTo("#squigglesContainer" ).fadeIn('slow');
+
+                //       // var chart = new Highcharts.Chart( createChart( 'chart', [1,0,1,2,2,1,23,4,2,1]) );
+                //   }
+                //   updateListeners();
+
+                // });
+
+
+
+
+
+
+        //-         //- squiggle = {};
+        //-         //- squiggle.path = squiggles.path;
+        //-         //- squiggle.image_name = squiggles.image_name || "anon_image_name";
+
+
+        //-         //- io.emit('geolocate', squiggle, function(data) {
+
+        //-         //-     plotResults( data );
+        //-         //-     $(".fa-globe").show();
+        //-         //-     $(".loader").hide();
+
+        //-         //- })
+        //-     }
+
+        //- });
+
+
+        //- });

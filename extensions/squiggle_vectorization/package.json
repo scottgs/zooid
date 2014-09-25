@@ -1,0 +1,5 @@
+{
+    "name": "Squiggle Vectorization",
+    "version": "0.0.1",
+    "main": "./squiggle_vectorization.js"
+}
