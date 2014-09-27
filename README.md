@@ -6,7 +6,9 @@ It's name sake is given for it's architectural likeness to the
  <a href="http://en.wikipedia.org/wiki/Zooid" title="http://en.wikipedia.org/wiki/Zooid">
  organism</a>.
 
-Zooid is not a web app. It's a research tool. And it consists architecturally of distinct components. To run the extensions, you can spin up extensions/dispatch.js. And to run the web service, web/app.js. Likewise, you can run any of the extensnions independently. 
+Zooid is not a web app. It's a research tool. And it consists architecturally of distinct components. To run the extensions: you can spin up extensions/dispatch.js. And to run the web service: web/app.js. 
+
+Likewise, you can run any of the extensions independently.
 
 ###
 ###Zodes can
