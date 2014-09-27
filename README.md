@@ -1,8 +1,3 @@
-#All the docsy stuff are poop!
-
-Check out the config.js 
-
-
 #An Event-Driven Compute Cluster 
 
 **Zooid** /ˈzoʊ.ɔɪd/ is an asynchronous research environment built in node.js to grow quickly and scale nicely. It uses a super-fast UDP messager for inter-process-communications, and a set of self-optimizing, adaptive broadcast domains to distribute signals through the cluster. 
@@ -11,6 +6,7 @@ It's name sake is given for it's architectural likeness to the
  <a href="http://en.wikipedia.org/wiki/Zooid" title="http://en.wikipedia.org/wiki/Zooid">
  organism</a>.
 
+Zooid is not a web app. It's a research tool. And it consists architecturally of distinct components. To run the extensions, you can spin up extensions/dispatch.js. And to run the web service, web/app.js. Likewise, you can run any of the extensnions independently. 
 
 ###
 ###Zodes can
