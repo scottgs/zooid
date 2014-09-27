@@ -1,18 +1,8 @@
-extends ../layout
-
 block body
-  include nav
+  //- include nav
   br
   .container-fluid
-
-    // .col-sm-3.col-lg-2
-      // ul.nav.nav-stacked.nav-pills.nav-stacked-sm(role='navigation').panel.panel-default
-        // include sidebar
-
-    // .col-sm-9.col-lg-10
-
-    .col-sm-8
-      table.table.table-condensed.table-striped.table-bordered#system_container
+      table.table.table-condensed.table-striped.table-bordered#system_container.boxShadow
         tr.small
           td.text-center
           td.fa.fa-sitemap.fa-lg
@@ -21,21 +11,6 @@ block body
           td.fa.fa-bullhorn.fa-lg
           td.fa.fa-bar-chart-o.fa-lg
           td.fa.fa-clock-o.fa-lg
-
-    .col-sm-4.text-center
-      br
-      br
-      span.button-wrap.scootRight
-        a.test_cluster
-          .button.button-flat-primary.button-circle
-            o  Test
-    
-    .col-sm-12
-      hr
-    .col-sm-12.text-center
-      #signal_container.panel.panel-default
-
-
 
 
     .hide
@@ -54,45 +29,6 @@ block body
       .col-sm-12
         .panel.well
           #visualization
-
-
-    //- a(href="https://github.com/benbaker/zooid").scootRight
-    //-   .button.button-pill.button-flat-action 
-    //-     b test
-
-
-
-      //- .col-sm-3
-      //-   .btn.button.button-flat.square.btn-block
-      //-     b.lead signal activity
-
-      //- .col-sm-3
-      //-   .btn.button.button-flat.square.btn-block
-      //-     b.lead signal activity
-
-      //- .col-sm-3
-      //-   .btn.button.button-flat.square.btn-block
-      //-     b.lead signal activity
-      //- .col-sm-3
-      //-   .btn.button.button-flat.square.btn-block
-      //-     b.lead cluster
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -209,52 +145,6 @@ block body
             } 
 
 
-          /**
-           * Recursively walk and print a service object
-           * @param  {Object} item 
-           * @return {html}      
-           */
-
-          function createServiceDiv(item){ 
-            
-              var content = ""
-              content+= "<a id = '"+item.id+"' class='button button-sm button-default getService'>"
-              content+= item.name
-              content+= "</a>"
-              return content
-          }
-
-
-          function createSignalDiv(item){
-            var content = ""
-
-            var hue = 'rgba('
-                + (Math.floor(Math.random() * 128)) + ','
-                + (Math.floor(Math.random() * 128)) + ','
-                + (Math.floor(Math.random() * 256)) + ',0.1)';
-
-            console.log(hue)
-
-            content += "<table class='table-condensed'>"
-            content+= "<tr id="+ item.id +" class='' style='background-color:"+hue+"';>"
-            
-            var name = item.name || item.text || ""
-
-            content+= cell( link( name, "/system/find/" + item.id, " small btn-link text-black scootLeft scootRight" ) )
-
-            // TODO add parent id
-
-            // content+= cell("<a id='"+ item.id +"' class='delete button-sm small' model-name='system'>"+
-            //           "<fa class='fa fa-fw fa-times'></fa></a>")
-
-            content+= "</tr>"
-            content+= "</table>"
-            return content
-            
-          };//createSignalDiv
-
-
-
           function createSystemDiv(item){ 
 
             var content = ""
@@ -300,45 +190,9 @@ block body
         ******************************************************************************/
 
 
-        var models = {
+        if(typeof models === "undefined") models = {}
 
-           service: {
-
-              create : function(item){
-                var pend = item.parent_id ? "prependTo" : "appendTo";
-                var pre  = item.parent_id ? "#"+item.parent_id : "#service_container";
-                $(createServiceDiv(item))[pend]( pre );
-
-              }, //create
-
-              destroy : function(item){
-                $("#item"+item.id).remove()
-              }, //destroy
-
-              update : function(item){
-                $("#item"+item.id)
-                  .replaceWith(createServiceDiv(item))
-                  .show("animated tada")
-              } //update
-            }, //signal
-
-           service_description: {
-              create : function(item){
-                var pend = item.parent_id ? "appendTo" : "appendTo";
-                var pre  = item.parent_id ? "#"+item.parent_id : "#service_description";
-                $(dump(item))[pend]( pre );
-              }, //create
-              destroy : function(item){
-                $("#item"+item.id).remove()
-              }, //destroy
-              update : function(item){
-                $("#item"+item.id)
-                  .replaceWith(createServiceDiv(item))
-                  .show("animated tada")
-              } //update
-            }, //signal
-
-           system: {
+           models.system = {
 
               create  : function(item){
                 $( "#system_container" )
@@ -377,47 +231,7 @@ block body
                   .addClass("animated tada")
 
               } 
-            }, 
-
-
-
-           signal: {
-              
-              create: function(signal){
-              
-                var item = signal
-                var pend = signal.parent_id ? "appendTo" : "prependTo" 
-                if ( item.parent_id )
-                  if( !$("#"+item.parent_id ).length == 0 )
-                    var target = "#"+item.parent_id
-                  else 
-                    var target = "#signal_container"
-
-                $( createSignalDiv(item) )[pend](target);
-
-
-              }, //create
-
-              destroy: function(item){
-                $("#item"+item.id).fadeOut(0, function(){$(this).remove();});
-              }, //destroy
-
-              update: function(item){
-
-                for(var i in item){
-                  $("#item"+item.id ).find('.'+i).html(item[i])
-                  .removeClass("animated tada")
-                  .addClass("animated tada")
-                }
-                
-                // $("#item"+item.id ).replaceWith(createSignalDiv(item)).addClass("animated tada")
-                // 
-              } //update
-
-            }, //signal
-
-
-          };
+            }
 
 
         /******************************************************************************
@@ -427,152 +241,11 @@ block body
 
 
           $(document).ready(function() {
-
-
-            //- $('#myTab  #connectionsTab').tab('show')
-
-
-
-            // SIGNAL GENERATOR BUTTON
-            $(document).on('click', '.signal-gen', function(e){
-              socket.get('/signal/create',
-                { service: $(this).attr('method'),
-                  name: $(this).attr('method') }, 
-                function(err, sig){
-                console.log(err || 'New Signal:' , 1);
-              });
+            socket.get('/system/', function(system){
+              for (var i = 0; i < system.length; i++) {
+                models['system']['create'](system[i]);
+              };
             });
-
-            // SIGNAL ELEMENT
-            $(document).on('click', '.signal a', function(e){
-              var parent_id = $(e).attr('id')
-              socket.get('/signal/find', { parent_id: parent_id }, function(signals){
-                console.log("Children:", signals);
-                for(signal in signals){
-                  models["signal"]["create"]( signals[signal] );
-                }
-              });
-            });
-
-            // CREATE SIGNAL BUTTON
-            $(document).on('click', '.createSignal', function(e){
-              // var f = $("form").submit()
-              socket.post("/signal/create", $("form").serializeObject(), function(a,b){console.log(a,b);} )
-            })
-
-            // DELETE SIGNAL BUTTON
-            $(document).on('click', '.delete', function(e){
-              // var f = $("form").submit()
-              var id = $(this).id || $(this).parent().id;
-              var model = $(this).attr('model-name');
-              console.log(id)
-              socket.post("/"+model+"/destroy", {id:id}, function(a,b){console.log(a,b);} )
-            })
-            
-            // TEST SIGNAL BUTTON
-            $(document).on('click', '.test_cluster', function(e){
-              socket.post("/signal/test", {});
-            })
-
-
-            // TEST URL BUTTON
-            $(document).on('click', '.test_signal', function(e){
-              socket.post("/signal/getURL",{getURL:""}, function(a,b){
-                $(".submitURL").append("<i class='fa fa-spinner'></i>")
-                })
-              //- $(".fa-spinner").hide()
-                
-            })
-
-
-            // SUBMIT URL BUTTON
-            $(document).on('click', '.submitURL', function(e){
-              socket.post("/signal/getURL"
-                , $(".getURL").serializeObject()
-                , function(a,b){
-                $(".submitURL").append("<i class='fa fa-spinner'></i>")
-                })
-              //- $(".fa-spinner").hide()
-                
-            })
-
-            // BOUNCE SERVER BUTTON
-            $(document).on('click', '.bounce_server', function(e){
-              socket.post("/system/bounce", {});
-            })
-
-            // GET SERVICE BUTTON
-            $(document).on('click', 'a.getService', function(){
-              var parent_id = $(this).attr('id');
-              console.log(parent_id);
-              socket.post("/service/find", { id:parent_id } , function(a,b){
-                models.signal.create(a);
-              })
-            })
-
-            // CODE TAB
-            $(document).on('click', '.docs', function(){
-              $("#docsTab").tab('show')
-            });
-
-
-            // MAKE IMAGES BIG ON CLICK
-            $(document).on('click', '.signal', function(){
-              $(this).find("img").toggleClass("bigSignal img-circle");
-            })
-
-            });
-
-
-
-            $(document).ready(function() {
-
-              socket.get('/signal/find?type=HEAD&limit=4&sort=date DESC', function(signals){
-                for (var i = 0; i < signals.length; i++) {
-                  models['signal']['create'](signals[i]);
-
-                  socket.get('/signal/find/',{parent_id:signals[i].id}, function(ch1s){
-                    for (var i = 0; i < ch1s.length; i++) {
-                      models['signal']['create'](ch1s[i]);
-
-                      socket.get('/signal/find/',{parent_id:ch1s[i].id}, function(ch2s){
-                        for (var i = 0; i < ch2s.length; i++) {
-                          models['signal']['create'](ch2s[i]);
-
-                        };
-                      });
-                    };
-                  });
-                };
-              });
-
-              // socket.get('/signal/find?type=HEAD&sort=createdAt DESC&limit=4', function(signals){
-              //   for (var i = 0; i < signals.length; i++) {
-              //     models['signal']['create'](signals[i]);
-              //   };
-              // });
-
-
-              // socket.get('/service/find', function(services){
-              //   console.log(services)
-              //   for (var i = 0; i < services.length; i++) {
-              //     models['service']['create'](services[i]);
-              //   };
-              // });
-
-              socket.get('/system/', function(system){
-                console.log("system", system)
-                for (var i = 0; i < system.length; i++) {
-                  models['system']['create'](system[i]);
-                };
-              });
-
-              // socket.get('/system/create', function(system){
-              //   console.log("system", system)
-              //   for (var i = 0; i < system.length; i++) {
-              //     models['system']['create'](system[i]);
-              //   };
-              // });
           });
 
 
@@ -993,17 +666,16 @@ block body
            * @return {}
            */
 
-          function parseMessage(message){
+          //- function parseMessage(message){
 
-            if(models[message.model] && models[message.model][message.verb]){
-              if(!message.data) message.data={} 
-              message.data.id = message.id
-              models[message.model][message.verb]( message.data || message );
-
-              console.log("Parsed: ", message);
-              $(".nodes_count").html( $("#system_container .signal").length -1 )
-            } else { console.log("parseMessage(): don't know what to do with the recieved message.") }
-          }
+          //-   if(models[message.model] && models[message.model][message.verb]){
+          //-     if(!message.data) message.data={} 
+          //-     message.data.id = message.id
+          //-     models[message.model][message.verb]( message.data || message );
+          //-     console.log("Parsed: ", message);
+          //-     $(".nodes_count").html( $("#system_container .signal").length -1 )
+          //-   } else { console.log("parseMessage(): don't know what to do with the recieved message.") }
+          //- }
 
 
           /**
@@ -1012,7 +684,7 @@ block body
            * @return {}
            */
 
-          socket.on('message', function(message){ parseMessage(message); });
+          //- socket.on('message', function(message){ parseMessage(message); });
 
           window.socket = socket
 

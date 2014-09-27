@@ -1,76 +1,17 @@
 block body
-  
-  
-
     include nav
-
+    br
     .container-fluid
       .row
             .tab-content
                 
                 #welcomeTab.tab-pane.active
                     
-                          
-                  
-                  //- .panel.lightBlue.well-sm
-                    h2 
-                      o  So future.  
-                  //- .brand
-                    .zooid-title.brand-color(style="opacity:0.9;")
-                      oo Zooid
-
-                  //- .zooid-montra 
-
-                  //.button.button-flat-primary.button-circle
-                      //.fa.fa-fw.ion.ion-ios7-play
-                      oo TEST
-                  //- hr
-
-
-                //- #docsTab.tab-pane
-                  .container-fluid
-                    br
-                    include docs
-
-
                 #signalsTab.tab-pane.active
 
-                    //- .col-md-3.col-lg-2.hide
-                    //-   .panel.panel-default
-                    //-     ul.nav.nav-stacked.nav-pills.nav-stacked-sm(role='navigation')
-                    //-       include sidebar
-
-                    //- .col-md-3.col-lg-2
-                    //-   .panel.panel-default
-                    //-     ul.nav.nav-stacked.nav-pills.nav-stacked-sm(role='navigation')
-                    //-       include sidebar
-                          //- include nav_tabs
-
-
-
-                  .jumbotron.darkBlue.text-center
-                    h2.text-center
-                      br
-                      b.big Very future.   
-                      br
-                      //- o.fa.fa-fw.fa-bar-chart-o.fa-lg.scootRight
-
-
-
-                      //- a.btn.button.button-border-action.button-pill
-                      //-   oo asdf
-
-
-                      //- include d3_chart
-
-
-
-                    br
-
-
-                  .col-md-12
-
-                  
+                  .col-md-6
+                    .dropShadow
+                      include system
 
 
                   //- .col-md-6
@@ -78,8 +19,9 @@ block body
 
                   //- .col-md-6
                     //- include apophenia
-                  .col-md-12
+                  .col-md-6
                     .text-center
+                      br
                       br
                       br
                       span.button-wrap
@@ -99,10 +41,11 @@ block body
                             o  Test
                             //- o.fa.fa-fw.fa-bar-chart-o.fa-lg.scootRight
 
-
+                  .col-md-12
                     #signal_container
 
-
+                  .col-md-6
+                    //- include apophenia
                             //- include d3_chart
 
 
@@ -374,30 +317,6 @@ block body
 
 
 
-          function createSystemDiv(item){ 
-
-            var content = ""
-            var color = "text-"+item.color
-
-            content+= "<tr id="+ item.id +" class='"+ color +"' style='color:#77777b' >"
-            
-            content+= cell( link( item.name, "/system/find/" + item.id ) )
-            content+= cell(item.node)
-            //- content+= cell("<small>"+item.last_update+"</small>", "last_update")
-            //- content+= cell(item.status, "status")
-            content+= cell(item.new_actions, "new_actions")
-
-            content+= cell("<a id='"+ item.id +"' class='delete button-sm small' model-name='system'>"+
-                      "<fa class='fa fa-fw fa-times'></fa></a>")
-
-            content+= "</tr>"
-            return content
-          } 
-
-
-
-
-
 
 
 
@@ -409,87 +328,9 @@ block body
          * @return {}
         ******************************************************************************/
 
+        if(typeof models === 'undefined') models = {}
 
-        var models = {
-
-           service: {
-
-              create : function(item){
-                var pend = item.parent_id ? "prependTo" : "appendTo";
-                var pre  = item.parent_id ? "#"+item.parent_id : "#service_container";
-                $(createServiceDiv(item))[pend]( pre );
-
-              }, //create
-
-              destroy : function(item){
-                $("#item"+item.id).remove()
-              }, //destroy
-
-              update : function(item){
-                $("#item"+item.id)
-                  .replaceWith(createServiceDiv(item))
-                  .show("animated pulse")
-              } //update
-            }, //signal
-
-           service_description: {
-              create : function(item){
-                var pend = item.parent_id ? "appendTo" : "appendTo";
-                var pre  = item.parent_id ? "#"+item.parent_id : "#service_description";
-                $(dump(item))[pend]( pre );
-              }, //create
-              destroy : function(item){
-                $("#item"+item.id).remove()
-              }, //destroy
-              update : function(item){
-                $("#item"+item.id)
-                  .replaceWith(createServiceDiv(item))
-                  .show("animated pulse")
-              } //update
-            }, //signal
-
-           system: {
-
-              create  : function(item){
-                $( "#system_container" )
-                  .append( createSystemDiv(item) )
-
-                  //- var node_id= item.info.address+":"+item.node
-                  //- chart.addSeries({ id:item.info.address })
-                  //- var val = item.workDone || 1
-                  //- nodes_chart.series[0].addPoint({ id:item.id, category:item.id, value:val })
-
-              },
-
-              destroy : function(item){
-                $("#"+item.id).fadeOut("slow")
-              }, 
-
-              update : function(item){
-
-                for (var attr in item) {
-                  $("#"+item.id)
-                    .find("."+attr)
-                    .html(item[attr])
-                };
-                
-                var node_id = item.info.address+":"+item.node
-                var ch = nodes_chart.get(node_id);
-                if(item.new_actions) ch.update(item.new_actions)
-
-                  var chrt = chart.get(item.info.address)
-                  var shift = (chrt.data.length > 5)
-                    console.log(shift)
-                    chrt.addPoint( [item.last_report, item.new_actions] , true, shift)
-
-                //- nodes_chart.get(item.id).update( [ item.id, item.new_actions ] )
-                //- chart.series[0].addPoint( Math.random() , true, (chart.series[0].data.length > 10) );
-              } 
-            }, 
-
-
-
-           signal: {
+           models.signal = {
               
               create: function(signal){
               
@@ -530,10 +371,8 @@ block body
                 // 
               } //update
 
-            }, //signal
+            } //signal
 
-
-          };
 
 
         /******************************************************************************
@@ -657,7 +496,7 @@ block body
 
             // MAKE IMAGES BIG ON CLICK
             $(document).on('click', '.signal', function(){
-              $(this).find("img").toggleClass("bigSignal img-rounded");
+              $(this).find("img").toggleClass("bigSignal");
             })
 
             });

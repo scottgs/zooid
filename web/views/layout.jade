@@ -36,10 +36,11 @@ head
 body#fileUpload
   
   .hide
-  form(action="signal/upload", target="signal/upload", style="margin-top:0px;padding-top:0px;display:none;")
+    form(action="signal/upload", target="signal/upload", style="margin-top:0px;padding-top:0px;display:none;")
       input(type="file", name="file" )
-        
-  #previews
+      a.fileinput-button.dz-clickable
+      
+  .hide
     #template
       .killMe
         img(style="text-align:center;width:80px;", data-dz-thumbnail='data-dz-thumbnail', data-dz-remove='data-dz-remove')
@@ -61,3 +62,4 @@ body#fileUpload
 
   block body
 
+  #previews
