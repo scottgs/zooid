@@ -11,5 +11,8 @@
     "detect"
   ],
   "author": "Benjamin Baker",
-  "license": "BSD-2-Clause"
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "opencv": "~0.7.0"
+  }
 }
