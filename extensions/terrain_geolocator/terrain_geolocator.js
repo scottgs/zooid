@@ -88,7 +88,7 @@ function test(test_signal){
       parent_id:test_signal.id
       , noun:'geolocation'
       , name:zode.name
-      text:res 
+      , text:res 
     });
   })
 
