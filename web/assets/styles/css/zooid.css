@@ -16,6 +16,19 @@ svg{
   height:100%!important;
 }
 
+.text-black{
+  text-decoration:none!important;
+  font-weight: 600;
+}
+
+.fa-fw{
+  padding-top:3px;
+}
+
+.status{
+  opacity:0.5;
+}
+
 .nav-pills li a{
   padding:5px;
   color:#666;

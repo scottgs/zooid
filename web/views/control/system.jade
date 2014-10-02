@@ -2,15 +2,17 @@ block body
   //- include nav
   br
   .container-fluid
-      table.table.table-condensed.table-striped.table-bordered#system_container.boxShadow
+    
+      table.table.table-striped#system_container.panel.boxShadow
         tr.small
           td.text-center
-          td.fa.fa-sitemap.fa-lg
+          td Zode
           td
-          td.fa.fa-headphones.fa-lg
-          td.fa.fa-bullhorn.fa-lg
-          td.fa.fa-bar-chart-o.fa-lg
-          td.fa.fa-clock-o.fa-lg
+          td Listeners
+          td Responses
+          td Work
+          td Time
+          td Status
 
 
     .hide
@@ -66,10 +68,10 @@ block body
             return "<p class='signalText'>"+text+"</p>"
           }
           function icon(name){
-            return " <i class='icon ion-"+name+" '></i> "
+            return "  <i class='icon ion-"+name+" '></i> "
           }
           function fa(i){
-            return " <i class='fa fa-"+i+" '></i> "
+            return " <i class='fa fa-fw fa-sm fa-"+i+" '></i> "
           }
           function cell(a, id) {
             return "<td class='"+id+"'>"+a+"</td>"
@@ -97,10 +99,10 @@ block body
                     return fa("check");
                     break;
                 case 'error': 
-                    return fa("warning");
+                    return fa("exclamation-triangle");
                     break;
                 case '?': 
-                    return fa("caret-square-o-up");
+                    return fa("circle-o");
                     break;
                 default:
                     return fa("circle");
@@ -151,13 +153,14 @@ block body
 
             content+= "<tr id="+ item.id +" class='small "+ "" +" '>"
             
-            content+= cell( statusIcon(item.status),"status text-center "+statusColor(item.status) )
+            content+= cell( "", "status text-center "+statusColor(item.status) )
             content+= cell( link( item.name, "/system/find/" + item.id, " btn-link text-black " ) )
             content+= cell( item.ip )
             content+= cell(item.takes, "takes")
             content+= cell(item.gives, "gives")
             content+= cell(item.actions, "actions")
             content+= cell(item.work, "work")
+            content+= cell( statusIcon(item.status),"text-center " )
             //- content+= cell("<small>"+item.last_update+"</small>", "last_update")
             //- content+= cell(item.status, "status")
             // content+= cell(item.new_actions, "new_actions")

@@ -9,9 +9,8 @@ block body
                     
                 #signalsTab.tab-pane.active
 
-                  .col-md-6
-                    .dropShadow
-                      include system
+                  .col-md-8
+                    include system
 
 
                   //- .col-md-6
@@ -19,7 +18,7 @@ block body
 
                   //- .col-md-6
                     //- include apophenia
-                  .col-md-6
+                  .col-md-4
                     .text-center
                       br
                       br
@@ -156,10 +155,10 @@ block body
           function cell(a, id) {
             return "<td class='"+id+"'>"+a+"</td>"
           }
-          function head(a) {
+          function head(a){
             return "<th>"+a+"</th>"
           }
-          function link(a, href, classes) {
+          function link(a, href, classes){
             return "<a href='"+ href +"' class=' "+classes+" '>"+a+"</a>"
           }
           function confirmButton(id){
@@ -190,7 +189,6 @@ block body
             }
               content += "</form>"
             return content;
-
           }
           /**
            * recursively walk and print an object.

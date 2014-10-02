@@ -2,7 +2,7 @@ ul#myTab.nav.navbar-nav.navbar-left(role='navigation')
   li.dropdown
     a.dropdown-toggle(href='#', data-toggle='dropdown')
       .fa.ion-navicon.fa-lg
-      o  Menu
+      o  
       o  
       .fa.fa-fw.ion-arrow-down-b.small.text-muted.small
 
@@ -32,7 +32,9 @@ ul#myTab.nav.navbar-nav.navbar-left(role='navigation')
         li
           a.fileinput-button.dz-clickable
             .fa.fa-fw.fa-upload(style="margin-right:12px;")
-            oo Upload
+            oo 
+            oo
+            fa.fa.fa-upload
         li
           a(href='#', data-toggle="modal",  data-target="#inputUrlModal")
             .fa.fa-fw.ion-refresh(style="margin-right:12px;")
@@ -88,9 +90,7 @@ ul#myTab.nav.navbar-nav.navbar-left(role='navigation')
               $(".newSignalForm").slideToggle("slow")
             })
           })
-  li
-    a(href="#").fileinput-button.dz-clickable
-      b Upload
+
 ul.nav.navbar-nav.navbar-right(role='navigation')
 
   //- li
@@ -113,8 +113,16 @@ ul.nav.navbar-nav.navbar-right(role='navigation')
           oo Run Tests
 
   li
+    a(href="#").fileinput-button.dz-clickable
+      oo.invisible .
+      oo.fa.fa-upload    
+      oo.invisible .
+      
+  li
     a(href='/mads').test_cluster 
-      oo mads!!
+      oo.invisible .
+      oo.fa.fa-bar-chart-o    
+      oo.invisible .
 
 
 
