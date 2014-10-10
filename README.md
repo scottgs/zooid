@@ -36,7 +36,9 @@ Lobe 1 uses a common restful JSON API Pattern which makes it easy to customize r
 
 ####Signals
 
-    zooidserver/signal/create?noun=image&url=imgur.com/abc123.png
+Example: **zooidserver/signal/create?noun=image&url=imgur.com/abc123.png**
+POST or GET requests accepted. See sails documentation for more on the API.
+This gives a JSON response: 
     
     {
     	id:       "aAbBcC123",
@@ -44,7 +46,27 @@ Lobe 1 uses a common restful JSON API Pattern which makes it easy to customize r
     	url:      "imgur.com/abc123.png",
     	createdAt:"Some date"
     }
-    
+And subscribes the socket to events relating to that signal, which can be listened for in the DOM:
+
+####To update the dom on model changes.
+
+	signal_dom.on('created', function(connection,signal) {
+		$.map(signal.data.data, function(signal){
+			$("#signal_dom").append($("<div />", signal))
+		})
+	});
+
+	signal_dom.on('updated', function(info,activity) {
+		$.map(activity.data, function(val, attr){
+			$( "#signal_dom"+activity.id+" #"+attr).text(val)
+		})
+	});
+	
+####To bind model events to dom events.
+
+	io.socket.on( model, function(signal){
+		sidebar.emit(signal.verb, signal);
+	})
 
 
 
@@ -63,9 +85,10 @@ Lobe 1 uses a common restful JSON API Pattern which makes it easy to customize r
 ###Vernacular
 
 ***zooid*** -- The entire network of zodes and their collective infrastructure.
+
 ***zode*** -- A single instance of the zooid platform running at a specific location.
 
-    
+***
     
 ##Resources
 
