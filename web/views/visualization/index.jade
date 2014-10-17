@@ -1,0 +1,47 @@
+extends ../layout
+block body
+  include ../control/nav
+  .viz-menu.jumbotron.lightBlue
+    p.lead(style="font-size:24px;font-weight:100;line-height:40px;")
+      b Data visualization 
+      span.text-center
+        a.btn.button.button-circle.button-flat-action.scootRight(href="/visualization/highcharts") highcharts
+        a.btn.button.button-circle.button-flat-action.scootRight(href="/visualization/vivagraph") vivagraph
+        a.btn.button.button-pill.button-flat-primary.scootRight(href="/visualization/d3") d3
+        a.btn.button.button-pill.button-flat-primary.scootRight(href="/visualization/vizjs") vizjs
+        a.btn.button.button-pill.button-flat-primary.scootRight(href="/visualization/chartjs") chartjs
+
+
+  block content
+
+  .container-fluid
+    .col-md-4
+      hr
+      h3 Playground: 
+      p
+        pre zood/web/views/visualization
+        pre zood/web/api/controllers/visualization
+        pre zood/web/api/controllers/signal
+        pre zood/web/api/controllers/system
+      hr
+    .col-md-4
+      hr
+      h3 Paradigm
+      pre
+        | socket.get("/signal", {limit:50}, function(signals){
+        |   $.map(signals, function(signal){
+        |     graph.addNode( signal.id, signal.noun)
+        |   })
+        | })
+
+      hr
+    .col-md-4
+      hr
+      h3 Links
+      p
+      hr
+
+      hr
+      h3 Goal
+      p.lead Make cool things.
+      hr

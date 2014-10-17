@@ -1,0 +1,396 @@
+extends index
+block content
+  .container-fluid
+    .col-md-8
+      br
+      .col-md-6
+        .panel.panel-default
+          #nounsPieChart
+      
+      .col-md-6
+        .panel.panel-default
+          #nounsChart
+
+      .col-md-12
+        .panel.panel-default
+          #geolocationChart
+
+      .col-md-12
+        .panel.panel-default
+          #imageChart
+
+    .col-md-4
+      #namesChart
+
+    br
+    p.lead An exploration of 
+      a(href="http://www.highcharts.com/") high charts.
+
+  script(type="text/javascript", src="/js/HighCharts.js")
+  script.
+
+    (function (io) {
+    
+      var socket = io.connect();
+
+
+    /**
+     * Instantiates a model-DOM event domain.
+     * As found in jquery_custom.js
+     */
+
+    var signalModel = new $.eventModel();
+
+    /**
+     * Listens for model instance creation and binds  events
+     * to the DOM with respect to their model and structure.
+     * @param  {Object} info    Event information from emit
+     * @param  {Object} item    The thing that happened.
+     * @return null
+     */
+
+    signalModel.on('created', function(info,item) {
+
+      if(item.data.noun="geolocation"){
+        var chart = $('#geolocationChart').highcharts();
+        if(chart.series.length === 0)
+          chart.addSeries({})
+        chart.series[0].addPoint( [ (new Date(item.data.date)).getTime() , item.data.results+1 ], true, false );
+      }
+
+
+      if(item.data.noun="image"){
+        var chart = $('#imageChart').highcharts();
+        if(chart.series.length === 0)
+          chart.addSeries({})
+        chart.series[0].addPoint( [ (new Date(item.data.date)).getTime() , item.data.results+1 ], true, false );
+      }
+
+    });
+
+
+    signalModel.on('nouns', function(info,item) {
+
+      var chart = $('#nounsChart').highcharts();
+      if(chart.series.length === 0)
+        chart.addSeries({})
+        chart.series[0].addPoint( [ item.data.noun, item.data.results ], true, false );
+
+      var chart = $('#nounsPieChart').highcharts();
+      if(chart.series.length === 0)
+        chart.addSeries({})
+        chart.series[0].addPoint( [ item.data.noun, item.data.results ], true, false );
+
+    });
+
+
+    signalModel.on('names', function(info,names) {
+
+      var chart = $('#namesChart').highcharts();
+      if(chart.series.length === 0)
+        chart.addSeries({})
+      $.map(names, function(val, name){
+        chart.series[0].addPoint( [ name, val ], true, false );
+      })
+
+    });
+
+
+
+    /**
+     * Listens for model updates and binds model events
+     * to the DOM with respect to their model and structure.
+     * @param  {Object} info     Event information from emit
+     * @param  {Object} activity The thing that happened.
+     * @return null
+     */
+    
+    signalModel.on('updated', function(info,item) {
+      $.map(item.data, function(val, attr){
+        if($("#"+item.id+" #"+attr).text())
+          $("#"+item.id+" #"+attr).text(val)
+        else $("#"+item.id).append($("<div>",{id:attr,text:val}))
+      })
+    });
+
+    /**
+     * Glues the model events to their respective DOM
+     * elements and gets a specified number of items
+     * with which to first populate the content.
+     * @param  {String} model The name of the model
+     * @return null
+     */
+    
+    function dataset_glue(model){
+
+      /**
+       * Listens for model changes over socket.
+       * @param  {String} model   Model name
+       * @return null
+       */
+    
+      socket.on( model, function(dataset){
+          signalModel.emit(dataset.verb, dataset);
+      })
+
+      /**
+       * Gets some amount of the signals from the model
+       * for display now, and bsubscribe to them.
+       * Intended to be customized, kinda.
+       * @param  {String}   model name
+       * @return null
+       */
+      
+      socket.get( "/"+model+"/find", 
+        {noun:"geolocation", sort:"date DESC", limit:50}, function(signals){
+        $.map(signals, function(signal){
+          var results = (typeof signal.geolocation != "undefined") ? signal.geolocation.length : 0;
+          if(results){
+            signalModel.emit('created', {
+              id:signal.id,
+              data:{date:signal.date, results:results, noun:signal.noun}
+            })
+          }
+        })
+      })
+
+
+      /**
+       * Gets some amount of the signals from the model
+       * for display now, and bsubscribe to them.
+       * Intended to be customized, kinda.
+       * @param  {String}   model name
+       * @return null
+       */
+      
+      socket.get( "/"+model+"/find", 
+        {noun:"image", sort:"date DESC", limit:50}, function(signals){
+        $.map(signals, function(signal){
+          signalModel.emit('created', {
+            id:signal.id,
+            data:{date:signal.date, results:10, noun:signal.noun}
+          })
+        })
+      })
+
+
+
+      /**
+       * Gets some amount of the signals from the model
+       * for display now, and bsubscribe to them.
+       * Intended to be customized, kinda.
+       * @param  {String}   model name
+       * @return null
+       */
+      
+      socket.get( "/"+model+"/find", 
+        { limit:300, noun: {"!":"undefined"} }, function(signals){
+        var nouns = {};
+        var names = {};
+        $.map(signals, function(signal){
+
+            if(typeof nouns[signal.noun] != "undefined")
+              nouns[signal.noun]++
+            else
+              nouns[signal.noun]=1
+            
+            if(typeof names[signal.name] != "undefined")
+              names[signal.name]++
+            else
+              names[signal.name]=1
+
+        })
+
+        $.map(nouns, function(results, noun){
+          signalModel.emit('nouns', {
+            data:{ noun:noun, results:results }
+          })
+        })
+
+        
+        signalModel.emit('names', names)
+
+
+
+      })
+
+
+
+    }
+
+
+      /**
+       * Binds the DOM broadcast domain to the Model.
+       * @param  {String} The name of the desired model
+       */
+    $(document).ready(function(){
+      
+      dataset_glue("signal");
+
+      Highcharts.setOptions({
+          global: {
+              useUTC: false
+          }
+      });
+
+
+      $('#geolocationChart').highcharts({
+          legend:{enabled:false},
+          chart: {
+              type: 'spline',
+              backgroundColor:"rgba(255,255,255,0)",
+          },
+          title:{text:"Geolocation requests over time"},
+
+          credits: {
+              enabled: false
+          },
+          xAxis: {
+            type: 'datetime',
+            title: {
+                text: 'Date'
+            }
+          },
+          plotOptions: {
+            series: {
+              marker: {
+                enabled: false
+              }
+            }
+          },
+      });
+
+
+      $('#imageChart').highcharts({
+          legend:{enabled:false},
+          chart: {
+              type: 'column',
+              backgroundColor:"rgba(0,0,0,0)",
+          },
+          title:{text:"Image Processing requests over time"},
+
+          credits: {
+              enabled: false
+          },
+          xAxis: {
+            type: 'datetime',
+
+            title: {
+                text: 'Date'
+            }
+          },
+          plotOptions: {
+            series: {
+              marker: {
+                enabled: false
+              }
+            }
+          },
+      });
+
+
+
+      $('#nounsPieChart').highcharts({
+          legend:{enabled:false},
+          chart: {
+              type: 'pie',
+              height:300,
+              backgroundColor:"rgba(0,0,0,0)",
+          },
+          title:{text:"System Nouns"},
+          credits: {
+              enabled: false
+          },
+          xAxis: {
+            type: 'category',
+            labels: {
+                rotation: 0,
+                style: {
+                    fontSize: '11px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+          },
+          plotOptions: {
+            series: {
+              marker: {
+                enabled: false
+              }
+            }
+          },
+      });
+
+
+
+
+      $('#nounsChart').highcharts({
+          legend:{enabled:false},
+          chart: {
+              type: 'column',
+              height:300,
+              backgroundColor:"rgba(0,0,0,0)",
+          },
+          title:{text:"System Nouns"},
+          credits: {
+              enabled: false
+          },
+          xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '11px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+          },
+          plotOptions: {
+            series: {
+              marker: {
+                enabled: false
+              }
+            }
+          },
+      });
+
+
+      $('#namesChart').highcharts({
+          legend:{enabled:false},
+          chart: {
+              type: 'bar',
+              backgroundColor:"rgba(0,0,0,0)",
+          },
+          title:{text:"Signal Names"},
+          credits: {
+              enabled: false
+          },
+          xAxis: {
+            type: 'category',
+            labels: {
+                rotation: 0,
+                style: {
+                    fontSize: '11px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+          },
+          plotOptions: {
+            series: {
+              marker: {
+                enabled: false
+              }
+            }
+          },
+      });
+
+
+
+    });
+
+
+    })(window.io);
+
+
+
+
+

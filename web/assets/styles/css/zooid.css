@@ -509,7 +509,7 @@ hr{
 
 
 
-.panel, .signal_HEAD, .btn, input, .well, .navbar, ul.nav-pills *, .nav-pills li.active, .active {
+.panel, .signal_HEAD, input, .well, .navbar, ul.nav-pills *, .nav-pills li.active, .active {
   -moz-border-radius: 0px 0px 0px 0px!important;
   -webkit-border-radius: 0px 0px 0px 0px!important;
 }

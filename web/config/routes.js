@@ -52,9 +52,30 @@ module.exports.routes = {
     view: 'docs'
   },
 
-  '/mads': {
-    view: 'mads/index'
+  '/visualization': {
+    view: 'visualization/index'
   },
+
+  '/visualization/d3': {
+    view: 'visualization/d3'
+  },
+
+  '/visualization/highcharts': {
+    view: 'visualization/highcharts'
+  },
+
+  '/visualization/chartjs': {
+    view: 'visualization/chartjs'
+  },
+  
+  '/visualization/vivagraph': {
+    view: 'visualization/vivagraph'
+  },
+
+  '/visualization/vizjs': {
+    view: 'visualization/vizjs'
+  },
+
 
   '/tbg': {
     view: 'tbg/index'

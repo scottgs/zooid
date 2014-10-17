@@ -1,11 +1,7 @@
 extends layout
 block content
-    include canvas_tools
-    include trace
-
-
-    #mapHolder
-      #map-canvas(style="width:100%;height:100%;")
+  include canvas_tools
+  include trace
 
 
     script.
@@ -120,7 +116,7 @@ block content
 
 
           /**
-           * Recursively walk and print a service object
+           * Walk and print a service object
            * @param  {Object} item 
            * @return {html}      
            */
@@ -134,7 +130,12 @@ block content
               return content
           }
 
-
+          /**
+           * Walk and print a signal object
+           * @param  {Object} item 
+           * @return {html}      
+           */
+          
           function createSignalDiv(item){
             var content = ""
 
@@ -164,6 +165,11 @@ block content
           };//createSignalDiv
 
 
+          /**
+           * Walk and print a system object
+           * @param  {Object} item 
+           * @return {html}      
+           */
 
           function createSystemDiv(item){ 
 
@@ -197,7 +203,11 @@ block content
           }
         }
 
+        //- function createMap(geo){
 
+
+
+        //- }
 
 
 
@@ -829,6 +839,87 @@ block content
            * @return {}
            */
 
+
+            var map;
+            var myLocation = {
+                  'latitude':  47.66,
+                  'longitude': -122.355,
+                  'url': ''
+            };
+
+            // GeoJSON has no style information so we need to provide that
+            var myStyle = {
+                  strokeColor: "#000000",
+                  strokeOpacity: 1,
+                  strokeWeight: 1,
+                  fillColor: "#AAAAAA",
+                  fillOpacity: 0.5
+            };
+
+            function createMap( id, geojson, options ) {
+                  // Create the Google Map
+                  var myLatlng = new google.maps.LatLng( myLocation.latitude, myLocation.longitude );
+                  var mapOptions = options || {
+                        zoom: 13,
+                        center: myLatlng,
+                        mapTypeId: google.maps.MapTypeId.HYBRID
+                  }
+
+                  map = new google.maps.Map(document.getElementById(id), mapOptions);
+                  // Load the geojson from a URL - this is asynchronous, so process the data in a callback function
+
+                  loadGeoJSON(geojson);
+            }
+
+            function loadGeoJSON(text) {
+                  // The XMLHttpRequest response is JSON text - so parse it into an Object
+                  var json = JSON.parse(text);
+                  var features = new GeoJSON(json, myStyle);
+                  // Loop through each feature
+                  for (var i = 0; i < features.length; i++){
+                        features[i].setMap(map);
+                  }
+            }
+
+
+          function initializeMap(){
+
+              createMap("map_canvas",{
+                "type": "FeatureCollection",
+                "features": [
+                  {
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [ -122.3473413, 47.651119 ]
+                    },
+                    "properties": {
+                      "name": "Fremont Troll",
+                      "description": "The Fremont Troll is a large concrete sculpture of the mythical troll ..."
+                    }
+                  },
+                  {
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Polygon",
+                      "coordinates": [
+                        [
+                          [ -122.35509749113, 47.662137946078 ],
+                          [ -122.35457554776, 47.662130986833 ]
+                        ]
+                      ]
+                    },
+                    "properties": {
+                      "name": "Fremont"
+                    }
+                  }
+                ]
+              })
+          }
+
+          google.maps.event.addDomListener(document, 'load', initializeMap);
+
+
           function parseMessage(message){
 
             if(models[message.model] && models[message.model][message.verb]){
@@ -852,23 +943,8 @@ block content
 
           window.socket = socket
 
+        initializeMap()
 
         })(window.io);
 
-
-        $.fn.serializeObject = function(){
-            var o = {};
-            var a = this.serializeArray();
-            $.each(a, function() {
-                if (o[this.name] !== undefined) {
-                    if (!o[this.name].push) {
-                        o[this.name] = [o[this.name]];
-                    }
-                    o[this.name].push(this.value || '');
-                } else {
-                    o[this.name] = this.value || '';
-                }
-            });
-            return o;
-        };
 

@@ -10,6 +10,7 @@ var geolocator          = new Geolocator_module.Geolocator_module();
 geolocator.initialize("/etc/vmr/geolocate.conf");
 
 var merge = require("merge")
+var moment = require("moment")
 var zooid = require("../../zooid_core")
 
 var zode = merge( require("./package.json"), { 
@@ -22,7 +23,7 @@ var zode = merge( require("./package.json"), {
   , actions:0 
 })
 
-console.log(zode.name, "intiated on",zooid.ip)
+console.log(zode.name, "intiated on", zooid.ip)
 
 zooid.on( "muster", function(signal){
   zooid.muster(zode)
@@ -46,66 +47,61 @@ zooid.on( "test", function (test_signal){
 
 function test(test_signal){
 
+  zode.actions+=1
+  var start = moment().valueOf();
+        
+
   signal = {}
   signal.terrain_signature = [[
       0.7071067811865475,
       -0.8392803240259068,
       0.9990958406831207,
       -0.9990958406831207,
-      0.2693687899828503,
       0.9509826718461247,
       -0.9993628874431991,
       0.9993773483135557,
       0.7071067811865475,
       -0.16944238478267
-  ],[
-      0.7071067811865475,
-      0.9990958406831207,
-      0.2993773483135557,
-      -0.9990958406831207,
-      0.2693687899828503,
-      0.2693687899828503,
-      0.9509826718461247,
-      -0.9993628874431991,
-      0.2993773483135557,
-      -0.8392803240259068,
-      0.2071067811865475,
-      0.9990958406831207,
-      -0.16944238478267
   ]]
 
   geolocate(signal, function(err, res){
-    console.log(err || res.length)
     
     if (res) 
       zode.status = "active"
     else
       zode.status = "error"
     
+    var stop = moment().valueOf();
+    zode.work += stop - start
+    zooid.muster(zode)
+
     zooid.muster(zode)
 
     zooid.send({
       parent_id:test_signal.id
       , noun:'geolocation'
       , name:zode.name
-      , text:res 
+      , geolocation:res 
     });
   })
 
 }
 
 
-
 zooid.on(zode.takes, function(signal){
 
   geolocate(signal, function(err, res){
-    zooid.send({ parent_id:signal.id, noun:'geolocation',name:"Geolocation", map:res });
-  })
+      zooid.send({ 
+        parent_id:signal.id
+      , noun:'geolocation'
+      , name:"Geolocation"
+      , geolocation:(res||err)});
+    })
 
 })
 
 /******************************************************************************
-* GEOLOCATES a terrain sillhoutte by smashing against the database.
+* Geolocates a terrain sillhoutte by smashing against the database.
 * @param terrain_silhouette
 * @param clusterSize
 * @param clusterDistance
@@ -131,7 +127,6 @@ function geolocate(signal, done){
     , clusterDistance
     , function(err, clusterResults){
       done( err, clusterResults )
-    // zooid.send({text:clusterResults, name:clusterResults});
   })
 }
 

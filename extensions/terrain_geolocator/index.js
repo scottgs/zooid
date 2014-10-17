@@ -33,44 +33,24 @@
 	******************************************************************************/
 
 	zooid.on( "test", function (signal){
-	  
-	 //  var test_image = {
-	 //    name:"Face Detection Test"
-	 //  , location:path.join( __dirname , 
-	 //  "../../web/.tmp/public/files/diverse.jpg" )
-	 //  , filename:"group.jpg"
-	 //  , noun:"image"
-	 //  , parent_id:signal.id
-	 // }
-
-	 // detectFaces( test_image, zooid )
-
 	 zooid.send({ parent_id:signal.id, name:zode.name, text:"okay"})
-
 	})
 
 
 
+	zooid.on("terrain_silhouette", function(signal){
 
-
-
-		zooid.on("terrain_silhouette", function(signal){
-
-			clusterSize 			= config['clusterSize'] 		|| 500
-			clusterDistance 	= config['clusterDistance'] || 8
-			dataset 					= config['dataset'] 				|| "feature_small_gpu_afghan_360" 
-			
-			console.log("dataset, clusterSize, clusterDistance", dataset, clusterSize, clusterDistance )
-			
-			geolocator.search( signal, dataset, clusterSize, clusterDistance, function(err, clusterResults){
-	   		zooid.emit(err, clusterResults, signal);
-			})
+		clusterSize 			= config['clusterSize'] 		|| 500
+		clusterDistance 	= config['clusterDistance'] || 8
+		dataset 					= config['dataset'] 				|| "feature_small_gpu_afghan_360" 
+		
+		console.log("dataset, clusterSize, clusterDistance", dataset, clusterSize, clusterDistance )
+		
+		geolocator.search( signal, dataset, clusterSize, clusterDistance, function(err, clusterResults){
+   		// zooid.emit(err, clusterResults, signal);
+  	zooid.send({ parent_id:signal.id, name:"geolocation", geojson:geojson, noun:"geojson", text:err })
 		})
+	})
 
-
-
-		zooid.on("test", function(signal){
-     	console.log("TEST PASSED:", "geolocator");
-		})
 
 }).call(this);
