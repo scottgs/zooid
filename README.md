@@ -6,17 +6,16 @@ It's name sake is given for it's architectural likeness to the
  <a href="http://en.wikipedia.org/wiki/Zooid" title="http://en.wikipedia.org/wiki/Zooid">
  organism</a>.
 
-Zooid is not a web app. It's a research tool. And it consists architecturally of distinct components. To run the extensions: you can spin up extensions/dispatch.js. And to run the web service: web/app.js. 
+Zooid is not a web app. It's a research tool. And it consists architecturally of distinct components. To run all of the extensions supported by the hardware it's on: you can spin up extensions/app.js. And to run the web service: web/app.js.  Likewise, you can run any of the extensions independently. Zooid has two cooperating lobes, one for communicating with humans, the other for communicating with other zodes in the cluster to distribute the workload from their human.
 
-Likewise, you can run any of the extensions independently.
+Lobe 1 uses a common restful JSON API Pattern which makes it easy to customize research perspectives and analytical tools, charts, graphs, etc. Whereas lobe 2 uses a swift UDP messaging protocol for inter-process communcation and collaborative parrallelization. Lobe 1 scales vertically. And its functionality is predominantly serial. Lobe 2 scales horizontally, and the workflows are oriented towards massively parrallel operations. 
 
-###
-###Zodes can
+###Zodes 
 
 - Self-orient on the network.
-- Saturate the machines thread pool with listeners.
 - Assimilate hardware-specific skills from other zodes.
-- Prime anticipated events.
+- Effeciently distribute workloads.
+- Intelligently optimize themselves.
 
 
 ###Zodes can't yet
@@ -28,21 +27,51 @@ Likewise, you can run any of the extensions independently.
 
 ##Installation
 
-	$ git clone this
-###
-
+	$ git clone git@github.com:benbaker/zooid.git
 	$ npm build .
 	
-#API
-	
+#Lobe 1 API
+
+
 
 ####Signals
 
-    Signal.create({  , function(err, res){
-      
-      
-    });
+Example: **zooidserver/signal/create?noun=image&url=imgur.com/abc123.png**
+POST or GET requests accepted. See sails documentation for more on the API.
+This gives a JSON response: 
     
+    {
+    	id:       "aAbBcC123",
+    	noun:     "image",
+    	url:      "imgur.com/abc123.png",
+    	createdAt:"Some date"
+    }
+And subscribes the socket to events relating to that signal, which can be listened for in the DOM:
+
+####To update the dom on model changes.
+
+	signal_dom.on('created', function(connection,signal) {
+		$.map(signal.data.data, function(signal){
+			$("#signal_dom").append($("<div />", signal))
+		})
+	});
+
+	signal_dom.on('updated', function(info,activity) {
+		$.map(activity.data, function(val, attr){
+			$( "#signal_dom"+activity.id+" #"+attr).text(val)
+		})
+	});
+	
+####To bind model events to dom events.
+
+	io.socket.on( model, function(signal){
+		sidebar.emit(signal.verb, signal);
+	})
+
+
+
+
+
 <!--
 ####Services
 
@@ -55,10 +84,11 @@ Likewise, you can run any of the extensions independently.
     
 ###Vernacular
 
-***zooid*** -
-***zode*** -
+***zooid*** -- The entire network of zodes and their collective infrastructure.
 
-    
+***zode*** -- A single instance of the zooid platform running at a specific location.
+
+***
     
 ##Resources
 
