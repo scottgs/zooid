@@ -3,7 +3,7 @@ zooid
 
 A Friendly Intelligence Framework
 
-##Install
+###Install
 
 	$ git clone this
 	$ npm install
