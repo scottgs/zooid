@@ -3,9 +3,7 @@ zooid
 
 A Friendly Intelligence Framework
 
-**Zooid** /ˈzoʊ.ɔɪd/ is an asynchronous research environment built in node.js to grow quickly and scale nicely. It's a collection of loosely coupled, development friendly skills, and a web app through which to access and control them.
-
-It's name sake is after it's architectural likeness to the
+**Zooid** /ˈzoʊ.ɔɪd/ is an asynchronous research environment built in node.js to grow quickly and scale nicely. It's a collection of loosely coupled skills, and a web app through which to access and control them. The namesake is after it's architectural likeness to the
  <a href="http://en.wikipedia.org/wiki/Zooid" title="http://en.wikipedia.org/wiki/Zooid">
  organism</a>.
 
