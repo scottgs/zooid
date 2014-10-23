@@ -6,7 +6,7 @@ A Friendly Intelligence Framework
 ##Install
 
 	$ git clone this
-	$ npm build .
+	$ npm install
 
 ##Design
 
