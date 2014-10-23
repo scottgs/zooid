@@ -20,7 +20,7 @@ var fs    = require("fs")
  * dendrites, and axon.
 ******************************************************************************/
 
-var config = require("../config.js")
+var config = require("../zooid_config.js")
 
 var base_port = config.base_port || 42100
 var broadcast_ip = config.broadcast_ip || '128.206.116.239'

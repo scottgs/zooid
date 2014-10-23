@@ -1,0 +1,83 @@
+block content
+      //- script(src='https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false')
+      script.
+            var map;
+            var myLocation = {
+                  'latitude':  47.66,
+                  'longitude': -122.355,
+                  'url': ''
+            };
+
+            // GeoJSON has no style information so we need to provide that
+            var myStyle = {
+                  strokeColor: "#000000",
+                  strokeOpacity: 1,
+                  strokeWeight: 1,
+                  fillColor: "#AAAAAA",
+                  fillOpacity: 0.5
+            };
+
+            function createMap( id, geojson, options ) {
+                  // Create the Google Map
+                  var myLatlng = new google.maps.LatLng( myLocation.latitude, myLocation.longitude );
+                  var mapOptions = options || {
+                        zoom: 13,
+                        center: myLatlng,
+                        mapTypeId: google.maps.MapTypeId.HYBRID
+                  }
+
+                  map = new google.maps.Map(document.getElementById(id), mapOptions);
+                  // Load the geojson from a URL - this is asynchronous, so process the data in a callback function
+
+                  loadGeoJSON(geojson);
+            }
+
+            function loadGeoJSON(text) {
+                  // The XMLHttpRequest response is JSON text - so parse it into an Object
+                  var json = JSON.parse(text);
+                  var features = new GeoJSON(json, myStyle);
+                  // Loop through each feature
+                  for (var i = 0; i < features.length; i++){
+                    features[i].setMap(map);
+                  }
+            }
+
+
+            function initialize(){
+
+                  createMap("map_canvas",{
+                    "type": "FeatureCollection",
+                    "features": [
+                      {
+                        "type": "Feature",
+                        "geometry": {
+                          "type": "Point",
+                          "coordinates": [ -122.3473413, 47.651119 ]
+                        },
+                        "properties": {
+                          "name": "Fremont Troll",
+                          "description": "The Fremont Troll is a large concrete sculpture of the mythical troll ..."
+                        }
+                      },
+                      {
+                        "type": "Feature",
+                        "geometry": {
+                          "type": "Polygon",
+                          "coordinates": [
+                            [
+                              [ -122.35509749113, 47.662137946078 ],
+                              [ -122.35457554776, 47.662130986833 ],
+                            ]
+                          ]
+                        },
+                        "properties": {
+                          "name": "Fremont"
+                        }
+                      }
+                    ]
+                  })
+
+
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize);

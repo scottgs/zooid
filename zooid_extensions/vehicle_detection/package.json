@@ -1,0 +1,15 @@
+{
+  "name": "vehicle_detection",
+  "version": "0.0.2",
+  "description": "Detects vehicles in images.",
+  "main": "../vehicle_detection.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "face",
+    "blur"
+  ],
+  "author": "Benjamin Baker",
+  "license": "BSD-2-Clause"
+}

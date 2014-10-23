@@ -1,0 +1,41 @@
+.nav-sidebar { 
+    width: 100%;
+    font-size:14px;
+    line-height: 18px
+    font-weight:500;
+    color:#ccc;
+
+}
+.nav-sidebar a {
+    color: #828288;
+    -webkit-transition: all 0.08s linear;
+    -moz-transition: all 0.08s linear;
+    -o-transition: all 0.08s linear;
+    transition: all 0.08s linear;
+}
+.nav-sidebar .active a{ 
+    background-color:rgba(0,0,0,0)!important; 
+    /*font-size:18px;*/
+    cursor: default;
+    color: #000066!important;
+}
+.nav-sidebar .active a:hover, .nav-sidebar li:hover {
+    color: #000066;
+
+}
+.nav-sidebar a:hover {
+    background-color:none!important; 
+    color: #000066;
+}
+.nav-sidebar .text-overflow a,
+.nav-sidebar .text-overflow .media-body {
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis; 
+}
+
+.nav-sidebar-title{
+    margin-top:9px;
+    color:#aaa;
+}

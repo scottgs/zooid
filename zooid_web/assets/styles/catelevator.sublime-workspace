@@ -1,0 +1,736 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"nav",
+				"nav-justified"
+			],
+			[
+				"min",
+				"min-width"
+			],
+			[
+				"font-s",
+				"font-size"
+			],
+			[
+				"initia",
+				"initialize"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"margin",
+				"margin-bottom"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"face",
+				"face_detection"
+			],
+			[
+				"text",
+				"text-left"
+			],
+			[
+				"process",
+				"process.chdir();"
+			],
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"li",
+				"line-height"
+			],
+			[
+				"container",
+				"container-fluid"
+			],
+			[
+				"nav-",
+				"nav-pills"
+			],
+			[
+				"navbar",
+				"navbar-btn"
+			],
+			[
+				"best_by",
+				"best_by_length_and_deviation"
+			],
+			[
+				"padd",
+				"padding"
+			],
+			[
+				"bac",
+				"background-image"
+			],
+			[
+				"background",
+				"background-color"
+			],
+			[
+				"backgroun",
+				"background-color"
+			],
+			[
+				"pan",
+				"panel-heading"
+			],
+			[
+				"alert",
+				"alert-dismissable"
+			],
+			[
+				"label",
+				"label-default"
+			],
+			[
+				"for",
+				"for	For Loop"
+			],
+			[
+				"squiggl",
+				"squigglometrics"
+			],
+			[
+				"backgr",
+				"background-position"
+			],
+			[
+				"fon",
+				"font-weight"
+			],
+			[
+				"array_m",
+				"array_merge"
+			],
+			[
+				"background-",
+				"background-attachment"
+			],
+			[
+				"course",
+				"course_section"
+			],
+			[
+				"mar",
+				"margin-top"
+			],
+			[
+				"user",
+				"user_info"
+			],
+			[
+				"read",
+				"ready	$(document).ready"
+			],
+			[
+				"rea",
+				"ready	$(document).ready"
+			],
+			[
+				"background-c",
+				"background-color"
+			],
+			[
+				"up",
+				"upload_data"
+			],
+			[
+				"schoo",
+				"school_select"
+			],
+			[
+				"session",
+				"session_destroy"
+			],
+			[
+				"bo",
+				"border-top"
+			],
+			[
+				"sch",
+				"school_select"
+			],
+			[
+				"sc",
+				"school_name"
+			],
+			[
+				"print",
+				"print_r"
+			],
+			[
+				"prin",
+				"print_r"
+			],
+			[
+				"confirm",
+				"confirmation_link"
+			],
+			[
+				"veri",
+				"verification_hash"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 180.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"theme",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"them",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"th",
+				"QuickThemes: next"
+			],
+			[
+				"qui",
+				"QuickThemes: next"
+			],
+			[
+				"git stat",
+				"Git: Quick Status"
+			],
+			[
+				"git",
+				"Git: Status"
+			],
+			[
+				"git st",
+				"Git: Status"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Create Package File"
+			],
+			[
+				"instak",
+				"Package Control: Install Package"
+			],
+			[
+				"Snippet: ",
+				"Snippet: Get Elements"
+			],
+			[
+				"term",
+				"Open in terminal"
+			],
+			[
+				"",
+				"Package Control: Discover Packages"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 355.0
+	},
+	"console":
+	{
+		"height": 149.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": true,
+		"show_tabs": false,
+		"side_bar_visible": true,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/macproretina/Desktop/dev/catelevator",
+		"/Users/macproretina/Desktop/dev/catelevator/api",
+		"/Users/macproretina/Desktop/dev/catelevator/api/controllers",
+		"/Users/macproretina/Desktop/dev/catelevator/api/models",
+		"/Users/macproretina/Desktop/dev/catelevator/api/services",
+		"/Users/macproretina/Desktop/dev/catelevator/assets",
+		"/Users/macproretina/Desktop/dev/catelevator/assets/js",
+		"/Users/macproretina/Desktop/dev/catelevator/assets/styles",
+		"/Users/macproretina/Desktop/dev/catelevator/config",
+		"/Users/macproretina/Desktop/dev/catelevator/tasks",
+		"/Users/macproretina/Desktop/dev/catelevator/views",
+		"/Users/macproretina/Desktop/dev/catelevator/views/usecases"
+	],
+	"file_history":
+	[
+		"/Users/macproretina/Desktop/dev/catelevator/views/layout.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/assets/js/Whisker.js",
+		"/Users/macproretina/Desktop/dev/catelevator/assets/styles/catelevator.css",
+		"/Users/macproretina/Desktop/dev/catelevator/api/models/Task.js",
+		"/Users/macproretina/Desktop/dev/catelevator/views/homepage.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/api/models/Job.js",
+		"/Users/macproretina/Desktop/dev/catelevator/views/examples.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/views/navbar.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/views/usecases/featuredetection.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/views/job/jobs.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/views/job/job.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/views/job/index.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/api/controllers/DatasetController.js",
+		"/Users/macproretina/Desktop/dev/catelevator/api/controllers/ActivityController.js",
+		"/Users/macproretina/Desktop/dev/catelevator/api/models/Activity.js",
+		"/Users/macproretina/Desktop/dev/catelevator/api/controllers/JobController.js",
+		"/Users/macproretina/Desktop/dev/catelevator/config/routes.js",
+		"/Users/macproretina/Desktop/dev/catelevator/views/sidebar.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/views/simplenavbar.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/views/job/jobs_old.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/api/models/Dataset.js",
+		"/Users/macproretina/Desktop/dev/catelevator/views/usecases/review.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/views/usecases/survey.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/assets/styles/sidebar.css",
+		"/Users/macproretina/Desktop/dev/catelevator/views/login.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/api/services/setup.js",
+		"/Users/macproretina/Desktop/dev/catelevator/views/usecases/impressionmeasuring.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/views/usecases/videotimetagging.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/views/usecases/captchasolving.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/views/usecases/changedetection.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/views/usecases/featurerecognition.jade",
+		"/Users/macproretina/Desktop/dev/catelevator/assets/js/jquery_custom.js",
+		"/Users/macproretina/Desktop/dev/catelevator/assets/styles/theme.css",
+		"/Users/macproretina/Desktop/dev/catelevator/assets/js/jquery-1.11.1.min.js",
+		"/Users/macproretina/Desktop/dev/catelevator/assets/styles/login.css",
+		"/Users/macproretina/Desktop/dev/catelevator/config/connections.js",
+		"/Users/macproretina/Desktop/dev/catelevator/assets/styles/magic-bootstrap.css",
+		"/Users/macproretina/Desktop/dev/catelevator/assets/styles/importer.less",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/tbg/googlemap.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/system.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/models/System.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/styles/css/zooid.css",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/styles/css/customtheme.css",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/tbg/index.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/layout.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/nav.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/controllers/SignalController.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/config/controllers.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/controllers/untitled.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/nav_tabs.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/tbg/index_old.jade",
+		"/Users/macproretina/Desktop/dev/zooid/zooid_core/zode.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/models/Signal.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/geo_conversion/geo_conversion.js",
+		"/Users/macproretina/Projects/canyon/hpclab/web_ui/api/controllers/Spatial_converter.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/geo_conversion/package.json",
+		"/Users/macproretina/Projects/canyon/vmr/web_ui/views/home/index.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/tbg/trace.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/tbg/canvas_tools.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/tbg/layout.jade",
+		"/Users/macproretina/Projects/canyon/hpclab/web_ui/assets/linker/js/app.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/terrain_geolocator/Geolocator_module.cpp",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/squiggle_vectorization/run.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/face_detection/face_detection.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/face_blurring/face_blurring.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/signal_classifier/signal_classifier.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/vehicle_detection/vehicle_detection.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/config/routes.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/index.jade",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/dispatch.js",
+		"/Users/macproretina/Projects/canyon/vmr/web_ui/assets/styles/style.css",
+		"/Users/macproretina/Projects/canyon/vmr/web_ui/assets/styles/theme.css",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/mads/charts.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/mads/index.jade",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/squiggle_vectorization/squiggle_vectorization.js",
+		"/Users/macproretina/Desktop/dev/zooid/drone/nouns/geolocator/Geolocator_module.cpp",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/controllers/ControlController.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/controllers/ServiceController.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/models/Service.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/geolocator/index.js",
+		"/Users/macproretina/Desktop/dev/zooid/drone/nouns/geolocator/worker.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/terrain_geolocator/index.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/sidebar.jade",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/squiggle_vectorization/package.json",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/signal_classifier/package.json",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/styles/css/dropzone.css",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/charts.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/js/dropzone.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/js/app.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/js/app.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/app.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/vehicle_detection/package.json",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/face_blurring/package.json",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/charts/index.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/apophenia.jade",
+		"/Users/macproretina/Desktop/dev/zooid/zooid_core/app.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/signal_processor/index.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/signal_processor/signal_processor.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/face_detection/package.json",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/docs.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/home/docs.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/docs.jade",
+		"/Users/macproretina/Desktop/dev/zooid/zooid_core/package.json",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/d3_chart.jade",
+		"/Users/macproretina/Desktop/dev/zooid/config.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/config/local.js",
+		"/Users/macproretina/Desktop/dev/zooid/zooid_core/config.js",
+		"/Users/macproretina/Desktop/dev/zooid/README.md",
+		"/Users/macproretina/Desktop/dev/zooid/zode/nouns/face_detection.js",
+		"/Users/macproretina/Desktop/dev/zooid/package.json",
+		"/Users/macproretina/Desktop/dev/zooid/zode/nouns/text_scraper.js",
+		"/Users/macproretina/Desktop/dev/zooid/zode/index.js",
+		"/Users/macproretina/Desktop/dev/zooid/zode/zode.js",
+		"/Users/macproretina/Desktop/dev/zooid/zode/nouns/signal_classifier.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/graph2.jade",
+		"/Users/macproretina/Desktop/dev/zooid/zode/app.js",
+		"/Users/macproretina/test/swe-fall-2014/Makefile",
+		"/Users/macproretina/test/swe-fall-2014/sentences/bpbkt7.c",
+		"/Users/macproretina/test/swe-fall-2014/story.c",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/styles/css/jquery.tocify.css",
+		"/Users/macproretina/test/swe-fall-2014/lib/Makefile",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/activity.jade",
+		"/Users/macproretina/Desktop/dev/zooid/bpbkt7_hw6/cuda_blur/Makefile",
+		"/Users/macproretina/test/swe-fall-2014/bpbkt7_1.c",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/js/jquery.toc.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/js/jquery_ui.js",
+		"/Users/macproretina/Downloads/gfranko-jquery.tocify.js-c179865 3/libs/jqueryui/jquery-ui-1.9.1.custom.min.js",
+		"/Users/macproretina/Downloads/gfranko-jquery.tocify.js-c179865 3/src/javascripts/jquery.tocify.js"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 100.0,
+		"where_history":
+		[
+			"/Users/macproretina/Projects/canyon/hpclab/web_ui/.tmp/public",
+			"/Users/macproretina/Projects/canyon/hpclab/web_ui",
+			"/Users/macproretina/Projects/canyon",
+			"/Users/macproretina/Desktop",
+			"/Users/macproretina/Desktop/balls/web",
+			"/Users/macproretina/Projects/canyon/hpclab/web_ui/.tmp",
+			"<project>",
+			"<open folders>"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"raised",
+			"[type]",
+			"-attribute",
+			"image",
+			"brand",
+			"activities",
+			"sidebar",
+			"Select a particular feature amongst several pieces of content.",
+			"datasets",
+			"})\n",
+			"activities",
+			"activity",
+			"activityModel",
+			"btn",
+			"nav",
+			"nav-ta",
+			".ac",
+			"acti",
+			"side",
+			"bor",
+			"borde",
+			"border",
+			"test",
+			"gid",
+			" \n",
+			"activityModel",
+			"right",
+			"font-fa",
+			"font",
+			"game",
+			"lobby",
+			")\n",
+			"primary",
+			"caution",
+			"border",
+			"button-pill",
+			"flat",
+			"scootRight",
+			"button.button",
+			"circle",
+			"d3",
+			"forms[i].",
+			"forms[i]",
+			"createma",
+			"geojso",
+			"18bc9c",
+			"clicka",
+			"click",
+			"upload",
+			"drop",
+			"dropzon",
+			"theme",
+			"/styles",
+			"linker",
+			"\n        ",
+			"log.t",
+			"jumb",
+			"brand",
+			"flash",
+			"pulse",
+			"bounceIn",
+			"BOUNCE",
+			"bounce",
+			"text",
+			"silhouette_signature",
+			"\"",
+			"config",
+			"collective",
+			"circle",
+			"signal",
+			"test_cluster",
+			"test",
+			"moment",
+			"test",
+			"moment",
+			"task",
+			"callback",
+			"256",
+			"random",
+			"panel",
+			"ooo",
+			"circle",
+			"border-b",
+			"border-top",
+			"border-t",
+			"top",
+			"downl",
+			"collective",
+			"request",
+			"td",
+			"address",
+			"actions",
+			"graph",
+			"app",
+			"dump",
+			"dendrites",
+			"fileupload",
+			"autodi",
+			"=\"fil",
+			"dropzon",
+			"dropzone",
+			"form",
+			"dropzon",
+			"fileupl",
+			"200",
+			"220",
+			"histogr",
+			"lead",
+			"visualization",
+			"sort",
+			"type",
+			"head",
+			"img",
+			"padding-top",
+			"24",
+			"8px",
+			"0,",
+			"signal",
+			"toggle",
+			"circl",
+			"toggle",
+			"round",
+			" li",
+			"li{",
+			"li",
+			"nav-pill",
+			"nav-sta",
+			"navbar"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"button",
+			"parent_hash",
+			"y",
+			"x",
+			"xxx",
+			"yyy",
+			"service",
+			"active",
+			" ",
+			"2x",
+			"b",
+			" ",
+			"",
+			"bigVector",
+			"min_max_vector",
+			"min_max_val",
+			"littleVector",
+			"bigVector",
+			"floatValues",
+			"#eee",
+			"oldList",
+			"",
+			"<h3>",
+			"<was_small>",
+			"0.16",
+			"0.1",
+			"2 weeks",
+			"",
+			"#",
+			"description of the assignment",
+			"assignment ( description, ",
+			"h2",
+			"h4",
+			"<p>",
+			"h3",
+			"h2",
+			"h1",
+			"'",
+			"NOT NULL",
+			"  ",
+			" ",
+			"sbmt",
+			"col-md",
+			"<eee></eee>",
+			"items",
+			"newTitle"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 37.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 110.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.sftp":
+	{
+		"height": 273.0
+	},
+	"project": "catelevator.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"",
+				"canyon/hpclab/web_ui/.tmp/public/linker/js/app.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 223.0,
+	"status_bar_visible": false,
+	"template_settings":
+	{
+	}
+}

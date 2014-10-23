@@ -1,0 +1,2251 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"initia",
+				"initialize"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"margin",
+				"margin-bottom"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"face",
+				"face_detection"
+			],
+			[
+				"text",
+				"text-left"
+			],
+			[
+				"process",
+				"process.chdir();"
+			],
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"li",
+				"line-height"
+			],
+			[
+				"container",
+				"container-fluid"
+			],
+			[
+				"nav-",
+				"nav-pills"
+			],
+			[
+				"navbar",
+				"navbar-btn"
+			],
+			[
+				"best_by",
+				"best_by_length_and_deviation"
+			],
+			[
+				"padd",
+				"padding"
+			],
+			[
+				"bac",
+				"background-image"
+			],
+			[
+				"background",
+				"background-color"
+			],
+			[
+				"backgroun",
+				"background-color"
+			],
+			[
+				"pan",
+				"panel-heading"
+			],
+			[
+				"alert",
+				"alert-dismissable"
+			],
+			[
+				"label",
+				"label-default"
+			],
+			[
+				"for",
+				"for	For Loop"
+			],
+			[
+				"squiggl",
+				"squigglometrics"
+			],
+			[
+				"backgr",
+				"background-position"
+			],
+			[
+				"fon",
+				"font-weight"
+			],
+			[
+				"array_m",
+				"array_merge"
+			],
+			[
+				"background-",
+				"background-attachment"
+			],
+			[
+				"course",
+				"course_section"
+			],
+			[
+				"mar",
+				"margin-top"
+			],
+			[
+				"user",
+				"user_info"
+			],
+			[
+				"read",
+				"ready	$(document).ready"
+			],
+			[
+				"rea",
+				"ready	$(document).ready"
+			],
+			[
+				"background-c",
+				"background-color"
+			],
+			[
+				"up",
+				"upload_data"
+			],
+			[
+				"schoo",
+				"school_select"
+			],
+			[
+				"session",
+				"session_destroy"
+			],
+			[
+				"bo",
+				"border-top"
+			],
+			[
+				"min",
+				"min-height"
+			],
+			[
+				"sch",
+				"school_select"
+			],
+			[
+				"sc",
+				"school_name"
+			],
+			[
+				"print",
+				"print_r"
+			],
+			[
+				"prin",
+				"print_r"
+			],
+			[
+				"confirm",
+				"confirmation_link"
+			],
+			[
+				"veri",
+				"verification_hash"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/Users/macproretina/Desktop/dev/zooid/extensions/terrain_geolocator/terrain_geolocator.js",
+			"settings":
+			{
+				"buffer_size": 3364,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "\n\nfunction paintForms(){\n    $.map(forms, function(form){    \n        $(\"#forms_container\")\n        .append(\"<h4>\"+form.title+\"</h4>\")\n        .append(\"<form id='\"+form.id+\"'></form>\")\n        $.map(form.inputs, function(input){\n            $(\"#\"+form.id).append( $(\"<input/>\", input ) )\n        })\n    })\n}\n\n\nfunction fakeForms(i,j){\n    var forms = []\n    var i=2\n    while(i--){\n        forms[i]={\n            target: \"Something\"\n          , id: \"form_\"+i\n          , method: \"POST\"\n          , title: \"Form #\"+i+\"!\" \n          , inputs: []\n        }\n        var j = 4\n        while(j--){\n            forms[i].inputs[j] = {\n                type: \"text\"\n              , name: \"name\"+i+j\n              , placeholder: \"input \"+i+j\n            }\n        }\n    }\n    return forms\n}\n\n$(document).ready(function() {\n    paintForms( fakeForms() )\n});",
+			"settings":
+			{
+				"buffer_size": 845,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/macproretina/Desktop/dev/zooid/extensions/squiggle_vectorization/squiggle_vectorization.js",
+			"settings":
+			{
+				"buffer_size": 19493,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "index.jade",
+			"settings":
+			{
+				"buffer_size": 23035,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "  \n/**\n* Processes signature from the input path and responds with an llos\n* which contains an array4of llos'\n* @param  {[type]} searchSquiggle\n* @return {[Array<clusterResults>]} signal\n*/\n\nvar merge = require(\"merge\")\nvar zooid = require(\"../../zooid_core\")\n\nvar zode = merge( require(\"./package.json\"), { \n    name:\"Geo Conversion\"\n  , takes:\"geolocation\"\n  , gives:\"geojson, kml\"\n  , status:\"?\"\n  , ip:zooid.ip||'unknown'\n  , work:0\n  , actions:0 \n})\n\n\n\n\nzooid.on( zode.takes, function(signal){\n  console.log(\"CONVERTING GEOs\")\n  convertFromGeolocation(signal.geolocation, function(err, geojson){\n    zooid.send({ parent_id:signal.id, name:\"geojson\", geojson:geojson, noun:\"geojson\", text:err })\n  });\n});\n\n\n\nconsole.log(zode.name, \"intiated on\",zooid.ip)\n\nzooid.on( \"muster\", function(signal){\n  zooid.muster(zode)\n})\n\nzooid.muster(zode)\n\nGeoJSON     = require( \"geojson\" )\ntokml       = require( \"tokml\" )\nTerraformer = require( \"terraformer\" )\n\ncreateFile = function(fn, fd) {\n\n  var fs = require('fs');\n  fs.writeFile(fn, fd, function(err) {\n      if(err) {\n          console.log(err);\n      } else {\n          console.log(\"file saved.\");\n      }\n  });\n}\n\n\nfunction convertFromGeolocation(obj, done){\n\n  for (var i in obj ) {\n\n    obj[i].name=\"llos\" + i + \n      \" - heading: \" + Math.floor( obj[i].orientation * 1000) / 1000 + \"˚\" +\n      \" - score: \" + Math.floor( obj[i].score * 1000) / 1000;\n\n    obj[i].href= \"http://canyon.cgi.missouri.edu:1337/uploads/\" + name;\n\n    var polygon = [];\n    polygon.push( [ obj[i].lat, obj[i].lon ] )\n    \n    for (var j in obj[i].points ) {\n      polygon.push( [ obj[i].points[j].lat, obj[i].points[j].lon ] )\n    }\n    polygon.sort()\n    obj.push(\n      { \"name\":\"llos polygon: \"+i\n      , \"description\": \"A description\"\n      , \"marker-size\": \"large\"\n      , \"marker-color\": \"#fff\"\n      , \"polygon\": [polygon] } \n    )\n  }\n\n\n  // parseOptions = { Point:['lat','lon'], include:['orientation', 'score'] }\n  GeoJSON.parse(obj, {\n      'Point': ['lon', 'lat'], 'Polygon': 'polygon',\n      extra: {color: \"#ff0000\"},\n        exclude:['points'],\n      attrs: {'Creator': 'CGI'\n      , 'records': obj.length\n      , 'description': 'Results of terrain sillhoutte search.'}\n    }, \n  function(geojson){\n\n    geojson = new Terraformer.Primitive(geojson);\n    console.log(geojson);\n\n    geojson.features.forEach( function(g){\n      if ( g.geometry.type == \"Polygon\" ){\n        g.geometry = new Terraformer.Polygon(g.geometry).convexHull();\n      }\n    });\n\n    var geoJSONString = JSON.stringify(geojson)\n\n    // // name and describe the KML document as a whole\n    var kmlDocument = tokml(geojson, {\n      name: 'name',\n      description: 'score',\n      style: 'style',\n      // documentName: 'Results',\n      // documentDescription: \"Results of terrain sillhoutte search.\",\n        simplestyle: false\n    })\n\n    done(null, geoJSONString)\n\n\n  })\n}\n\n\n  // exports.getGeoJSON = function(req, done){\n  //  client.hget( \"geojson\", \"b\", function( err, geojson ){\n  //    console.log(\"api getgeojson \");\n  //    console.log(geojson);\n  //    done( null, geojson );\n  //  }) \n  // }\n\n  // exports.getAllGeoJSON = function(req, done){\n  //  client.hgetall( \"geojson\", function( err, geojson ){\n  //    done( null, geojson ) \n  //  }) \n  // }\n\n  // exports.getKML = function(req, done){\n  //  client.hget( \"kml\", \"kml\", function( err, kml ){\n  //    done( null, kml ) \n  //  })\n  // }\n\n  // exports.clearAll = function(req, done){\n\n  //  // client.hdel(\"kml\", \"kml\" , console.log );\n  //  client.hdel(\"geojson\", \"a\" , console.log );\n  //  done(1)\n  //  // client.hdel(\"geojson\", \"geojson2\", console.log );\n\n  // }\n\n",
+			"file": "/Users/macproretina/Desktop/dev/zooid/extensions/geo_conversion/geo_conversion.js",
+			"file_size": 3632,
+			"file_write_time": 130558110870000000,
+			"settings":
+			{
+				"buffer_size": 3647,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "extends layout\nblock content\n    include canvas_tools\n    .panel.panel-default\n      include trace\n\n\n\n\n    script.\n              \n        (function (io) {\n          \n          socket = io.connect();\n          // var graph  = forceGraph()\n\n          /**\n           * DOM UTILITIES\n           * Wrap objects into DOM coherent structures\n           * @param  {String} text \n           * @return {html}      \n           */\n\n          function print_r(o){\n          return JSON.stringify(o,null,'\\t')\n            .replace(/\\n/g,'<br>')\n            .replace(/\\t/g,'&nbsp;&nbsp;&nbsp;'); \n          }\n\n          function img(link){\n            // TODO popover\n            return \"<img src='/files/\"+link+\"' class='img-responsive img-circle'/>\"\n          }\n          function web_img(link){\n            // TODO popover\n            return \"<img src='\"+link+\"' class='img-responsive'/>\"\n          }\n          function text(text){\n            return \"<p class='signalText'>\"+text+\"</p>\"\n          }\n          function icon(name){\n            return \" <i class='icon ion-\"+name+\" '></i> \"\n          }\n          function fa(i){\n            return \" <i class='fa fa-\"+i+\" '></i> \"\n          }\n          function cell(a, id) {\n            return \"<td class='\"+id+\"'>\"+a+\"</td>\"\n          }\n          function well(a, id) {\n            return \"<div class='well'>\"+a+\"</div>\"\n          }\n\n          function head(a, id) {\n            return \"<tr class='\"+id+\"'>\"+a+\"</tr>\"\n          }\n          function link(a, href, classes) {\n            return \"<a href='\"+ href +\"' class=' \"+classes+\" '>\"+a+\"</a>\"\n          }\n          function confirmButton(id){\n            return \"<a id='\"+ id +\"'>\"+icon(\"ios7-plus-outline fa-lg text-danger\")+\"</a>\";\n          }\n          function rejectButton(id){\n            return \"<a id='\"+ id +\"'>\"+icon(\"ios7-minus-outline fa-lg text-success\")+\"</a>\";\n          }\n\n          function statusIcon(status){\n            switch (status) { \n                case 'active': \n                    return fa(\"check\");\n                    break;\n                case 'error': \n                    return fa(\"warning\");\n                    break;\n                case '?': \n                    return fa(\"caret-square-o-up\");\n                    break;\n                default:\n                    return fa(\"circle\");\n            }\n          }\n          \n          function statusColor(status){\n            switch (status) { \n                case 'active': \n                    return \"success\";\n                    break;\n                case 'error': \n                    return \"danger\";\n                    break;\n                case '?': \n                    return \"info\";\n                    break;\n                default:\n                    return \"default\";\n            }\n          }\n\n          /**\n           * recursively walk and print an object.\n           * @param  {Object} item \n           * @return {html}      \n           */\n\n          function dump(item, tag1, tag2){ \n            var content = \"\"; \n            var tag1 = tag1 || \"tr\"\n            var tag2 = tag2 || \"td\"\n              for(i in item){\n              content+= \"<\"+tag1+\">\"\n                if(Object.prototype.toString.call( item[i] ) === '[object Object]')\n                  content+= dump( item[i], tag1, tag2 )+\"\"\n                else\n                  content+= \"<\"+tag2+\" class='' id ='\"+i+\"'>\"+i+\"\"+item[i]+\"</\"+tag2+\">\"\n              }\n              content+= \"<\"+tag1+\">\"\n              return content \n            } \n\n\n          /**\n           * Recursively walk and print a service object\n           * @param  {Object} item \n           * @return {html}      \n           */\n\n          function createServiceDiv(item){ \n            \n              var content = \"\"\n              content+= \"<a id = '\"+item.id+\"' class='button button-sm button-default getService'>\"\n              content+= item.name\n              content+= \"</a>\"\n              return content\n          }\n\n\n          function createSignalDiv(item){\n            var content = \"\"\n\n            var hue = 'rgba('\n                + (Math.floor(Math.random() * 128)) + ','\n                + (Math.floor(Math.random() * 128)) + ','\n                + (Math.floor(Math.random() * 256)) + ',0.1)';\n\n            console.log(hue)\n\n            content += \"<table class='table-condensed'>\"\n            content+= \"<tr id=\"+ item.id +\" class='' style='background-color:\"+hue+\"';>\"\n            \n            var name = item.name || item.text || \"\"\n\n            content+= cell( link( name, \"/system/find/\" + item.id, \" small btn-link text-black scootLeft scootRight\" ) )\n\n            // TODO add parent id\n\n            // content+= cell(\"<a id='\"+ item.id +\"' class='delete button-sm small' model-name='system'>\"+\n            //           \"<fa class='fa fa-fw fa-times'></fa></a>\")\n\n            content+= \"</tr>\"\n            content+= \"</table>\"\n            return content\n            \n          };//createSignalDiv\n\n\n\n          function createSystemDiv(item){ \n\n            var content = \"\"\n\n            content+= \"<tr id=\"+ item.id +\" class='small \"+ \"\" +\" '>\"\n            \n            content+= cell( statusIcon(item.status),\"status text-center \"+statusColor(item.status) )\n            content+= cell( link( item.name, \"/system/find/\" + item.id, \" btn-link text-black \" ) )\n            content+= cell( item.ip )\n            content+= cell(item.takes, \"takes\")\n            content+= cell(item.gives, \"gives\")\n            content+= cell(item.actions, \"actions\")\n            content+= cell(item.work, \"work\")\n            //- content+= cell(\"<small>\"+item.last_update+\"</small>\", \"last_update\")\n            //- content+= cell(item.status, \"status\")\n            // content+= cell(item.new_actions, \"new_actions\")\n\n            // content+= cell(\"<a id='\"+ item.id +\"' class='delete button-sm small' model-name='system'>\"+\n            //           \"<fa class='fa fa-fw fa-times'></fa></a>\")\n\n            content+= \"</tr>\"\n            return content\n          } \n\n\n        var dom = {\n\n          map: function(){\n            console.log(\"map\");\n          }\n        }\n\n        //- function createMap(geo){\n\n\n\n        //- }\n\n\n\n        /******************************************************************************\n         * Bind Model CRUD events to DOM events\n         * \n         * First by model, then by verb.\n         * @type {Object} item\n         * @return {}\n        ******************************************************************************/\n\n\n        var models = {\n\n           service: {\n\n              create : function(item){\n                var pend = item.parent_id ? \"prependTo\" : \"appendTo\";\n                var pre  = item.parent_id ? \"#\"+item.parent_id : \"#service_container\";\n                $(createServiceDiv(item))[pend]( pre );\n\n              }, //create\n\n              destroy : function(item){\n                $(\"#item\"+item.id).remove()\n              }, //destroy\n\n              update : function(item){\n                $(\"#item\"+item.id)\n                  .replaceWith(createServiceDiv(item))\n                  .show(\"animated tada\")\n              } //update\n            }, //signal\n\n           service_description: {\n              create : function(item){\n                var pend = item.parent_id ? \"appendTo\" : \"appendTo\";\n                var pre  = item.parent_id ? \"#\"+item.parent_id : \"#service_description\";\n                $(dump(item))[pend]( pre );\n              }, //create\n              destroy : function(item){\n                $(\"#item\"+item.id).remove()\n              }, //destroy\n              update : function(item){\n                $(\"#item\"+item.id)\n                  .replaceWith(createServiceDiv(item))\n                  .show(\"animated tada\")\n              } //update\n            }, //signal\n\n           system: {\n\n              create  : function(item){\n                $( \"#system_container\" )\n                  .append( createSystemDiv(item) )\n\n                  //- var node_id= item.info.address+\":\"+item.node\n                  //- chart.addSeries({ id:item.info.address })\n                  //- var val = item.workDone || 1\n                  //- nodes_chart.series[0].addPoint({ id:item.id, category:item.id, value:val })\n\n              },\n\n              destroy : function(item){\n                $(\"#\"+item.id).fadeOut(\"slow\")\n              }, \n\n              update : function(item){\n\n                for (var attr in item) {\n                  $(\"#\"+item.id)\n                    .find(\".\"+attr)\n                    .html(item[attr])\n                }\n\n                console.log(status)\n\n                $(\"#\"+item.id+\" .status\")\n                  .removeClass( \"success alert info danger default warning\")\n                  .addClass( statusColor(item.status) );\n                \n                $(\"#\"+item.id)\n                  .find(\".status\")\n                  .html( statusIcon(item.status) )\n                  .children()\n                  .removeClass(\"animated tada\")\n                  .addClass(\"animated tada\")\n\n              } \n            }, \n\n\n\n           signal: {\n              \n              create: function(signal){\n              \n                var item = signal\n                var pend = signal.parent_id ? \"appendTo\" : \"prependTo\" \n                if ( item.parent_id )\n                  if( !$(\"#\"+item.parent_id ).length == 0 )\n                    var target = \"#\"+item.parent_id\n                  else \n                    var target = \"#signal_container\"\n\n                $( createSignalDiv(item) )[pend](target);\n\n\n              }, //create\n\n              destroy: function(item){\n                $(\"#item\"+item.id).fadeOut(0, function(){$(this).remove();});\n              }, //destroy\n\n              update: function(item){\n\n                for(var i in item){\n                  $(\"#item\"+item.id ).find('.'+i).html(item[i])\n                  .removeClass(\"animated tada\")\n                  .addClass(\"animated tada\")\n                }\n                \n                // $(\"#item\"+item.id ).replaceWith(createSignalDiv(item)).addClass(\"animated tada\")\n                // \n              } //update\n\n            }, //signal\n\n\n          };\n\n\n        /******************************************************************************\n         * Bind DOM events to Model events\n        ******************************************************************************/\n\n\n\n          $(document).ready(function() {\n\n            // GEOLOCATE\n            $(document).on('click', '.requestGeoLocate', function(){\n\n              if(squiggles === \"undefined\"){\n                  alert(\"Please draw a silhouette.\")\n                  $(\".loader\").hide();\n\n              } else {\n\n                console.log(squiggles)\n                socket.post('/signal'\n                , { name:\"Terran silhouette\"\n                , noun: \"terrain_silhouette\"\n                , terrain_silhouette: squiggles.path }\n                , function(resp){\n                  console.log(resp)\n                });\n              }\n            });\n          });\n\n\n\n            $(document).ready(function() {\n\n              //- socket.get('/signal/find?type=HEAD&limit=4&sort=date DESC', function(signals){\n              //-   for (var i = 0; i < signals.length; i++) {\n              //-     models['signal']['create'](signals[i]);\n\n              //-     socket.get('/signal/find/',{parent_id:signals[i].id}, function(ch1s){\n              //-       for (var i = 0; i < ch1s.length; i++) {\n              //-         models['signal']['create'](ch1s[i]);\n\n              //-         socket.get('/signal/find/',{parent_id:ch1s[i].id}, function(ch2s){\n              //-           for (var i = 0; i < ch2s.length; i++) {\n              //-             models['signal']['create'](ch2s[i]);\n\n              //-           };\n              //-         });\n              //-       };\n              //-     });\n              //-   };\n              //- });\n\n              // socket.get('/signal/find?type=HEAD&sort=createdAt DESC&limit=4', function(signals){\n              //   for (var i = 0; i < signals.length; i++) {\n              //     models['signal']['create'](signals[i]);\n              //   };\n              // });\n\n\n              // socket.get('/service/find', function(services){\n              //   console.log(services)\n              //   for (var i = 0; i < services.length; i++) {\n              //     models['service']['create'](services[i]);\n              //   };\n              // });\n\n              //- socket.get('/system/', function(system){\n              //-   console.log(\"system\", system)\n              //-   for (var i = 0; i < system.length; i++) {\n              //-     models['system']['create'](system[i]);\n              //-   };\n              //- });\n\n              // socket.get('/system/create', function(system){\n              //   console.log(\"system\", system)\n              //   for (var i = 0; i < system.length; i++) {\n              //     models['system']['create'](system[i]);\n              //   };\n              // });\n          });\n\n\n\n            ////////////////////////////////////////////////////////////////////////////////\n              /**\n               * Create histogram from an image\n               * @param  {Object} hist Histogram Data Structure\n               * @param  {String} div  Target for paiting chart\n               * @return {}\n               */\n            ////////////////////////////////////////////////////////////////////////////////\n\n\n            /**\n             * Get a few recently processed signals into the DOM\n             * @param  {Array} signals Model query response\n             * @return {}\n             */\n\n            // socket.get('/signal/find?type=HEAD&limit=1&sort=createdAt DESC', function(signals){\n            //   for(signal in signals.reverse()){\n            //     models['signal']['create'](signals[signal]);\n            //     // socket.request('/signal/find?parent_id='+signals[signal].id, function(signals2){\n            //     //   for(signal2 in signals2.reverse()){\n            //     //     models['signal']['create'](signals2[signal2]);\n            //     //   }\n            //     // });\n            //   }\n            // });\n\n\n\n\n\n\n\n          // JOE!\n\n\n\n          //- var container = document.getElementById('visualization');\n          //- var data = [\n          //-   {id: 1, content: 'item 1', start: '2013-04-20'},\n          //-   {id: 2, content: 'item 2', start: '2013-04-14'},\n          //-   {id: 3, content: 'item 3', start: '2013-04-18'},\n          //-   {id: 4, content: 'item 4', start: '2013-04-16', end: '2013-04-19'},\n          //-   {id: 5, content: 'item 5', start: '2013-04-25'},\n          //-   {id: 6, content: 'item 6', start: '2013-04-27'}\n          //- ];\n          //- var options = {};\n          //- var timeline = new vis.Timeline(container, data, options);\n\n\n          //- var data = null;\n          //- var graph = null;\n\n          //- function custom(x, y) {\n          //-   return (1 * Math.round(Math.random())* 50 + 50);\n          //- }\n\n          //- // Called when the Visualization API is loaded.\n          //- function drawVisualization() {\n          //-   // Create and populate a data table.\n          //-   data = new vis.DataSet();\n          //-   // create some nice looking data with sin/cos\n          //-   var counter = 0;\n          //-   var steps = 50;  // number of datapoints will be steps*steps\n          //-   var axisMax = 314;\n          //-   var axisStep = axisMax / steps;\n          //-   for (var x = 0; x < axisMax; x+=axisStep) {\n          //-     for (var y = 0; y < axisMax; y+=axisStep) {\n          //-       var value = custom(x,y);\n          //-       data.add({id:counter++,x:x,y:y,z:value,style:value});\n          //-     }\n          //-   }\n\n          //-   // specify options\n          //-   var options = {\n          //-     width:  '600px',\n          //-     height: '600px',\n          //-     style: 'surface',\n          //-     showPerspective: true,\n          //-     showGrid: true,\n          //-     showShadow: false,\n          //-     keepAspectRatio: true,\n          //-     verticalRatio: 0.5\n          //-   };\n\n          //-   // Instantiate our graph object.\n          //-   var container = document.getElementById('visualization');\n          //-   graph = new vis.Graph3d(container, data, options);\n          //- }\n\n\n\n          // var nodes = null;\n          // var edges = null;\n          // var network = null;\n          // var DIR = \"/\"\n\n          // function draw() {\n          //    nodes = [\n          //     {id: 1,  label: 'Algie',   image: DIR + 'Smiley-Angry-icon.png', shape: 'image'},\n          //     {id: 2,  label: 'Alston',  image: DIR + 'Smiley-Grin-icon.png', shape: 'image'},\n          //     {id: 3,  label: 'Barney',  image: DIR + 'User-Administrator-Blue-icon.png', shape: 'image'},\n          //     {id: 4,  label: 'Coley',   image: DIR + 'User-Administrator-Green-icon.png', shape: 'image'},\n          //     {id: 5,  label: 'Grant',   image: DIR + 'User-Coat-Blue-icon.png', shape: 'image'},\n          //     {id: 6,  label: 'Langdon', image: DIR + 'User-Coat-Green-icon.png', shape: 'image'},\n          //     {id: 7,  label: 'Lee',     image: DIR + 'User-Coat-Red-icon.png', shape: 'image'},\n          //     {id: 8,  label: 'Merlin',  image: DIR + 'User-Executive-Green-icon.png', shape: 'image'},\n          //     {id: 9,  label: 'Mick',    image: DIR + 'User-Preppy-Blue-icon.png', shape: 'image'},\n          //     {id: 10, label: 'Tod',     image: DIR + 'User-Preppy-Red-icon.png', shape: 'image'}\n          //   ];\n\n          //   // create connections\n          //   var color = '#BFBFBF';\n          //   edges = [\n          //     {from: 1,   to: 8,  value: 3,   label: 3,   color: color},\n          //     {from: 1,   to: 9,  value: 5,   label: 5,   color: color},\n          //     {from: 2,   to: 10, value: 1,   label: 1,   color: color},\n          //     {from: 4,   to: 6,  value: 8,   label: 8,   color: color},\n          //     {from: 5,   to: 7,  value: 2,   label: 2,   color: color},\n          //     {from: 4,   to: 5,  value: 1,   label: 1,   color: color},\n          //     {from: 9,   to: 10, value: 2,   label: 2,   color: color},\n          //     {from: 2,   to: 3,  value: 6,   label: 6,   color: color},\n          //     {from: 3,   to: 9,  value: 4,   label: 4,   color: color},\n          //     {from: 5,   to: 3,  value: 1,   label: 1,   color: color},\n          //     {from: 2,   to: 7,  value: 4,   label: 4,   color: color}\n          //   ];\n\n          //   // create a network\n          //   var container = document.getElementById('visualization');\n          //   var data = {\n          //     nodes: nodes,\n          //     edges: edges\n          //   };\n\n\n\n          // var options = {\n          //     stabilize: false,\n          //     smoothCurves: true,\n\n          //     //- hierarchicalLayout: {\n          //     //-     direction: 'UD'\n          //     //- }\n          // };\n          //   network = new vis.Network(container, data, options);\n\n          //   // add event listeners\n          //   network.on('select', function(params) {\n          //     document.getElementById('selection').innerHTML = 'Selection: ' + params.nodes;\n          //   });\n\n          //   //- console.log(network)\n          //   //- network.addNode({id: 1,  label: 'Algie',   image: DIR + 'Smiley-Angry-icon.png', shape: 'image'})\n          // }\n\n            // draw()\n\n\n         \n\n\n\n\n\n\n\n\n        // function forceGraph() {\n        //     // This demo shows how to create an SVG node which is a bit more complex\n        //     // than single image. Do accomplish this we use 'g' element and\n        //     // compose group of elements to represent a node.\n        //     graph = Viva.Graph.graph();\n\n        //     var graphics = Viva.Graph.View.svgGraphics(),\n        //         nodeSize = 28;\n\n        //     graphics.node(function(node) {\n\n        //       nodeSize = node.size || nodeSize\n\n\n        //       console.log(node.data || node.id)\n\n        //       var ui      = Viva.Graph.svg('g'),\n        //           title   =  ( node.data || node.id ),\n        //           svgText = Viva.Graph.svg('text')\n        //             .attr('y', '-4px')\n        //             .text(title),\n\n        //           img     = Viva.Graph.svg('image')\n        //                      .attr('width', nodeSize)\n        //                      .attr('height', nodeSize)\n        //                      .link('/files/' + node.data);\n\n        //       //- if(node.data) ui.append(svgText);\n        //       if( node.data ) \n        //         if( node.data.split('.').pop() === \"jpg\"  ) \n        //           ui.append(img);\n        //         else\n        //           ui.append(svgText);\n\n\n\n        //       return ui;\n        //     }).placeNode(function(nodeUI, pos) {\n        //         // 'g' element doesn't have convenient (x,y) attributes, instead\n        //         // we have to deal with transforms: http://www.w3.org/TR/SVG/coords.html#SVGGlobalTransformAttribute\n        //         nodeUI.attr('transform',\n        //                     'translate(' +\n        //                           (pos.x - nodeSize/2) + ',' + (pos.y - nodeSize/2) +\n        //                     ')');\n        //     });\n\n        //     graphics.link(function(link){\n        //         var isParent = (link.data === 'Child'),\n        //             ui = Viva.Graph.svg('path')\n        //                    .attr('stroke', isParent ? '#e7e7e7' : '#e7e7e7')\n        //                    .attr('fill', \"none\");\n\n        //         ui.isParent = isParent; // remember for future.\n\n        //         return ui;\n        //     }).placeLink(function(linkUI, fromPos, toPos) {\n                \n        //         // linkUI - is the object returend from link() callback above.\n        //         var ry = linkUI.isParent ? 1: -1,\n\n        //         // using arc command: http://www.w3.org/TR/SVG/paths.html#PathDataEllipticalArcCommands\n        //             data = 'M' + fromPos.x + ',' + fromPos.y +\n        //                    ' A 1,' + ry + ',-30,0,0,' + toPos.x + ',' + toPos.y;\n\n        //         // 'Path data' (http://www.w3.org/TR/SVG/paths.html#DAttribute )\n        //         // is a common way of rendering paths in SVG:\n        //         linkUI.attr(\"d\", data);\n        //     });\n\n\n\n        //     var createMarker = function(id) {\n\n        //       return Viva.Graph.svg('marker')\n        //         .attr('id', id)\n        //         .attr('viewBox', \"0 0 10 10\")\n        //         .attr('refX', \"10\")\n        //         .attr('refY', \"5\")\n        //         .attr('markerUnits', \"strokeWidth\")\n        //         .attr('markerWidth', \"10\")\n        //         .attr('markerHeight', \"5\")\n        //         .attr('orient', \"auto\");\n        //     }\n\n\n\n        //     var layout = Viva.Graph.Layout.forceDirected(graph, {\n        //         springLength : 14,\n        //         springCoeff : 0.0001,\n        //         dragCoeff : 0.05,\n        //         gravity : -1.4\n        //     });\n\n        //     //- graph.addLink('a', 'c', 'Parent');\n        //     //- graph.addLink('a', 'c', 'Child');\n        //     //- graph.addLink('b', 'c', 'Child');\n\n        //     // Render the graph\n        //     var renderer = Viva.Graph.View.renderer(graph, {\n        //         graphics : graphics\n        //       , layout : layout\n        //       , container : document.getElementById('graphVisualization')\n\n        //         });\n            \n\n        //     renderer.run();\n\n        //     return graph\n        //     console.log(\"trying to renderer\")\n        // }\n\n\n\n\n\n\n\n\n\n\n\n          // function columnChart(opts){\n\n          //   return { chart: {\n          //     //- inverted:true,\n          //     renderTo: (opts.div || \"body\"),\n          //     animation:{ easing:\"linear\", duration:255 },\n          //     backgroundColor:'rgba(0,0,0,0)',\n          //     type: \"area\",\n          //     },\n          //     credits: {enabled:false},\n          //     legend:  {enabled:false},\n          //           title: {\n          //               text: ''\n          //           },\n          //           subtitle: {\n          //               text: ''\n          //           },\n          //           xAxis: {\n          //       gridLineWidth: 0,\n          //         minorGridLineWidth: 0, lineColor: 'transparent', minorTickLength: 5, tickLength: 0, \n          //               type: 'category',\n          //               labels: {\n          //                   //- rotation: -45,\n          //                   style: {\n          //                       fontSize: '10px',\n          //                       fontFamily: 'Verdana, sans-serif'\n          //                   }\n          //               }\n          //           },\n          //           yAxis: {\n          //         minorGridLineWidth: 0, lineColor: 'transparent', minorTickLength: 5, tickLength: 0, \n          //       gridLineWidth: 0,\n          //               min: 0,\n          //               title: {\n          //                   text: ''\n          //               }\n          //           },\n          //           legend: {\n          //               enabled: false\n          //           },\n          //           tooltip: {\n          //               pointFormat: '<b>{point.y:.1f} </b>',\n          //           },\n          //           series: [{\n          //               lineWidth: 0,\n          //               color:'#444',\n          //               shadow : { color:'#000000', offsetX:0, offsetY:2, opacity:0.5, width:3 },\n          //               name: '',\n          //               data: [],\n          //               dataLabels: {\n          //                   color: '#ccc',\n          //                   align: 'right',\n          //                   x: 4,\n          //                   y: 10,\n          //                   style: {\n          //                       fontSize: '10px',\n          //                       fontFamily: 'Verdana, sans-serif',\n          //                       textShadow: '0 0 3px black'\n          //                   }\n          //               }\n          //           }]\n          //   };\n\n          // }\n\n\n          // function chartOptions(div, type, categories){\n          //   return {\n          //     chart: {\n          //     //- inverted:true,\n          //       renderTo: (div || \"body\"),\n          //     backgroundColor:'rgba(0,0,0,0)',\n          //       animation:{ easing:\"linear\", duration:200 },\n          //      type: (type || \"line\")\n          //     },\n          //     title: { text: '' },\n          //        xAxis: { \n          //         type: categories || null,\n          //         lineWidth: 0,\n          //         minorGridLineWidth: 0, lineColor: 'transparent', minorTickLength: 5, tickLength: 0, \n          //         title: null, \n          //         labels : { enabled: false }, gridLineWidth: 0},\n          //       yAxis: { title: null, labels : { enabled: false }, gridLineWidth: 0},\n          //       gridLineWidth: 0,\n          //     tooltip: { enabled: false },\n          //     legend: {\n          //         enabled: false,\n          //         align: 'right',\n          //         verticalAlign: 'middle',\n          //         borderWidth: 0\n          //     },\n          //     plotOptions: {\n          //       line: {\n          //           pointStart: 0,\n          //           lineWidth: 2,\n          //           max:100,\n          //           marker: {\n          //               enabled: false,\n          //               symbol: 'circle',\n          //               radius: 0,\n          //               states: { hover: { enabled: true } }\n          //           }\n          //       }\n          //     },\n          //     credits: {enabled:false},\n          //     legend:  {enabled:false},\n          //     series: [{                 \n          //       name: 'system',\n          //       //- shadow : { color:'#222222', offsetX:0, offsetY:2, opacity:0.5, width:3 },\n          //       color:'#222'\n          //     }\n          //     ]\n          //     };\n\n          // }\n\n\n          // chart = new Highcharts.Chart(chartOptions(\"system_chart\", \"line\"));\n\n          // nodes_chart = new Highcharts.Chart(columnChart( { div:\"nodes_chart\" } ));\n\n          /**\n           * Dispatches socket message to DOM elements\n           * @param  {Object} message \n           * @return {}\n           */\n\n\n\n          function parseMessage(message){\n\n            if(models[message.model] && models[message.model][message.verb]){\n              if(!message.data) message.data={} \n              message.data.id = message.id\n              models[message.model][message.verb]( message.data || message );\n\n              console.log(\"Parsed: \", message);\n              $(\".nodes_count\").html( $(\"#system_container .signal\").length -1 )\n            } else { console.log(\"parseMessage(): don't know what to do with the recieved message.\") }\n          }\n\n\n          /**\n           * Listens to socket\n           * @param  {Object} message\n           * @return {}\n           */\n\n          socket.on('message', function(message){ parseMessage(message); });\n\n          window.socket = socket\n\n\n        })(window.io);\n\n\n        $.fn.serializeObject = function(){\n            var o = {};\n            var a = this.serializeArray();\n            $.each(a, function() {\n                if (o[this.name] !== undefined) {\n                    if (!o[this.name].push) {\n                        o[this.name] = [o[this.name]];\n                    }\n                    o[this.name].push(this.value || '');\n                } else {\n                    o[this.name] = this.value || '';\n                }\n            });\n            return o;\n        };\n\n",
+			"file": "/Users/macproretina/Desktop/dev/zooid/web/views/tbg/index.jade",
+			"file_size": 32745,
+			"file_write_time": 130567164060000000,
+			"settings":
+			{
+				"buffer_size": 29812,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/macproretina/Desktop/dev/zooid/web/assets/styles/css/style.css",
+			"settings":
+			{
+				"buffer_size": 12372,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "block content\n    \n    .maskTools.btn-group.btn-sm\n        a.btn.btn-default.dragHandle\n            oo.fa.fa-bars.text-muted\n                \n        a.btn.btn-important.dragHandle.btn-finishMasking\n            .fa.fa-fw.fa-check\n            oo Finish masking\n\n    .scissorTools.btn-group.btn-sm.boxShadow(style=\"display:none;\")\n\n        a.btn.btn-default.dragHandle\n            oo.fa.fa-bars.text-muted\n\n        a.btn.btn-important.requestGeoLocate\n            .fa.fa-fw.fa-globe\n            oo Geolocate\n\n        a.btn-default.btn.btn-undo\n            oo Undo \n\n        a.btn-default.btn.btn-clear\n            oo Clear\n\n        a.btn-default.btn.btn-stopDrawing\n            oo Stop drawing\n    \n        a.btn-default.btn.btn-startMasking\n            oo Redraw mask\n\n\n    script.\n\n        $(document).ready(function() {\n\n            $( \".draggable\" ).draggable({ handle: \".dragHandle\" });\n\n            // UI BUTTONS\n\n            $(document).on(\"click\", \".btn-finishMasking\", function(){\n                endMasking();\n            })\n\n            $(document).on(\"click\", \".btn-undo\", function(){\n                scs.undo();\n            })\n\n            $(document).on(\"click\", \".btn-clear\", function(){\n                scs.clearLines();\n            })\n\n            $(document).on(\"click\", \".btn-stopDrawing\", function(){\n                stopDrawing();\n            })\n\n            $(document).on(\"click\", \".btn-startMasking\", function(){\n                startMasking();\n            })\n\n        });\n        \n\n\n\n        //- $(document).ready(function() {\n  \n\n        //- // geolocation button, loader and socket\n\n\n        //- $( \".draggable\" ).draggable({ handle: \".dragHandle\" });\n\n\n        //- console.log(socket);\n\n        //- window.socket.get(\"/squiggle\", {}, function(resp){\n        //-     console.log(resp);\n        //- });\n\n\n\n                // socket.put('/squiggle/geolocate', { limit: 10, sort: \"id asc\" }, function(squiggles) {\n                  \n                //   console.log(squiggles);\n                  \n                //   for (var i = squiggles.length - 1; i >= 0; i--) {\n\n                //     $( createBlock( squiggles[i] ) )\n                //       .prependTo(\"#squigglesContainer\" ).fadeIn('slow');\n\n                //       // var chart = new Highcharts.Chart( createChart( 'chart', [1,0,1,2,2,1,23,4,2,1]) );\n                //   }\n                //   updateListeners();\n\n                // });\n\n\n\n\n\n\n        //-         //- squiggle = {};\n        //-         //- squiggle.path = squiggles.path;\n        //-         //- squiggle.image_name = squiggles.image_name || \"anon_image_name\";\n\n\n        //-         //- io.emit('geolocate', squiggle, function(data) {\n\n        //-         //-     plotResults( data );\n        //-         //-     $(\".fa-globe\").show();\n        //-         //-     $(\".loader\").hide();\n\n        //-         //- })\n        //-     }\n\n        //- });\n\n\n        //- });\n",
+			"file": "/Users/macproretina/Desktop/dev/zooid/web/views/tbg/canvas_tools.jade",
+			"file_size": 2916,
+			"file_write_time": 130567142630000000,
+			"settings":
+			{
+				"buffer_size": 2917,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/macproretina/Desktop/dev/zooid/web/views/mads/index.jade",
+			"settings":
+			{
+				"buffer_size": 1137,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/macproretina/Desktop/dev/zooid/web/views/mads/vivagraph.jade",
+			"settings":
+			{
+				"buffer_size": 4003,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/macproretina/Desktop/dev/zooid/web/views/mads/vizjs.jade",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/macproretina/Desktop/dev/zooid/web/views/mads/chartjs.jade",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/macproretina/Desktop/dev/zooid/web/views/mads/d3.jade",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "nav_tabs.jade",
+			"settings":
+			{
+				"buffer_size": 4441,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/macproretina/Desktop/dev/zooid/web/views/layout.jade",
+			"settings":
+			{
+				"buffer_size": 3002,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 180.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"theme",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"them",
+				"Colorsublime: Install Theme"
+			],
+			[
+				"th",
+				"QuickThemes: next"
+			],
+			[
+				"qui",
+				"QuickThemes: next"
+			],
+			[
+				"git stat",
+				"Git: Quick Status"
+			],
+			[
+				"git",
+				"Git: Status"
+			],
+			[
+				"git st",
+				"Git: Status"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Create Package File"
+			],
+			[
+				"instak",
+				"Package Control: Install Package"
+			],
+			[
+				"Snippet: ",
+				"Snippet: Get Elements"
+			],
+			[
+				"term",
+				"Open in terminal"
+			],
+			[
+				"",
+				"Package Control: Discover Packages"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 355.0
+	},
+	"console":
+	{
+		"height": 149.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": true,
+		"show_tabs": false,
+		"side_bar_visible": true,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/macproretina/Desktop/dev/zooid",
+		"/Users/macproretina/Desktop/dev/zooid/extensions",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/geo_conversion",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/text_scraper",
+		"/Users/macproretina/Desktop/dev/zooid/web",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/styles",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/styles/css",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/styles/fonts",
+		"/Users/macproretina/Desktop/dev/zooid/web/config",
+		"/Users/macproretina/Desktop/dev/zooid/web/js",
+		"/Users/macproretina/Desktop/dev/zooid/web/views",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/mads",
+		"/Users/macproretina/Desktop/dev/zooid/zode"
+	],
+	"file_history":
+	[
+		"/Users/macproretina/Desktop/dev/zooid/web/views/mads/highcharts.jade",
+		"/Users/macproretina/Desktop/dev/zooid/README.md",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/tbg/googlemap.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/system.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/models/System.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/styles/css/zooid.css",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/styles/css/customtheme.css",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/tbg/index.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/layout.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/nav.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/controllers/SignalController.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/config/controllers.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/controllers/untitled.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/nav_tabs.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/tbg/index_old.jade",
+		"/Users/macproretina/Desktop/dev/zooid/zooid_core/zode.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/models/Signal.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/geo_conversion/geo_conversion.js",
+		"/Users/macproretina/Projects/canyon/hpclab/web_ui/api/controllers/Spatial_converter.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/geo_conversion/package.json",
+		"/Users/macproretina/Projects/canyon/vmr/web_ui/views/home/index.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/tbg/trace.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/tbg/canvas_tools.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/tbg/layout.jade",
+		"/Users/macproretina/Projects/canyon/hpclab/web_ui/assets/linker/js/app.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/terrain_geolocator/Geolocator_module.cpp",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/squiggle_vectorization/run.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/face_detection/face_detection.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/face_blurring/face_blurring.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/signal_classifier/signal_classifier.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/vehicle_detection/vehicle_detection.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/config/routes.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/index.jade",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/dispatch.js",
+		"/Users/macproretina/Projects/canyon/vmr/web_ui/assets/styles/style.css",
+		"/Users/macproretina/Projects/canyon/vmr/web_ui/assets/styles/theme.css",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/mads/charts.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/mads/index.jade",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/squiggle_vectorization/squiggle_vectorization.js",
+		"/Users/macproretina/Desktop/dev/zooid/drone/nouns/geolocator/Geolocator_module.cpp",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/controllers/ControlController.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/controllers/ServiceController.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/models/Service.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/geolocator/index.js",
+		"/Users/macproretina/Desktop/dev/zooid/drone/nouns/geolocator/worker.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/terrain_geolocator/index.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/sidebar.jade",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/squiggle_vectorization/package.json",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/signal_classifier/package.json",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/styles/css/dropzone.css",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/charts.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/js/dropzone.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/js/app.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/js/app.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/app.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/vehicle_detection/package.json",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/face_blurring/package.json",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/charts/index.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/apophenia.jade",
+		"/Users/macproretina/Desktop/dev/zooid/zooid_core/app.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/signal_processor/index.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/signal_processor/signal_processor.js",
+		"/Users/macproretina/Desktop/dev/zooid/extensions/face_detection/package.json",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/docs.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/home/docs.jade",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/docs.jade",
+		"/Users/macproretina/Desktop/dev/zooid/zooid_core/package.json",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/d3_chart.jade",
+		"/Users/macproretina/Desktop/dev/zooid/config.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/config/local.js",
+		"/Users/macproretina/Desktop/dev/zooid/zooid_core/config.js",
+		"/Users/macproretina/Desktop/dev/zooid/zode/nouns/face_detection.js",
+		"/Users/macproretina/Desktop/dev/zooid/package.json",
+		"/Users/macproretina/Desktop/dev/zooid/zode/nouns/text_scraper.js",
+		"/Users/macproretina/Desktop/dev/zooid/zode/index.js",
+		"/Users/macproretina/Desktop/dev/zooid/zode/zode.js",
+		"/Users/macproretina/Desktop/dev/zooid/zode/nouns/signal_classifier.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/graph2.jade",
+		"/Users/macproretina/Desktop/dev/zooid/zode/app.js",
+		"/Users/macproretina/test/swe-fall-2014/Makefile",
+		"/Users/macproretina/test/swe-fall-2014/sentences/bpbkt7.c",
+		"/Users/macproretina/test/swe-fall-2014/story.c",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/styles/css/jquery.tocify.css",
+		"/Users/macproretina/test/swe-fall-2014/lib/Makefile",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/activity.jade",
+		"/Users/macproretina/Desktop/dev/zooid/bpbkt7_hw6/cuda_blur/Makefile",
+		"/Users/macproretina/test/swe-fall-2014/bpbkt7_1.c",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/js/jquery.toc.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/js/jquery_ui.js",
+		"/Users/macproretina/Downloads/gfranko-jquery.tocify.js-c179865 3/libs/jqueryui/jquery-ui-1.9.1.custom.min.js",
+		"/Users/macproretina/Downloads/gfranko-jquery.tocify.js-c179865 3/src/javascripts/jquery.tocify.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/zooid.sublime-project",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/styles/css/sidr.css",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/js/sidr.js",
+		"/Users/macproretina/Downloads/sidr-package-1.2.1/jquery.sidr.min.js",
+		"/Users/macproretina/Downloads/sidr-package-1.2.1/stylesheets/jquery.sidr.light.css",
+		"/Users/macproretina/Desktop/dev/zooid/drone/nouns/signal_processor/run.js",
+		"/Users/macproretina/Desktop/dev/zooid/drone/app.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/views/control/force.jade",
+		"/Users/macproretina/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/styles/css/viz.css",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/js/vis.js",
+		"/Users/macproretina/Desktop/dev/zooid/drone/nouns/geolocator/index.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/services/test.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/js/vivagraph.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/js/springyui.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/js/springy.js",
+		"/Users/macproretina/Desktop/dev/zooid/zode/nouns/example.js",
+		"/Users/macproretina/Desktop/dev/zooid/drone/nouns/face_recognition.js",
+		"/Users/macproretina/Desktop/dev/zooid/drone/nouns/new_signal.js",
+		"/Users/macproretina/Desktop/dev/zooid/zode/package.json",
+		"/Users/macproretina/Desktop/dev/zooid/drone/nouns/geolocator/Geolocator_module2.cpp",
+		"/Users/macproretina/Desktop/dev/zooid/drone/nouns/test.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/api/controllers/SystemController.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/js/buttons.js",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/styles/css/buttons.css",
+		"/Users/macproretina/Downloads/ionicons-1.5.2/animation.html",
+		"/Users/macproretina/Desktop/dev/zooid/web/assets/styles/css/iconic.min.css",
+		"/Users/macproretina/Downloads/ionicons-1.5.2/builder/cheatsheet/template.html",
+		"/Users/macproretina/Desktop/dev/zooid/drone/nouns/image.js",
+		"/Users/macproretina/Desktop/dev/zooid/cluster/app.js",
+		"/Users/macproretina/Desktop/dev/zooid/cluster/nouns/image.js",
+		"/Users/macproretina/Desktop/dev/zooid/drone/cpp_templates/cuda/myobject.cc",
+		"/Users/macproretina/Desktop/dev/zooid/drone/services/IMAGE.js",
+		"/Users/macproretina/Desktop/dev/zooid/drone/services/FACE.js",
+		"/Users/macproretina/Library/Application Support/Sublime Text 3/Packages/User/jQueryJavaScript.sublime-settings",
+		"/Users/macproretina/Library/Application Support/Sublime Text 3/Packages/User/CoffeeScript.sublime-settings",
+		"/Users/macproretina/Desktop/dev/zooid/drone/nouns/Geolocator_module/index.js"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 100.0,
+		"where_history":
+		[
+			"/Users/macproretina/Projects/canyon/hpclab/web_ui/.tmp/public",
+			"/Users/macproretina/Projects/canyon/hpclab/web_ui",
+			"/Users/macproretina/Projects/canyon",
+			"/Users/macproretina/Desktop",
+			"/Users/macproretina/Desktop/balls/web",
+			"/Users/macproretina/Projects/canyon/hpclab/web_ui/.tmp",
+			"<project>",
+			"<open folders>"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"primary",
+			"caution",
+			"border",
+			"button-pill",
+			"flat",
+			"scootRight",
+			"button.button",
+			"circle",
+			"d3",
+			"forms[i].",
+			"forms[i]",
+			"createma",
+			"geojso",
+			"18bc9c",
+			"clicka",
+			"click",
+			"upload",
+			"drop",
+			"dropzon",
+			"theme",
+			"/styles",
+			"linker",
+			"\n        ",
+			"log.t",
+			"jumb",
+			"brand",
+			"flash",
+			"pulse",
+			"bounceIn",
+			"BOUNCE",
+			"bounce",
+			"text",
+			"silhouette_signature",
+			"\"",
+			"config",
+			"collective",
+			"circle",
+			"signal",
+			"test_cluster",
+			"test",
+			"moment",
+			"test",
+			"moment",
+			"task",
+			"callback",
+			"256",
+			"random",
+			"panel",
+			"ooo",
+			"circle",
+			"border-b",
+			"border-top",
+			"border-t",
+			"top",
+			"downl",
+			"collective",
+			"request",
+			"td",
+			"address",
+			"actions",
+			"graph",
+			"app",
+			"dump",
+			"dendrites",
+			"fileupload",
+			"autodi",
+			"=\"fil",
+			"dropzon",
+			"dropzone",
+			"form",
+			"dropzon",
+			"fileupl",
+			"200",
+			"220",
+			"histogr",
+			"lead",
+			"visualization",
+			"sort",
+			"type",
+			"head",
+			"img",
+			"padding-top",
+			"24",
+			"8px",
+			"0,",
+			"signal",
+			"toggle",
+			"circl",
+			"toggle",
+			"round",
+			" li",
+			"li{",
+			"li",
+			"nav-pill",
+			"nav-sta",
+			"navbar",
+			"jumbotron",
+			"toggle",
+			"head",
+			"require",
+			"face_d",
+			"signal",
+			"graph",
+			".panel-default",
+			"sm-6",
+			"draw(",
+			".navbar-brand",
+			"lightBlue",
+			"jumbo",
+			"jumbotron",
+			"oo",
+			"-bra",
+			"-bran",
+			"li",
+			"-bran",
+			"brand",
+			"h2",
+			"h1",
+			"button-",
+			"href=\"",
+			"src=\"",
+			"amigdilla",
+			"zode",
+			"collective",
+			"border-",
+			"ms",
+			"bigSignal",
+			"border"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"button",
+			"parent_hash",
+			"y",
+			"x",
+			"xxx",
+			"yyy",
+			"service",
+			"active",
+			" ",
+			"2x",
+			"b",
+			" ",
+			"",
+			"bigVector",
+			"min_max_vector",
+			"min_max_val",
+			"littleVector",
+			"bigVector",
+			"floatValues",
+			"#eee",
+			"oldList",
+			"",
+			"<h3>",
+			"<was_small>",
+			"0.16",
+			"0.1",
+			"2 weeks",
+			"",
+			"#",
+			"description of the assignment",
+			"assignment ( description, ",
+			"h2",
+			"h4",
+			"<p>",
+			"h3",
+			"h2",
+			"h1",
+			"'",
+			"NOT NULL",
+			"  ",
+			" ",
+			"sbmt",
+			"col-md",
+			"<eee></eee>",
+			"items",
+			"newTitle"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/Users/macproretina/Desktop/dev/zooid/extensions/terrain_geolocator/terrain_geolocator.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3364,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2438,
+								2438
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/SpaceCadet (SL).tmTheme",
+							"incomplete_sync": null,
+							"open_with_edit": true,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Better JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1954.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 845,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								485,
+								485
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_name": "",
+							"bh_regions":
+							[
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/Twilight (SL).tmTheme",
+							"incomplete_sync": null,
+							"syntax": "Packages/jQuery/Syntaxes/jQueryJavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/Users/macproretina/Desktop/dev/zooid/extensions/squiggle_vectorization/squiggle_vectorization.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 19493,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								644,
+								644
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/SpaceCadet (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Better JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "index.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 23035,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								21093,
+								21099
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/3024 Night (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 9681.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/Users/macproretina/Desktop/dev/zooid/extensions/geo_conversion/geo_conversion.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3647,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								709,
+								709
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/Twilight (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Better JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 186.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/Users/macproretina/Desktop/dev/zooid/web/views/tbg/index.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 29812,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								29810,
+								29291
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/Twilight (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 2751.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/Users/macproretina/Desktop/dev/zooid/web/assets/styles/css/style.css",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 12372,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2430,
+								2080
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/Blackboard (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2839.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/Users/macproretina/Desktop/dev/zooid/web/views/tbg/canvas_tools.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2917,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								820,
+								820
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/Twilight (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/Users/macproretina/Desktop/dev/zooid/web/views/mads/index.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1137,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								614,
+								614
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/Twilight (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 52.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "/Users/macproretina/Desktop/dev/zooid/web/views/mads/vivagraph.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4003,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								145,
+								145
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/Twilight (SL).tmTheme",
+							"incomplete_sync": null,
+							"open_with_edit": true,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "/Users/macproretina/Desktop/dev/zooid/web/views/mads/vizjs.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/Twilight (SL).tmTheme",
+							"incomplete_sync": null,
+							"open_with_edit": true,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "/Users/macproretina/Desktop/dev/zooid/web/views/mads/chartjs.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/Twilight (SL).tmTheme",
+							"incomplete_sync": null,
+							"open_with_edit": true,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "/Users/macproretina/Desktop/dev/zooid/web/views/mads/d3.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/Twilight (SL).tmTheme",
+							"incomplete_sync": null,
+							"open_with_edit": true,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "nav_tabs.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4441,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3879,
+								3879
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/3024 Night (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "/Users/macproretina/Desktop/dev/zooid/web/views/layout.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3002,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								802,
+								802
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/3024 Night (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 37.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 110.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.sftp":
+	{
+		"height": 273.0
+	},
+	"project": "zooid.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"",
+				"canyon/hpclab/web_ui/.tmp/public/linker/js/app.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 219.0,
+	"status_bar_visible": false,
+	"template_settings":
+	{
+	}
+}
