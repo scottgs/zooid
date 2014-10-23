@@ -9,18 +9,22 @@ It's name sake is after it's architectural likeness to the
  <a href="http://en.wikipedia.org/wiki/Zooid" title="http://en.wikipedia.org/wiki/Zooid">
  organism</a>.
 
-Zooid is a research tool. And it consists architecturally of many distinct components.
-
-#####Future
-- Accumulate action potentials.
-- Prime anticipated symbols.
-
-===
 
 #####Install
 
 	$ git clone this
 	$ npm build .
+
+
+###Loosely coupled
+
+###Simple
+
+###Future
+- Accumulate action potentials.
+- Prime anticipated symbols.
+
+===
 
 
 ##### Dependencies
