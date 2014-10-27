@@ -14,62 +14,97 @@ html
       link(href="/styles/animate.css" rel="stylesheet")
       link(href="/styles/zooid.css" rel="stylesheet")
 
-      link(href="/styles/css/jquery.dataTables.min.css" rel="stylesheet")
+      link(href="/styles/jquery.dataTables.min.css" rel="stylesheet")
       script(src='https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false')
 
 
-    body
-
-        script(src="/js/jquery.min.js")
-        script(src="/js/jquery_custom.js")
-        script(src="/js/dependencies/sails.io.js")
-        script(src="/js/Chart.min.js")
-        script(src="/js/HighCharts.js")
-        script(src="/js/Whisker.js")
-        //- script(src="/js/app.js")
-        //- script(src="/js/bootstrap-select.min.js")
-        //- script(src="/js/bootstrap-switch.min.js")
-        //- script(src="/js/bootstrap.js")
-        script(src="/js/bootstrap.min.js")
-        script(src="/js/buttons.js")
-        //- script(src="/js/chosen.js")
-        script(src="/js/d3.js")
-        //- script(src="/js/drawing/openLayers.js")
-        //- script(src="/js/drawing/scissors.js")
-        //- script(src="/js/drawing/scissors/benfurcate.js")
-        //- script(src="/js/drawing/scissors/bucketQueue.js")
-        //- script(src="/js/drawing/scissors/init.js")
-        //- script(src="/js/drawing/scissors/maskDrawing.js")
-        //- script(src="/js/drawing/scissors/pointQueue.js")
-        //- script(src="/js/drawing/scissors/scissors-bak.js")
-        //- script(src="/js/drawing/scissors/scissors.js")
-        //- script(src="/js/drawing/scissors/scissorsClient.js")
-        //- script(src="/js/drawing/scissors/scissorsLines.js")
-        //- script(src="/js/drawing/scissors/scissorsServer.js")
-        //- script(src="/js/drawing/scissors/scissorsWorker.js")
-        //- script(src="/js/drawing/scissors/scissors_extended.js")
-        //- script(src="/js/drawing/scissors/util.js")
-        //- script(src="/js/drawing/scissors/utils.js")
-        //- script(src="/js/drawing/smooth.js")
-        //- script(src="/js/drawing/squiggles.js")
-        //- script(src="/js/drawing/tween.js")
-        script(src="/js/dropzone.js")
-        script(src="/js/jquery.dataTables.min.js")
-        //- script(src="/js/jquery.toc.js")
-        //- script(src="/js/jquery.tocify.min.js")
-        script(src="/js/jquery_ui.js")
-        //- script(src="/js/material.min.js")
-        //- script(src="/js/nav.js")
-        //- script(src="/js/preloadjs-0.4.1.min.js")
-        script(src="/js/ripples.min.js")
-        //- script(src="/js/sails.io.js")
-        //- script(src="/js/sidr.js")
-        //- script(src="/js/socket.io.js")
-        //- script(src="/js/springy.js")
-        //- script(src="/js/springyui.js")
-        //- script(src="/js/uid3.js")
-        script(src="/js/vis.js")
-        script(src="/js/vivagraph.js")
+    script(src="/js/jquery.min.js")
+    script(src="/js/jquery_custom.js")
+    script(src="/js/dependencies/sails.io.js")
+    script(src="/js/Chart.min.js")
+    //- script(src="/js/HighCharts.js")
+    //- script(src="/js/Whisker.js")
+    script(src="/js/dropzone.js")
+    //- script(src="/js/app.js")
+    //- script(src="/js/bootstrap-select.min.js")
+    //- script(src="/js/bootstrap-switch.min.js")
+    //- script(src="/js/bootstrap.js")
+    script(src="/js/bootstrap.min.js")
+    script(src="/js/buttons.js")
+    //- script(src="/js/chosen.js")
+    script(src="/js/d3.js")
+    //- script(src="/js/drawing/openLayers.js")
+    //- script(src="/js/drawing/scissors.js")
+    //- script(src="/js/drawing/scissors/benfurcate.js")
+    //- script(src="/js/drawing/scissors/bucketQueue.js")
+    //- script(src="/js/drawing/scissors/init.js")
+    //- script(src="/js/drawing/scissors/maskDrawing.js")
+    //- script(src="/js/drawing/scissors/pointQueue.js")
+    //- script(src="/js/drawing/scissors/scissors-bak.js")
+    //- script(src="/js/drawing/scissors/scissors.js")
+    //- script(src="/js/drawing/scissors/scissorsClient.js")
+    //- script(src="/js/drawing/scissors/scissorsLines.js")
+    //- script(src="/js/drawing/scissors/scissorsServer.js")
+    //- script(src="/js/drawing/scissors/scissorsWorker.js")
+    //- script(src="/js/drawing/scissors/scissors_extended.js")
+    //- script(src="/js/drawing/scissors/util.js")
+    //- script(src="/js/drawing/scissors/utils.js")
+    //- script(src="/js/drawing/smooth.js")
+    //- script(src="/js/drawing/squiggles.js")
+    //- script(src="/js/drawing/tween.js")
+    script(src="/js/jquery.dataTables.min.js")
+    //- script(src="/js/jquery.toc.js")
+    //- script(src="/js/jquery.tocify.min.js")
+    script(src="/js/jquery_ui.js")
+    //- script(src="/js/material.min.js")
+    //- script(src="/js/nav.js")
+    //- script(src="/js/preloadjs-0.4.1.min.js")
+    script(src="/js/ripples.min.js")
+    //- script(src="/js/sidr.js")
+    //- script(src="/js/socket.io.js")
+    //- script(src="/js/springy.js")
+    //- script(src="/js/springyui.js")
+    //- script(src="/js/uid3.js")
+    script(src="/js/vis.js")
+    script(src="/js/vivagraph.js")
 
 
+    div#fileUpload
         block body
+
+        #previews
+
+        script.
+            $(document).ready(function() {
+
+                $("#fileUpload").dropzone({ url: "/signal/upload" });
+
+                var dropbox = document.getElementById('fileUpload');
+
+                dropbox.addEventListener('dragenter', noopHandler, false);
+                dropbox.addEventListener('dragexit', noopHandler, false);
+                dropbox.addEventListener('dragover', noopHandler, false);
+                dropbox.addEventListener('drop', drop, false);
+
+                function noopHandler(evt) {
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                }
+
+                function drop(evt) {
+                    evt.stopPropagation();
+                    evt.preventDefault(); 
+                    var getURL = evt.dataTransfer.getData('Url');
+                    
+                    if(getURL) {
+                      socket.post("/signal/getURL", {getURL:getURL} , function(a,b){
+                        console.log(getURL,a,b)
+                      })
+                    }
+                }
+            })
+
+
+
+
+noscript Please enable JavaScript and refresh this page

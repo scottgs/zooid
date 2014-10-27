@@ -1,61 +1,134 @@
-(function() {
 
-	/**
-	* Processes signature from the input path and responds with an llos
-	* which contains an array4of llos'
-	* @param  {[type]} searchSquiggle
-	* @return {[Array<clusterResults>]} signal
-	*/
+/**
+* Processes signature from the input path and responds with an llos
+* which contains an array4of llos'
+* @param  {[type]} searchSquiggle
+* @return {[Array<clusterResults>]} signal
+*/
+var Geolocator_module   = require('./build/Release/Geolocator_module');
+var geolocator          = new Geolocator_module.Geolocator_module();
+geolocator.initialize("/etc/vmr/geolocate.conf");
 
-	var Geolocator_module 	= require('./build/Release/Geolocator_module')
-	var geolocator 					= new Geolocator_module.Geolocator_module()
-	geolocator.initialize("/etc/vmr/geolocate.conf")
+var merge = require("merge")
+var moment = require("moment")
+var zooid = require("../../zooid_core")
 
-	var zooid = require("../../zooid_core")
-	var zode = merge( require("./package.json"), { 
-	    name:"Face Blurring"
-	  , filename:"face_blurring.js"
-	  , takes:"image"
-	  , gives:"blurred_faces"
-	  , status:"active"
-	  , work:0
-	  , actions:0 
-	})
-	
-	console.log(zode.name, " intiated.")
+var zode = merge( require("./package.json"), { 
+    name:"Terrain Based Geolocation"
+  , takes:"terrain_signature"
+  , gives:"geojson, kml"
+  , status:"?"
+  , ip:zooid.ip||'unknown'
+  , work:0
+  , actions:0 
+})
 
-	/******************************************************************************
-	 * TEST WITH BASE CASE
-	 * Run a test on the cluster with the default applicaiton of processing a small
-	 * image for feature 
-	 * 
-	 * detection and reporting back to the overmind the events of
-	 * both the event-positive and event-negative systems of signal processing.
-	******************************************************************************/
+console.log(zode.name, "intiated on", zooid.ip)
 
-	zooid.on( "test", function (signal){
-	 zooid.send({ parent_id:signal.id, name:zode.name, text:"okay"})
-	})
+zooid.on( "muster", function(signal){
+  zooid.muster(zode)
+})
+
+zooid.muster(zode)
+
+// zooid.on( "*", function(signal){
+//   console.log(zode.name, "rcvd message:", signal);
+// })
 
 
-	zooid.on("terrain_silhouette", function(signal){
+/******************************************************************************
+ * TEST WITH BASE CASE
+******************************************************************************/
 
-		clusterSize 			= config['clusterSize'] 		|| 500
-		clusterDistance 	= config['clusterDistance'] || 8
-		dataset 					= config['dataset'] 				|| "feature_small_gpu_afghan_360" 
-		
-		console.log("dataset, clusterSize, clusterDistance", dataset, clusterSize, clusterDistance )
-		
-		geolocator.search( signal, dataset, clusterSize, clusterDistance, function(err, clusterResults){
-   		// zooid.emit(err, clusterResults, signal);
-  	zooid.send({ parent_id:signal.id
-	  		, name:"geolocation"
-	  		, geojson:geojson
-	  		, noun:"geojson"
-	  		, text:err 
-	  	})
-		})
-	})
+zooid.on( "test", function (test_signal){
+  test(test_signal)
+})
 
 
-}).call(this)
+function test(test_signal){
+
+  zode.actions+=1
+  var start = moment().valueOf();
+        
+
+  signal = {}
+  signal.terrain_signature = [[
+      0.7071067811865475,
+      -0.8392803240259068,
+      0.9990958406831207,
+      -0.9990958406831207,
+      0.9509826718461247,
+      -0.9993628874431991,
+      0.9993773483135557,
+      0.7071067811865475,
+      -0.16944238478267
+  ]]
+
+  geolocate(signal, function(err, res){
+    
+    if (res) 
+      zode.status = "active"
+    else
+      zode.status = "error"
+    
+    var stop = moment().valueOf();
+    zode.work += stop - start
+    zooid.muster(zode)
+
+    zooid.muster(zode)
+
+    zooid.send({
+      parent_id:test_signal.id
+      , noun:'geolocation'
+      , name:zode.name
+      , geolocation:res 
+    });
+  })
+
+}
+
+
+zooid.on(zode.takes, function(signal){
+
+  geolocate(signal, function(err, res){
+      zooid.send({ 
+        parent_id:signal.id
+      , noun:'geolocation'
+      , name:"Geolocation"
+      , geolocation:(res||err)});
+    })
+
+})
+
+/******************************************************************************
+* Geolocates a terrain sillhoutte by smashing against the database.
+* @param terrain_silhouette
+* @param clusterSize
+* @param clusterDistance
+* @param dataset
+* @return err, clusterResults
+******************************************************************************/
+
+function geolocate(signal, done){
+
+  dataset           = signal['dataset']         || "feature_small_gpu_afghan_360" 
+  clusterSize       = signal['clusterSize']     || 500
+  clusterDistance   = signal['clusterDistance'] || 8
+  
+  console.log('  dataset: ' , dataset )
+  console.log('  clusterSize: ' , clusterSize )
+  console.log('  clusterDistance: ' , clusterDistance )
+  console.log('   ')
+  
+  geolocator.search( 
+      signal.terrain_signature
+    , dataset
+    , clusterSize
+    , clusterDistance
+    , function(err, clusterResults){
+      done( err, clusterResults )
+  })
+}
+
+// test({id:"test"})
+

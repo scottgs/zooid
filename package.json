@@ -45,6 +45,7 @@
     "cheerio": "~0.17.0",
     "node-tesseract": "~0.2.6",
     "tokml": "~0.2.4",
-    "terraformer": "~1.0.4"
+    "terraformer": "~1.0.4",
+    "sails-mongo": "~0.10.4"
   }
 }

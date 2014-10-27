@@ -1,0 +1,81 @@
+block content
+  #graphVisualization(style="width:100%;height:40%;")
+
+
+  script(type="text/javascript" src="/js/vivagraph.js")
+  script.
+      (function (io) {
+
+      var socket = io.connect();
+
+      function forceGraph() {
+         
+          graph = Viva.Graph.graph();
+
+       
+
+          var layout = Viva.Graph.Layout.forceDirected(graph, {
+              springLength : 18,
+              springCoeff : 0.0001,
+              dragCoeff : 0.06,
+              gravity : -3
+          });
+
+          var renderer = Viva.Graph.View.renderer( graph, {
+            container : document.getElementById('graphVisualization')
+
+          });
+
+
+          renderer.run();
+
+          return graph
+      }
+
+
+      graph = forceGraph()
+
+
+
+      $(document).ready(function(){
+
+
+       /**
+         * Listens for model changes over socket.
+         * @param  {String} model   Model name
+         * @return null
+         */
+      
+        socket.on( "zode", function(dataset){
+            signalModel.emit(dataset.verb, dataset);
+        })
+
+        /**
+         * Gets some amount of the signals from the model
+         * for display now, and bsubscribe to them.
+         * Intended to be customized, kinda.
+         * @param  {String}   model name
+         * @return null
+         */
+        
+        socket.get( "/zode/find", { limit:50 }, function(zodes){
+
+          $.map(zodes, function(zode){
+
+            graph.addNode( ""+zode.ip, ""+zode.ip)
+            graph.addNode( ""+zode.name, ""+zode.name)
+            graph.addLink( ""+zode.ip, ""+zode.name)
+            graph.addLink( ""+zode.ip, "web")
+
+
+
+          })
+
+        })
+
+
+      })
+
+
+      })(window.io);
+page

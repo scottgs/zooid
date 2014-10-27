@@ -244,7 +244,7 @@ block body
 
 
           $(document).ready(function() {
-            socket.get('/system/', function(system){
+            socket.get('/zode/', function(system){
               for (var i = 0; i < system.length; i++) {
                 models['system']['create'](system[i]);
               };

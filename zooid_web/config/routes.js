@@ -36,6 +36,18 @@ module.exports.routes = {
     view: 'control/index'
   },
 
+  '/cbir': {
+    view: 'cbir/index'
+  },
+
+  '/z': {
+    view: 'control/zodes'
+  },
+
+  '/s': {
+    view: 'control/signals'
+  },
+
 
 
 

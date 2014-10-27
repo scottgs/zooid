@@ -12,6 +12,36 @@ var Axon   = require('axon')
 var path   = require("path")
 var fs     = require("fs")
 
+
+/**
+ * Creates a socket for managing zodes and binds to it.
+ * @type {Socket Object}
+ */
+
+var ganglion = Axon.socket('pull');
+
+ganglion.bind(42001);
+
+ganglion.on('message', function( signal ){
+
+  Zode.find({name:signal.name, ip:signal.ip}, function(err,zode){
+    // console.log(err || zode);
+    if(zode.length){
+      // console.log("UPDATING", zode[0])
+      Zode.update( {id:zode[0].id}, signal ).exec(function(err,updated){
+        // console.log(err, updated)
+        if(zode[0].actions != signal.actions || zode[0].status != signal.status)
+          Zode.publishUpdate( zode[0].id, signal );
+      })
+    } else {
+      Zode.create( signal, function(err, res){
+        // console.log("UPDATING" + err || res)
+        if(res) Zode.publishCreate( res.toJSON() )
+      })
+    }
+  })
+})
+
 /**
  * Creates a socket for publishing and binds to it.
  * @type {Socket Object}
@@ -29,9 +59,9 @@ var dendrites = Axon.socket('pull');
 dendrites.bind(42003);
 
 dendrites.on('message', function( signal ){
-  console.log( signal );
+  // console.log( signal );
   Signal.create( signal, function(err, res){
-    console.log(err || res)
+    // console.log(err || res)
     if(res) Signal.publishCreate(res.toJSON() )
   })
 });
@@ -42,9 +72,12 @@ dendrites.on('message', function( signal ){
  * @return null
  */
 
-dendrites.on('*', function(event){
-  console.log(arguments);
-});
+// dendrites.on('*', function(event){
+//   console.log(arguments);
+// });
+
+
+
 
 /**
  * Runs tests obnoxiously often.
@@ -98,8 +131,8 @@ dendrites.on('*', function(event){
  * @type {Number} TTL                Time to persist an isntance.
  */
 
-var muster_interval = 5  // seconds
-var TTL             = 25  // seconds
+var muster_interval = 15  // seconds
+var TTL             = 30  // seconds
 
 /**
  * Periodically checks the state of the zooid and updates
@@ -141,7 +174,6 @@ timers.setInterval(function muster(){
         //   console.log(err || s);
         // })
         // 
-        console.log("LOST COMMS WITH: ", zode.id);
 
         /**
          * Kill the zodenal.
@@ -150,8 +182,8 @@ timers.setInterval(function muster(){
          * @return null
          */
         
-        System.destroy( zode.id, function(err,s){
-          if(!err) System.publishDestroy( zode.id )
+        Zode.destroy( zode.id, function(err,s){
+          if(!err) Zode.publishDestroy( zode.id )
         })
         
       });
@@ -213,8 +245,7 @@ module.exports = {
    */
   
   afterCreate: function(signal, next){
-    if(signal.noun || !signal.hide) 
-      axon.emit( signal.noun, signal );
+    axon.emit( signal.noun, signal );
     next();
   },
 

@@ -1,0 +1,17 @@
+{
+  "name": "Image Consumption",
+  "version": "0.0.1",
+  "description": "Reads in a directory full of images and processes them.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "consumption",
+    "directory",
+    "dir"
+  ],
+  "author": "Benjamin Baker",
+  "license": "BSD-2-Clause"
+
+}

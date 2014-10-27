@@ -1,0 +1,300 @@
+block content
+  br
+  br
+  #clusterPieChart
+  br
+  hr
+
+
+  script.
+
+    (function (io) {
+    
+      var socket = io.connect();
+
+
+    /**
+     * Instantiates a model-DOM event domain.
+     * As found in jquery_custom.js
+     */
+
+    var cluster_pie_model = new $.eventModel();
+
+    /**
+     * Listens for model instance creation and binds  events
+     * to the DOM with respect to their model and structure.
+     * @param  {Object} info    Event information from emit
+     * @param  {Object} item    The thing that happened.
+     * @return null
+     */
+
+    cluster_pie_model.on('created', function(info,item) {
+
+        var chart = $('#clusterPieChart').highcharts();
+        if(chart.series.length === 0)
+          chart.addSeries({})
+        chart.series[0].addPoint( [ (new Date(item.data.date)).getTime() , item.data.results+1 ], true, false );
+
+
+    });
+
+
+    /**
+     * Listens for model updates and binds model events
+     * to the DOM with respect to their model and structure.
+     * @param  {Object} info     Event information from emit
+     * @param  {Object} activity The thing that happened.
+     * @return null
+     */
+    
+    cluster_pie_model.on('updated', function(info,item) {
+      $.map(item.data, function(val, attr){
+        if($("#"+item.id+" #"+attr).text())
+          $("#"+item.id+" #"+attr).text(val)
+        else $("#"+item.id).append($("<div>",{id:attr,text:val}))
+      })
+    });
+
+    /**
+     * Glues the model events to their respective DOM
+     * elements and gets a specified number of items
+     * with which to first populate the content.
+     * @param  {String} model The name of the model
+     * @return null
+     */
+    
+    function dataset_glue(model){
+
+      /**
+       * Listens for model changes over socket.
+       * @param  {String} model   Model name
+       * @return null
+       */
+    
+      socket.on( model, function(dataset){
+          cluster_pie_model.emit(dataset.verb, dataset);
+      })
+
+
+      /**
+       * Gets some amount of the signals from the model
+       * for display now, and bsubscribe to them.
+       * Intended to be customized, kinda.
+       * @param  {String}   model name
+       * @return null
+       */
+      
+      socket.get( "/"+model+"/groupByIp", 
+        {sort:"date DESC", limit:50}, function(signals){
+        $.map(signals, function(signal){
+          cluster_pie_model.emit('created', {
+            id:signal.id,
+            data:{ name:signal.noun, results:10 }
+          })
+        })
+      })
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+      // Create the chart
+      $('#clusterPieChart').highcharts({
+          chart: {
+              type: 'pie'
+          },
+          title: {
+              text: 'Basic drilldown'
+          },
+          xAxis: {
+              type: 'category'
+          },
+
+          legend: {
+              enabled: false
+          },
+
+          plotOptions: {
+              series: {
+                  borderWidth: 0,
+                  dataLabels: {
+                      enabled: true
+                  }
+              }
+          },
+
+          series: [{
+              name: 'Things',
+              colorByPoint: true,
+              data: [{
+                  name: 'Animals',
+                  y: 5,
+                  drilldown: 'animals'
+              }, {
+                  name: 'Fruits',
+                  y: 2,
+                  drilldown: 'fruits'
+              }, {
+                  name: 'Cars',
+                  y: 4,
+                  drilldown: 'cars'
+              }]
+          }],
+          drilldown: {
+              series: [{
+                  id: 'animals',
+                  data: [
+                      ['Cats', 4],
+                      ['Dogs', 2],
+                      ['Cows', 1],
+                      ['Sheep', 2],
+                      ['Pigs', 1]
+                  ]
+              }, {
+                  id: 'fruits',
+                  data: [
+                      ['Apples', 4],
+                      ['Oranges', 2]
+                  ]
+              }, {
+                  id: 'cars',
+                  data: [
+                      ['Toyota', 4],
+                      ['Opel', 2],
+                      ['Volkswagen', 2]
+                  ]
+              }]
+          }
+      });
+
+
+
+
+
+
+
+
+      /**
+       * Binds the DOM broadcast domain to the Model.
+       * @param  {String} The name of the desired model
+       */
+    $(document).ready(function(){
+      
+      //- dataset_glue("zode");
+
+      //- $('#geolocationChart').highcharts({
+      //-     legend:{enabled:false},
+      //-     chart: {
+      //-         type: 'spline',
+      //-         backgroundColor:"rgba(255,255,255,0)",
+      //-     },
+      //-     title:{text:"Geolocation requests over time"},
+
+      //-     credits: {
+      //-         enabled: false
+      //-     },
+      //-     xAxis: {
+      //-       type: 'datetime',
+      //-       title: {
+      //-           text: 'Date'
+      //-       }
+      //-     },
+      //-     plotOptions: {
+      //-       series: {
+      //-         marker: {
+      //-           enabled: false
+      //-         }
+      //-       }
+      //-     },
+      //- });
+
+
+      //- $('#imageChart').highcharts({
+      //-     legend:{enabled:false},
+      //-     chart: {
+      //-         type: 'column',
+      //-         backgroundColor:"rgba(0,0,0,0)",
+      //-     },
+      //-     title:{text:"Image Processing requests over time"},
+
+      //-     credits: {
+      //-         enabled: false
+      //-     },
+      //-     xAxis: {
+      //-       type: 'datetime',
+
+      //-       title: {
+      //-           text: 'Date'
+      //-       }
+      //-     },
+      //-     plotOptions: {
+      //-       series: {
+      //-         marker: {
+      //-           enabled: false
+      //-         }
+      //-       }
+      //-     },
+      //- });
+
+
+
+      
+
+
+
+
+
+
+
+      //- $('#clusterPieChart').highcharts({
+      //-     legend:{enabled:false},
+      //-     chart: {
+      //-         type: 'pie',
+      //-         backgroundColor:"rgba(0,0,0,0)",
+      //-     },
+      //-     title:{text:"Cluster"},
+      //-     credits: {
+      //-         enabled: false
+      //-     },
+      //-     xAxis: {
+      //-       type: 'category',
+      //-       labels: {
+      //-           rotation: 0,
+      //-           style: {
+      //-               fontSize: '11px',
+      //-               fontFamily: 'Verdana, sans-serif'
+      //-           }
+      //-       }
+      //-     },
+      //-     plotOptions: {
+      //-       series: {
+      //-         type: 'pie',
+      //-         name:"Cluster concepts",
+      //-         innerSize: '80%',
+      //-         marker: {
+      //-           enabled: false
+      //-         }
+      //-       }
+      //-     },
+      //- });
+
+
+
+    });
+
+
+    })(window.io);
+
+
+
+
+

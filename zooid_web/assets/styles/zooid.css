@@ -7,7 +7,7 @@
 
 body{
   font-family: 'Source Sans Pro', sans-serif;
-  background-color:#f2f2f2;
+  background-color:#f0edf1;
 }
 svg{
   /*font-family: 'Reenie Beanie', sans-serif;*/
@@ -72,23 +72,19 @@ svg{
   letter-spacing: 0.4;
   font-family: 'Helvetica Neue', Helvetica, Times New Roman, times-roman, georgia, serif;
   font-weight:400;
-  border-bottom:1px solid #d7d7d7;
-  /*border-bottom:1px solid #e7e7e7!important;*/
+  border-bottom:1px solid #e2e3e5!important;
 }
 
 .navbar-brand{
-  margin-top:2px;
-  color:#429!important;
-  font-size:20px;
+  color:#484848!important;
+  font-weight:500;
+  letter-spacing:-0.2px;
+  text-shadow:0px -1px 1px #fff!important;
+  margin-left:8px;
 }
 
 .navbar-brand:hover{
   color:#314!important;
-  text-shadow:1px -1px 2px #ddf!important;
-}
-
-.navbar-brand * {
-  margin-top:4px;
 }
 
 
@@ -254,9 +250,7 @@ clear{
 
 .brand a {
   color:#314!important;
-  font-size:16px;
   /*text-shadow:1px -1px 2px #!important;*/
-  background: none;
 
 }
 
@@ -290,9 +284,7 @@ clear{
   background-color: #BF331D;
 }
 
-ul.nav.navbar-nav > li{
-padding-top:1px;
-}
+
 ul.nav.navbar-nav li a:hover{
   background-color:#f2f2f2;
 }
@@ -514,4 +506,19 @@ hr{
   -webkit-border-radius: 0px 0px 0px 0px!important;
 }
 
+#zodesTable input, #signalsTable input{
+  border:1px solid #ddd!important;
+}
+#zodesTable, #signalsTable label, #zodesTable_length label, #signalsTable_length label, #zodesTable_length label{
+  font-weight: 200;
+  color:#555;
+}
+#zodesTable, #signalsTable{
+  border-bottom:1px solid #ccc!important;
+}
+th{
+  border-bottom:1px solid #ccc!important;
+  font-weight: 300!important;
+  color:#aaa!important;
+}
 

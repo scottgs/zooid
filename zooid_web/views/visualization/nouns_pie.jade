@@ -1,31 +1,6 @@
 block content
-  .container-fluid
-    .col-md-8
-      br
-      .col-md-6
-        .panel.panel-default
-          #nounsPieChart
-      
-      .col-md-6
-        .panel.panel-default
-          #nounsChart
+  #nounsPieChart
 
-      .col-md-12
-        .panel.panel-default
-          #geolocationChart
-
-      .col-md-12
-        .panel.panel-default
-          #imageChart
-
-    .col-md-4
-      #namesChart
-
-    br
-    p.lead An exploration of 
-      a(href="http://www.highcharts.com/") high charts.
-
-  script(type="text/javascript", src="/js/HighCharts.js")
   script.
 
     (function (io) {
@@ -83,16 +58,16 @@ block content
     });
 
 
-    signalModel.on('names', function(info,names) {
+    //- signalModel.on('names', function(info,names) {
 
-      var chart = $('#namesChart').highcharts();
-      if(chart.series.length === 0)
-        chart.addSeries({})
-      $.map(names, function(val, name){
-        chart.series[0].addPoint( [ name, val ], true, false );
-      })
+    //-   var chart = $('#namesChart').highcharts();
+    //-   if(chart.series.length === 0)
+    //-     chart.addSeries({})
+    //-   $.map(names, function(val, name){
+    //-     chart.series[0].addPoint( [ name, val ], true, false );
+    //-   })
 
-    });
+    //- });
 
 
 
@@ -183,7 +158,7 @@ block content
        */
       
       socket.get( "/"+model+"/find", 
-        { limit:300, noun: {"!":"undefined"} }, function(signals){
+        { limit:300 }, function(signals){
         var nouns = {};
         var names = {};
         $.map(signals, function(signal){
@@ -218,74 +193,6 @@ block content
     }
 
 
-      /**
-       * Binds the DOM broadcast domain to the Model.
-       * @param  {String} The name of the desired model
-       */
-    $(document).ready(function(){
-      
-      dataset_glue("signal");
-
-      Highcharts.setOptions({
-          global: {
-              useUTC: false
-          }
-      });
-
-
-      $('#geolocationChart').highcharts({
-          legend:{enabled:false},
-          chart: {
-              type: 'spline',
-              backgroundColor:"rgba(255,255,255,0)",
-          },
-          title:{text:"Geolocation requests over time"},
-
-          credits: {
-              enabled: false
-          },
-          xAxis: {
-            type: 'datetime',
-            title: {
-                text: 'Date'
-            }
-          },
-          plotOptions: {
-            series: {
-              marker: {
-                enabled: false
-              }
-            }
-          },
-      });
-
-
-      $('#imageChart').highcharts({
-          legend:{enabled:false},
-          chart: {
-              type: 'column',
-              backgroundColor:"rgba(0,0,0,0)",
-          },
-          title:{text:"Image Processing requests over time"},
-
-          credits: {
-              enabled: false
-          },
-          xAxis: {
-            type: 'datetime',
-
-            title: {
-                text: 'Date'
-            }
-          },
-          plotOptions: {
-            series: {
-              marker: {
-                enabled: false
-              }
-            }
-          },
-      });
 
 
 
@@ -293,26 +200,28 @@ block content
           legend:{enabled:false},
           chart: {
               type: 'pie',
-              height:300,
-              backgroundColor:"rgba(0,0,0,0)",
           },
-          title:{text:"System Nouns"},
+          title:{text:"nouns",
+          align: 'center',
+          verticalAlign: 'middle',
+            y: 6
+              },
           credits: {
               enabled: false
           },
           xAxis: {
-            type: 'category',
             labels: {
-                rotation: 0,
                 style: {
-                    fontSize: '11px',
-                    fontFamily: 'Verdana, sans-serif'
+                    fontSize: '24px',
                 }
             }
           },
           plotOptions: {
             series: {
-              marker: {
+                type: 'pie',
+                name:"Cluster concepts",
+               innerSize: '80%',
+               marker: {
                 enabled: false
               }
             }
@@ -321,66 +230,104 @@ block content
 
 
 
-
-      $('#nounsChart').highcharts({
-          legend:{enabled:false},
-          chart: {
-              type: 'column',
-              height:300,
-              backgroundColor:"rgba(0,0,0,0)",
-          },
-          title:{text:"System Nouns"},
-          credits: {
-              enabled: false
-          },
-          xAxis: {
-            type: 'category',
-            labels: {
-                rotation: -45,
-                style: {
-                    fontSize: '11px',
-                    fontFamily: 'Verdana, sans-serif'
-                }
-            }
-          },
-          plotOptions: {
-            series: {
-              marker: {
-                enabled: false
-              }
-            }
-          },
-      });
+    /**
+     * Binds the DOM broadcast domain to the Model.
+     * @param  {String} The name of the desired model
+     */
+    $(document).ready(function(){
+      
 
 
-      $('#namesChart').highcharts({
-          legend:{enabled:false},
-          chart: {
-              type: 'bar',
-              backgroundColor:"rgba(0,0,0,0)",
-          },
-          title:{text:"Signal Names"},
-          credits: {
-              enabled: false
-          },
-          xAxis: {
-            type: 'category',
-            labels: {
-                rotation: 0,
-                style: {
-                    fontSize: '11px',
-                    fontFamily: 'Verdana, sans-serif'
-                }
-            }
-          },
-          plotOptions: {
-            series: {
-              marker: {
-                enabled: false
-              }
-            }
-          },
-      });
+
+      //- $('#geolocationChart').highcharts({
+      //-     legend:{enabled:false},
+      //-     chart: {
+      //-         type: 'spline',
+      //-         backgroundColor:"rgba(255,255,255,0)",
+      //-     },
+      //-     title:{text:"Geolocation requests over time"},
+
+      //-     credits: {
+      //-         enabled: false
+      //-     },
+      //-     xAxis: {
+      //-       type: 'datetime',
+      //-       title: {
+      //-           text: 'Date'
+      //-       }
+      //-     },
+      //-     plotOptions: {
+      //-       series: {
+      //-         marker: {
+      //-           enabled: false
+      //-         }
+      //-       }
+      //-     },
+      //- });
+
+
+      //- $('#imageChart').highcharts({
+      //-     legend:{enabled:false},
+      //-     chart: {
+      //-         type: 'column',
+      //-         backgroundColor:"rgba(0,0,0,0)",
+      //-     },
+      //-     title:{text:"Image Processing requests over time"},
+
+      //-     credits: {
+      //-         enabled: false
+      //-     },
+      //-     xAxis: {
+      //-       type: 'datetime',
+
+      //-       title: {
+      //-           text: 'Date'
+      //-       }
+      //-     },
+      //-     plotOptions: {
+      //-       series: {
+      //-         marker: {
+      //-           enabled: false
+      //-         }
+      //-       }
+      //-     },
+      //- });
+
+
+
+      dataset_glue("signal");
+
+
+
+
+      //- $('#namesChart').highcharts({
+      //-     legend:{enabled:false},
+      //-     chart: {
+      //-         type: 'bar',
+      //-         backgroundColor:"rgba(0,0,0,0)",
+      //-     },
+      //-     title:{text:"Signal Names"},
+      //-     credits: {
+      //-         enabled: false
+      //-     },
+      //-     xAxis: {
+      //-       type: 'category',
+      //-       labels: {
+      //-           rotation: 0,
+      //-           style: {
+      //-               fontSize: '11px',
+      //-               fontFamily: 'Verdana, sans-serif'
+      //-           }
+      //-       }
+      //-     },
+      //-     plotOptions: {
+      //-       series: {
+      //-         marker: {
+      //-           enabled: false
+      //-         }
+      //-       }
+      //-     },
+      //- });
 
 
 

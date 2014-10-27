@@ -1,20 +1,28 @@
-.navbar.navbar-fixed-top.navbar-special(role='navigation', style="margin-bottom:0px;")
-  .container-fluid
+.navbar.navbar-fixed-top.navbar-default(role='navigation', style="padding-top:12px;padding-bottom:12px;")
+  .container
     .navbar-header
       button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
         span.sr-only Toggle navigation
         fa.fa.fa-fw.fa-caret-down
       a(href='/').navbar-brand
-        o Zooid
+        o zooid
     .navbar-collapse.collapse.scootRight 
-      include nav_tabs
-      ul.nav.navbar-nav.navbar-left(style="margin-right:0px;")
+      ul.nav.navbar-nav.navbar-left
+        li
+          a(href="/s") Signals
+        li
+          a(href="/z") Zodes
+        li
+          a(href="/cbir") CBIR
+        li
+          a(href="/tbg") TBG
+
+      ul.nav.navbar-nav.navbar-right(style="margin-right:0px;")
         li
           form.navbar-form.getURL(role='search').scootRight
             .form-group.scootRight
               input.form-control(type='text', name="" placeholder='Search')
               .submitURL.btn
                 o.fa.ion-ios7-search-strong.fa-lg.text-muted
-div(style="margin-bottom:48px!important;")
-
-
+        include nav_tabs
+div(style="margin-bottom:52px!important;")

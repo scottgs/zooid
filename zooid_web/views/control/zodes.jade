@@ -1,0 +1,162 @@
+include index
+block content
+  script(src="/js/HighCharts.js")
+  script(src="/js/drilldown.js")
+  .container-fluid
+    include ../visualization/cluster_map
+
+  .container
+    .panel.panel-default
+      .panel-heading Cluster Overview
+      .panel-body
+          table.table.table-condensed#zodesTable.compact.display
+            thead
+              tr
+                th Zode module
+                th Status
+                th IP
+                th Status
+                th Actions
+                th Timing (ms)
+                //- th takes
+                //- th gives
+            tbody
+                
+    .col-md-2
+
+      hr
+      .button.button-flat-action.test_cluster.btn-block.button-large Test
+
+
+    .col-md-12
+      .row
+        .col-md-6
+          .panel.panel-default
+        .col-md-6
+          .panel.panel-default
+
+
+
+
+
+  script.
+
+      // make new instance of Model
+      var zodeModel = new $.eventModel();
+      
+
+
+      // ***** table everything
+
+      // Listen for when things of this model type are created
+      zodeModel.on('created', function(info,activity) {
+        var nm = (activity.data.name || activity.data.noun).replace(/ /g,'').toLowerCase();
+
+        $("#zodesTable").append($("<tr>",{
+          class:"", 
+          id:activity.id,
+          href:"#"+nm, 
+
+        }))
+
+        $("#zodesTable "+ "#"+activity.id)
+          .append(
+
+            $("<td>",{
+              id:'ip',
+              text:activity.data.ip
+            }),
+            $("<td>",{
+              id:'status',
+              text:activity.data.status
+            }),
+            $("<td>",{
+              id:'name',
+              html:activity.data.name,
+            }),
+            $("<td>",{
+              id:'status',
+              text:activity.data.status
+            }),
+            $("<td>",{
+              id:'actions',
+              text:activity.data.actions
+            }),
+            $("<td>",{
+              id:'work',
+              text:activity.data.work
+            })
+            //- $("<td>",{
+            //-   id:'takes',
+            //-   text:activity.data.takes
+            //- }),
+            //- $("<td>",{
+            //-   id:'gives',
+            //-   text:activity.data.gives
+            //- })
+
+          )
+
+      });
+
+
+      // Listen for when things of this model type are updated
+      zodeModel.on('updated', function(info,activity) {
+        console.log(activity)
+        $.map(activity.data, function(val, key){
+        console.log(val,":",key)
+
+          if($("#"+activity.id+" #"+key).text())
+            if($("#"+activity.id+" #"+key).text() != val)
+            $("#"+activity.id+" #"+key).text(val)
+          //- else $("#"+activity.id).append($("<div>",{id:key,text:val}))
+        })
+      });
+
+
+      // bind dom to model with sockets
+      function dom_glue(model){
+
+        io.socket.on( model, function(activity){
+            zodeModel.emit(activity.verb, activity);
+        })
+
+        io.socket.get( "/"+model, {}, function(activities){
+
+          $.map(activities, function(activity){
+            console.log(activity)
+            zodeModel.emit('created', {
+              id:activity.id,
+              data:activity
+            })
+
+          })
+        $("#zodesTable").DataTable({"lengthMenu": [ 10,25,50,100,500 ]});
+        })
+
+      }
+
+      // When document is ready, grab latest things.
+      $(document).ready(function(){
+
+        dom_glue("zode");
+
+
+        /**
+         * Tests the cluster, broadcasts "test" to all the zodes from the
+         * controller and paints responses through normal socket flow.
+         * @param  {[type]}  error
+         * @return {[type]}   [description]
+         */
+        
+        $(document).on('click', '.test_cluster', function(error){
+          io.socket.post("/signal/test", {});
+        })
+
+      })
+
+
+
+
+
+page
