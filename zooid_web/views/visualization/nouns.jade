@@ -23,37 +23,31 @@ block content
      * @return null
      */
 
-    nounsModel.on('created', function(info,item) {
+    //- nounsModel.on('created', function(info,item) {
 
-      if(item.data.noun="geolocation"){
-        var chart = $('#geolocationChart').highcharts();
-        if(chart.series.length === 0)
-          chart.addSeries({})
-        chart.series[0].addPoint( [ (new Date(item.data.date)).getTime() , item.data.results+1 ], true, false );
-      }
-
-
-      if(item.data.noun="image"){
-        var chart = $('#imageChart').highcharts();
-        if(chart.series.length === 0)
-          chart.addSeries({})
-        chart.series[0].addPoint( [ (new Date(item.data.date)).getTime() , item.data.results+1 ], true, false );
-      }
-
-    });
+    //-   if(item.data.noun="geolocation"){
+    //-     var chart = $('#geolocationChart').highcharts();
+    //-     if(chart.series.length === 0)
+    //-       chart.addSeries({})
+    //-     chart.series[0].addPoint( [ (new Date(item.data.date)).getTime() , item.data.results+1 ], true, false );
+    //-   }
 
 
-    nounsModel.on('nouns', function(info,item) {
+    //-   if(item.data.noun="image"){
+    //-     var chart = $('#imageChart').highcharts();
+    //-     if(chart.series.length === 0)
+    //-       chart.addSeries({})
+    //-     chart.series[0].addPoint( [ (new Date(item.data.date)).getTime() , item.data.results+1 ], true, false );
+    //-   }
 
-      var chart = $('#nounsChart').highcharts();
-      if(chart.series.length === 0)
-        chart.addSeries({})
-      chart.series[0].addPoint( 
-        [ item.data.noun, item.data.results ]
-      , true, false );
+    //- });
 
 
-    });
+    //- nounsModel.on('nouns', function(info,item) {
+
+
+
+    //- });
 
 
     //- nounsModel.on('names', function(info,names) {
@@ -77,13 +71,13 @@ block content
      * @return null
      */
     
-    nounsModel.on('updated', function(info,item) {
-      $.map(item.data, function(val, attr){
-        if($("#"+item.id+" #"+attr).text())
-          $("#"+item.id+" #"+attr).text(val)
-        else $("#"+item.id).append($("<div>",{id:attr,text:val}))
-      })
-    });
+    //- nounsModel.on('updated', function(info,item) {
+    //-   $.map(item.data, function(val, attr){
+    //-     if($("#"+item.id+" #"+attr).text())
+    //-       $("#"+item.id+" #"+attr).text(val)
+    //-     else $("#"+item.id).append($("<div>",{id:attr,text:val}))
+    //-   })
+    //- });
 
     /**
      * Glues the model events to their respective DOM
@@ -101,9 +95,9 @@ block content
        * @return null
        */
     
-      socket.on( model, function(dataset){
-          nounsModel.emit(dataset.verb, dataset);
-      })
+      //- socket.on( model, function(dataset){
+      //-     nounsModel.emit(dataset.verb, dataset);
+      //- })
 
       /**
        * Gets some amount of the signals from the model
@@ -113,18 +107,38 @@ block content
        * @return null
        */
       
-      socket.get( "/"+model+"/find", 
-        {noun:"geolocation", sort:"date DESC", limit:50}, function(signals){
-        $.map(signals, function(signal){
-          var results = (typeof signal.geolocation != "undefined") ? signal.geolocation.length : 0;
-          if(results){
-            nounsModel.emit('created', {
-              id:signal.id,
-              data:{date:signal.date, results:results, noun:signal.noun}
-            })
-          }
-        })
-      })
+      //- socket.get( "/"+model+"/find", 
+      //-   {noun:"geolocation", sort:"date DESC", limit:50}, function(signals){
+      //-   $.map(signals, function(signal){
+      //-     var results = (typeof signal.geolocation != "undefined") ? signal.geolocation.length : 0;
+      //-     if(results){
+      //-       nounsModel.emit('created', {
+      //-         id:signal.id,
+      //-         data:{date:signal.date, results:results, noun:signal.noun}
+      //-       })
+      //-     }
+      //-   })
+      //- })
+
+
+      //- /**
+      //-  * Gets some amount of the signals from the model
+      //-  * for display now, and bsubscribe to them.
+      //-  * Intended to be customized, kinda.
+      //-  * @param  {String}   model name
+      //-  * @return null
+      //-  */
+      
+      //- socket.get( "/"+model+"/find", 
+      //-   {noun:"image", sort:"date DESC", limit:50}, function(signals){
+      //-   $.map(signals, function(signal){
+      //-     nounsModel.emit('created', {
+      //-       id:signal.id,
+      //-       data:{date:signal.date, results:10, noun:signal.noun}
+      //-     })
+      //-   })
+      //- })
+
 
 
       /**
@@ -135,55 +149,35 @@ block content
        * @return null
        */
       
-      socket.get( "/"+model+"/find", 
-        {noun:"image", sort:"date DESC", limit:50}, function(signals){
-        $.map(signals, function(signal){
-          nounsModel.emit('created', {
-            id:signal.id,
-            data:{date:signal.date, results:10, noun:signal.noun}
-          })
-        })
-      })
+      //- socket.get( "/"+model+"/find", 
+      //-   { limit:100 }, function(signals){
+      //-   var nouns = {};
+      //-   var names = {};
+      //-   $.map(signals, function(signal){
 
-
-
-      /**
-       * Gets some amount of the signals from the model
-       * for display now, and bsubscribe to them.
-       * Intended to be customized, kinda.
-       * @param  {String}   model name
-       * @return null
-       */
-      
-      socket.get( "/"+model+"/find", 
-        { limit:100 }, function(signals){
-        var nouns = {};
-        var names = {};
-        $.map(signals, function(signal){
-
-            if(typeof nouns[signal.noun] != "undefined")
-              nouns[signal.noun]++
-            else
-              nouns[signal.noun]=1
+      //-       if(typeof nouns[signal.noun] != "undefined")
+      //-         nouns[signal.noun]++
+      //-       else
+      //-         nouns[signal.noun]=1
             
-            if(typeof names[signal.name] != "undefined")
-              names[signal.name]++
-            else
-              names[signal.name]=1
+      //-       if(typeof names[signal.name] != "undefined")
+      //-         names[signal.name]++
+      //-       else
+      //-         names[signal.name]=1
 
-        })
+      //-   })
 
-        $.map(nouns, function(results, noun){
-          nounsModel.emit('nouns', {
-            data:{ noun:noun, results:results }
-          })
-        })
+      //-   $.map(nouns, function(results, noun){
+      //-     nounsModel.emit('nouns', {
+      //-       data:{ noun:noun, results:results }
+      //-     })
+      //-   })
         
-        nounsModel.emit('names', names)
+      //-   nounsModel.emit('names', names)
 
 
 
-      })
+      //- })
 
 
 
@@ -213,13 +207,16 @@ block content
           series: {
             marker: {
               enabled: false
-            }
+            },
+
+
+
           }
         },
     });
 
 
-    
+
     /**
      * Binds the DOM broadcast domain to the Model.
      * @param  {String} The name of the desired model
@@ -231,7 +228,7 @@ block content
 
 
 
-      dataset_glue("zode");
+      dataset_glue("signal");
 
 
 

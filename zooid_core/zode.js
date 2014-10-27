@@ -56,6 +56,10 @@ function introspect(done){
           dendrites.ip = details.address
         ++alias;
       }
+      if (details.family=='IPv6') {
+        dendrites.ip = details.address
+        ++alias;
+      }
     });
   }
 }

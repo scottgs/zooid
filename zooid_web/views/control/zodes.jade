@@ -2,27 +2,31 @@ include index
 block content
   script(src="/js/HighCharts.js")
   script(src="/js/drilldown.js")
-  .container-fluid
-    include ../visualization/cluster_map
+  script(src="/js/HighCharts_custom.js")
+  .jumbotron(style="background-color:#112640;")
+    include ../visualization/cluster_pie
+    //- include ../visualization/cluster_map
 
   .container
-    .panel.panel-default
-      .panel-heading Cluster Overview
-      .panel-body
-          table.table.table-condensed#zodesTable.compact.display
-            thead
-              tr
-                th Zode module
-                th Status
-                th IP
-                th Status
-                th Actions
-                th Timing (ms)
-                //- th takes
-                //- th gives
-            tbody
-                
-    .col-md-2
+    hr
+    .col-md-9
+      .panel.panel-default
+        .panel-heading Cluster Overview
+        .panel-body
+            table#zodesTable.compact
+              thead
+                tr
+                  th Zode module
+                  th Status
+                  th IP
+                  th Status
+                  th Actions
+                  th Timing (ms)
+                  //- th takes
+                  //- th gives
+              tbody
+                  
+    .col-md-3
 
       hr
       .button.button-flat-action.test_cluster.btn-block.button-large Test
