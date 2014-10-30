@@ -34,6 +34,17 @@ function download(uri, filename, next){
 
 module.exports = {
     
+    put: function(rew,res){
+      req.file('input_signal').upload(function (err, uploadedFiles) {
+        if (err) return res.send(500, err);
+        return res.json({
+          message: uploadedFiles.length + ' file(s) uploaded successfully!',
+          files: uploadedFiles
+        });
+      });
+    }
+
+
   /**
    * Performs a basic test with a fake signal.
    * @param  {Object} req 

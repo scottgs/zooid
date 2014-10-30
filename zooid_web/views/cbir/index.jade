@@ -1,120 +1,77 @@
 extends ../layout
 block body
   include ../control/nav
-  .container.text-center
-    br
-    br
-    br
-    br
-    h4 Upload an image to find others like it.
-    
-  .container.text-center
-    .col-md-4.col-md-offset-4
-      input(type="test", placeholder="").form-control.input-lg
-      hr
+  script(src="/js/dropzone.js")
+
+  
+  #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal')
+            span(aria-hidden='true') ×
+            span.sr-only Close
+          h4#myModalLabel.modal-title Drag files to upload, or click
+        .modal-body
+
+          .dropzone#dropzone
+            form(action="/signal/download")
+              .fallback
+                input(type="file", name="file")
+              hr
+          .hide
+            .dz-preview.dz-file-preview
+              .dz-details
+                .dz-filename
+                  span(data-dz-name='')
+                .dz-size(data-dz-size='')
+                img(data-dz-thumbnail='')
+              .dz-progress
+                span.dz-upload(data-dz-uploadprogress='')
+              .dz-success-mark
+                span.fa.fa-fw.fa-check
+              .dz-error-mark
+                span.fa.fa-fw.fa-times
+              .dz-error-message
+                span(data-dz-errormessage='')
+
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+          button.btn.btn-primary(type='button') Save changes
+
+
+    #previews
+
+
+
+
+
     script.
+      $(document).ready(function() {
 
-      // make new instance of Model
-      var signalModel = new $.eventModel();
-      
-      // ***** table everything
+          $("#dropzone").dropzone({ url: "/signal/upload" });
 
-      // Listen for when things of this model type are created
-      signalModel.on('created', function(info,activity) {
-        var nm = (activity.data.name || activity.data.noun).replace(/ /g,'').toLowerCase();
+          //- var dropbox = document.getElementById('dropzone');
 
-        $("#signalsTable").append($("<tr>",{
-          class:"", 
-          id:activity.id,
-          href:"#"+nm, 
+          //- dropbox.addEventListener('dragenter', noopHandler, false);
+          //- dropbox.addEventListener('dragexit', noopHandler, false);
+          //- dropbox.addEventListener('dragover', noopHandler, false);
+          //- dropbox.addEventListener('drop', drop, false);
 
-        }))
+          //- function noopHandler(evt) {
+          //-     evt.stopPropagation();
+          //-     evt.preventDefault();
+          //- }
 
-        $("#signalsTable "+ "#"+activity.id)
-          .append(
-            $("<td>",{
-              id:'noun',
-              html:activity.data.noun,
-            }),
-            $("<td>",{
-              id:'name',
-              html:activity.data.name,
-            }),
-            $("<td>",{
-              id:'status',
-              text:activity.data.text
-            }),
-            $("<td>",{
-              id:'actions',
-              text:activity.data.data
-            }),
-            $("<td>",{
-              id:'id',
-              text:activity.data.id
-            }),
-            $("<td>",{
-              id:'parent_id',
-              text:activity.data.parent_id
-            })
-          )
-      });
-
-
-      // Listen for when things of this model type are updated
-      signalModel.on('updated', function(info,activity) {
-        console.log(activity)
-        $.map(activity.data, function(val, key){
-        console.log(val,":",key)
-
-          if($("#"+activity.id+" #"+key).text())
-            if($("#"+activity.id+" #"+key).text() != val)
-            $("#"+activity.id+" #"+key).text(val)
-          //- else $("#"+activity.id).append($("<div>",{id:key,text:val}))
-        })
-      });
-
-
-      // bind dom to model with sockets
-      function dom_glue(model){
-
-        io.socket.on( model, function(activity){
-            signalModel.emit(activity.verb, activity);
-        })
-
-        io.socket.get( "/"+model, {}, function(activities){
-
-          $.map(activities, function(activity){
-            console.log(activity)
-            signalModel.emit('created', {
-              id:activity.id,
-              data:activity
-            })
-
-          })
-          $("#signalsTable").DataTable();
-        })
-
-      }
-
-      // When document is ready, grab latest things.
-      $(document).ready(function(){
-
-        dom_glue("signal");
-
-
-        /**
-         * Tests the cluster, broadcasts "test" to all the zodes from the
-         * controller and paints responses through normal socket flow.
-         * @param  {[type]}  error
-         * @return {[type]}   [description]
-         */
-        
-        $(document).on('click', '.test_cluster', function(error){
-          io.socket.post("/signal/test", {});
-        })
-
+          //- function drop(evt) {
+          //-     evt.stopPropagation();
+          //-     evt.preventDefault(); 
+          //-     var getURL = evt.dataTransfer.getData('Url');
+              
+          //-     if(getURL) {
+          //-       socket.post("/signal/getURL", {getURL:getURL} , function(a,b){
+          //-         console.log(getURL,a,b)
+          //-       })
+          //-     }
+          //- }
       })
-
-
-
-page

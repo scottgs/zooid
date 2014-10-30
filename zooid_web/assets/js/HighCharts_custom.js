@@ -17,15 +17,25 @@
    }, null, document.getElementsByTagName('head')[0]);
 
    Highcharts.theme = {
-      colors: ["rgba(220,250,255,0.5)", "rgba(220,250,255,0.55", "rgba(220,250,255,0.5"
-       , "rgba(220,250,220,0.45)", "rgba(250,250,220,0.4)",  "rgba(255,250,220,0.4)", "rgba(250,220,255,0.45)", "rgba(255,220,255,0.4)",
-         "rgba(255,220,250,0.45)", "rgba(220,255,255,0.45)", "rgba(250,220,255,0.5)", "rgba(220,220,255,0.55)"],
+      colors: [
+
+      "rgba(220,255,255,0.8)",
+      "rgba(255,255,220,0.8)",
+      "rgba(220,220,255,0.8)",
+      "rgba(255,220,255,0.8)",
+      "rgba(220,255,255,0.9)",
+      "rgba(255,255,220,0.9)",
+      "rgba(220,220,255,0.9)",
+      "rgba(255,220,255,0.9)"
+
+
+         ],
       chart: {
          backgroundColor: {
             linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
             stops: [
-               [0, '#112640'],
-               [1, '#112640']
+               [0, 'rgba(0,0,0,0)'],
+               [1, 'rgba(0,0,0,0)']
             ]
          },
          style: {
@@ -37,7 +47,7 @@
          style: {
             color: '#E0E0E3',
             textTransform: 'uppercase',
-            fontSize: '18px'
+            fontSize: '24px'
          }
       },
       subtitle: {
@@ -58,6 +68,7 @@
          tickColor: 'rgba(0,0,0,0)',
          title: {
             style: {
+            textTransform: 'uppercase',
                color: '#A0A0A3'
 
             }
@@ -77,6 +88,7 @@
          tickWidth: 0,
          title: {
             style: {
+            textTransform: 'uppercase',
                color: '#A0A0A3'
             }
          }
@@ -90,6 +102,7 @@
       plotOptions: {
          series: {
             dataLabels: {
+            textTransform: 'uppercase',
                color: '#c5c5c8'
             },
             marker: {
@@ -111,7 +124,7 @@
             color: '#E0E0E3'
          },
          itemHoverStyle: {
-            color: '#FFF'
+            color: '#dde'
          },
          itemHiddenStyle: {
             color: '#606063'
@@ -210,13 +223,13 @@
 
       // special colors for some of the
       legendBackgroundColor: 'rgba(0, 0, 0, 0.5)',
-      background2: '#505053',
+      background2: '#50505rgba(0,0,0,0)',
       dataLabelsColor: '#B0B0B3',
       textColor: '#C0C0C0',
-      contrastTextColor: '#F0F0F3',
-      maskColor: 'rgba(255,255,255,0.3)'
+      contrastTextColor: '#d0d0d4',
+      maskColor: 'rgba(255,255,255,0)'
    };
 
 
-  Highcharts.setOptions(Highcharts.theme);
+  // Highcharts.setOptions(Highcharts.theme);
 

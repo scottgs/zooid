@@ -12,6 +12,7 @@ html
       link(href="/styles/iconic.min.css" rel="stylesheet")
       link(href="/styles/buttons.css"  rel="stylesheet")
       link(href="/styles/animate.css" rel="stylesheet")
+      link(href="/styles/dropzone.css" rel="stylesheet")
       link(href="/styles/zooid.css" rel="stylesheet")
 
       link(href="/styles/jquery.dataTables.min.css" rel="stylesheet")
@@ -24,7 +25,7 @@ html
     script(src="/js/Chart.min.js")
     //- script(src="/js/HighCharts.js")
     //- script(src="/js/Whisker.js")
-    script(src="/js/dropzone.js")
+    //- script(src="/js/dropzone.js")
     //- script(src="/js/app.js")
     //- script(src="/js/bootstrap-select.min.js")
     //- script(src="/js/bootstrap-switch.min.js")
@@ -69,40 +70,11 @@ html
     script(src="/js/vivagraph.js")
 
 
-    div#fileUpload
+    div
         block body
 
-        #previews
 
-        script.
-            $(document).ready(function() {
-
-                $("#fileUpload").dropzone({ url: "/signal/upload" });
-
-                var dropbox = document.getElementById('fileUpload');
-
-                dropbox.addEventListener('dragenter', noopHandler, false);
-                dropbox.addEventListener('dragexit', noopHandler, false);
-                dropbox.addEventListener('dragover', noopHandler, false);
-                dropbox.addEventListener('drop', drop, false);
-
-                function noopHandler(evt) {
-                    evt.stopPropagation();
-                    evt.preventDefault();
-                }
-
-                function drop(evt) {
-                    evt.stopPropagation();
-                    evt.preventDefault(); 
-                    var getURL = evt.dataTransfer.getData('Url');
-                    
-                    if(getURL) {
-                      socket.post("/signal/getURL", {getURL:getURL} , function(a,b){
-                        console.log(getURL,a,b)
-                      })
-                    }
-                }
-            })
+        
 
 
 

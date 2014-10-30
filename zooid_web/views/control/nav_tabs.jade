@@ -1,16 +1,28 @@
 block content
 
-  li
-    a(href="#").fileinput-button.dz-clickable
-      oo.invisible .
-      oo.fa.fa-upload    
-      oo.invisible .
-      
-  li
-    a(href='/visualization').test_cluster 
-      oo.invisible .
+  li.dropdown
+    a.dropdown-toggle(href='#', data-toggle='dropdown')
       oo.fa.fa-bar-chart-o    
-      oo.invisible .
+      .fa.fa-fw.ion-arrow-down-b.small.text-muted.small
+
+      ul.dropdown-menu(role='menu',style="min-width:220px;").scootRight
+
+        li
+          a(href='/s')
+            .fa.fa-fw.ion-beaker(style="margin-right:12px;")
+            oo Signals
+
+        li
+          a(href='/z')
+            .fa.fa-fw.fa-cloud(style="margin-right:12px;")
+            oo Zodes
+            
+        li.divider
+
+        li
+          a(href='/visualization')
+            .fa.fa-fw.fa-bar-chart-o(style="margin-right:12px;")
+            oo Playground
 
       
   li.dropdown
@@ -19,27 +31,14 @@ block content
       .fa.fa-fw.ion-arrow-down-b.small.text-muted.small
 
       ul.dropdown-menu(role='menu',style="min-width:220px;").scootRight
-
-        li
-          a(href='/')
-            .fa.fa-fw.fa-tasks(style="margin-right:12px;")
-            oo App
-
-        li
-          a(href='/control/system')
-            .fa.fa-fw.fa-cloud(style="margin-right:12px;")
-            oo Cluster
-        li
-          a(href='/control/charts')
-            .fa.fa-fw.fa-bar-chart-o(style="margin-right:12px;")
-            oo Charts
+        
         li
           a(href='/control/apophenia')
             .fa.fa-fw.fa-unsorted(style="margin-right:12px;")
             oo Apophenia
             
-        li
-          hr
+        li.divider
+
         li
           a.fileinput-button.dz-clickable
             .fa.fa-fw.fa-upload(style="margin-right:12px;")

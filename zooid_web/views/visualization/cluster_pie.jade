@@ -1,9 +1,8 @@
 block content
-  br
-  br
-  #clusterPieChart
-  br
+  script(src="/js/HighCharts_custom.js")
 
+  #clusterPieChart(style="height:300px;padding-top:0px;")
+    
   script.
     /**
      * Holy cow what an awful hack.
@@ -16,14 +15,17 @@ block content
       var drilldown = {};
       var fields = {};
       $.map(arr,function(item){
-        item.y=item.work;
+        item.y=item.work+1;
+        item.sliced=true
+        //- item.sliced =true
         if(item[field] in fields){
-          fields[item[field]].y+=item.work
+          fields[item[field]].y+=1
         }
         else{
           fields[item[field]] = {}
           fields[item[field]].name = item.ip
-          fields[item[field]].y = item.work
+          fields[item[field]].sliced = false
+          fields[item[field]].y = item.y
           fields[item[field]].drilldown = item[field] 
         }
 
@@ -34,6 +36,7 @@ block content
 
           drilldown[item[field]] = {}
           drilldown[item[field]].name = item.ip
+          drilldown[item[field]].sliced = true
           drilldown[item[field]].title = item.ip
           drilldown[item[field]].id = item.ip
           drilldown[item[field]].data = [item]
@@ -42,6 +45,7 @@ block content
       var drill = [];
       $.map(drilldown, function(dri){
         drill.push(dri)
+
       })
       var flds = [];
       $.map(fields, function(fld){
@@ -71,6 +75,20 @@ block content
         var zodes = restructureJSON(items,"ip")
          
 
+        $.map(zodes.drilldown, function(zode,key){
+
+          //- $("#clusterFrames").append(
+          //-   $("<div/>", {
+          //-     id:zode.id,
+          //-     class:"col-md-4 well-sm",
+          //-     text:zode.name,
+          //-   })
+          //- )
+
+
+        })
+
+
         console.log(zodes)
 
         // Create the chart
@@ -88,9 +106,6 @@ block content
                 type: 'category',
                 labels: {
                   rotation: 0,
-                  style: {
-                      fontFamily: 'Verdana, sans-serif'
-                  }
             }
             },
 
@@ -101,18 +116,30 @@ block content
             plotOptions: {
                 series: {
                     borderWidth: 0,
-                    innerSize: '80%',
+                    innerSize: '60%',
                     dataLabels: {
                         enabled: true
                     }
-                }
+                },
+
+             pie: {
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                    }
+                },
+                startAngle: -45,
+                endAngle: 315,
+                center: ['50%', '50%']
+            }
+
             },
 
             series: [{
-                colorByPoint: true,
-                innerSize: '60%',
+                //- colorByPoint: true,
                 data:zodes.fields,
-                type: 'pie'
+                innerSize: '90%',
+                type: 'pie' 
             }],
             drilldown: {
                 series: zodes.drilldown
@@ -163,7 +190,7 @@ block content
       //- $('#imageChart').highcharts({
       //-     legend:{enabled:false},
       //-     chart: {
-      //-         type: 'column',
+      //-         type: 'pie',
       //-         backgroundColor:"rgba(0,0,0,0)",
       //-     },
       //-     title:{text:"Image Processing requests over time"},

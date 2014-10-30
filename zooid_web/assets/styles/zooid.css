@@ -72,7 +72,7 @@ svg{
   letter-spacing: 0.4;
   font-family: 'Helvetica Neue', Helvetica, Times New Roman, times-roman, georgia, serif;
   font-weight:400;
-  border-bottom:1px solid #e2e3e5!important;
+  border-bottom:1px solid #dddddf!important;
 }
 
 .navbar-brand{
@@ -509,10 +509,7 @@ hr{
 #zodesTable input, #signalsTable input{
   border:1px solid #ddd!important;
 }
-#zodesTable, #signalsTable label, #zodesTable_length label, #signalsTable_length label, #zodesTable_length label{
-  font-weight: 200;
-  color:#555;
-}
+
 #zodesTable, #signalsTable{
   border-bottom:1px solid #ccc!important;
 }
@@ -522,3 +519,6 @@ th{
   color:#aaa!important;
 }
 
+.dz-image-preview{
+  background:rgba(0,0,0,0.5);
+}

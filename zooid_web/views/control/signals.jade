@@ -10,9 +10,11 @@ block content
 
         // ***** table everything
 
+
+
         // Listen for when things of this model type are created
         signalModel.on('created', function(info,activity) {
-          var nm = (activity.data.name || activity.data.noun).replace(/ /g,'').toLowerCase();
+          var nm = (activity.data.name || activity.data.noun||activity.id).replace(/ /g,'').toLowerCase();
 
           $("#signalsTable").append($("<tr>",{
             class:"", 
@@ -21,7 +23,7 @@ block content
 
           }))
 
-          $("#signalsTable "+ "#"+activity.id)
+          $("#signalsTable ").find("#"+activity.id)
             .append(
 
               $("<td>",{
@@ -42,7 +44,13 @@ block content
               }),
               $("<td>",{
                 id:'id',
-                text:activity.data.id
+                class:"destroyer",
+                text:activity.data.id,
+                html:"<a class='btn btn-link'>X</a>"
+              }).on("click", function(){ io.socket.post("/signal/destroy/"+activity.data.id, function(destroyed){
+                console.log(destroyed);
+                $("#"+destroyed.id).remove()
+                })
               }),
               $("<td>",{
                 id:'parent_id',
@@ -114,19 +122,6 @@ block content
 
 
 
-
-  .jumbotron(style="background-color:#112640;")
-    .container
-      .col-md-12
-          //- span.scootRight
-            a.btn.test_cluster.button.button-flat.button-small TEST
-    .container
-      .col-md-6
-        include ../visualization/nouns_pie
-      .col-md-5
-        include ../visualization/nouns
-
-
   .container
     .col-md-12
       hr
@@ -141,6 +136,21 @@ block content
             th Parent
         tbody
                 
+
+  br
+
+  .jumbotron(style="background-color:#fff;")
+    .container
+      br
+      .col-md-12
+          //- span.scootRight
+            a.btn.test_cluster.button.button-flat.button-small TEST
+    .container
+      .col-md-6
+        include ../visualization/nouns_pie
+      .col-md-6
+        include ../visualization/nouns
+
 
   hr
   .container

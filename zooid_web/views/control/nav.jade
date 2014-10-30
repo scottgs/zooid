@@ -1,4 +1,4 @@
-.navbar.navbar-fixed-top.navbar-default(role='navigation', style="padding-top:8px;padding-bottom:8px;")
+.navbar.navbar-fixed-top.navbar-default(role='navigation', style="padding-top:4px;padding-bottom:4px;")
   .container
     .navbar-header
       button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
@@ -9,20 +9,21 @@
     .navbar-collapse.collapse.scootRight 
       ul.nav.navbar-nav.navbar-left
         li
-          a(href="/s") Signals
+          a(href="/cbir") cbir
+
         li
-          a(href="/z") Zodes
-        li
-          a(href="/cbir") CBIR
-        li
-          a(href="/tbg") TBG
+          a(type='button', data-toggle='modal', data-target='#myModal')
+            oo.fa.fa-cloud-upload    
+
+        //- li
+          a(href="/tbg") tbg
 
       ul.nav.navbar-nav.navbar-right(style="margin-right:0px;")
-        li
+        //- li
           form.navbar-form.getURL(role='search').scootRight
             .form-group.scootRight
               input.form-control(type='text', name="" placeholder='Search')
               .submitURL.btn
                 o.fa.ion-ios7-search-strong.fa-lg.text-muted
         include nav_tabs
-div(style="margin-bottom:52px!important;")
+div(style="margin-bottom:38px!important;")
