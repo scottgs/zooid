@@ -1,7 +1,8 @@
 {
-  "name": "Image Consumption",
+  "name": "Directory Consumption",
+  "service":"directory_consumption",
   "version": "0.0.1",
-  "description": "Reads in a directory full of images and processes them.",
+  "description": "Reads in a directory full of images and announces them to the cluster.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

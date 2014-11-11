@@ -20,6 +20,20 @@
  * http://sailsjs.org/#/documentation/concepts/Routes/RouteTargetSyntax.html
  */
 
+
+module.exports.local = {
+
+  /***************************************************************************
+  * Local is not included in the repo and putting this here is just a hack to 
+  * set the port isolated form the other settings which shouldn't be commited.
+  ***************************************************************************/
+
+  port: require("../../zooid_config.js").port
+
+};
+
+
+
 module.exports.routes = {
 
   /***************************************************************************

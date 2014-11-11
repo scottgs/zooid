@@ -1,24 +1,31 @@
 extends ../layout
 block body
   include ../control/nav
+  script(src="/js/HighCharts.js")
+  script(src="/js/HighCharts_custom.js")
   script(src="/js/dropzone.js")
-
+  link(rel='stylesheet', href='/resources/demos/style.css')
+  link(rel='stylesheet', href='//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css')
+  script(src='//code.jquery.com/ui/1.11.2/jquery-ui.js')
   
-  #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+
+  #uploadModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
     .modal-dialog
       .modal-content
         .modal-header
           button.close(type='button', data-dismiss='modal')
             span(aria-hidden='true') ×
             span.sr-only Close
-          h4#myModalLabel.modal-title Drag files to upload, or click
-        .modal-body
+          text-center
+            p.lead#myModalLabel.modal-title 
+              o Drag an image 
+              o.fa.fa-arrow-down.fa-fw.text-muted
+              o to start your search.
 
-          .dropzone#dropzone
-            form(action="/signal/download")
-              .fallback
-                input(type="file", name="file")
-              hr
+        .dropzone#dropzone
+          form(action="/signal/download")
+            .fallback
+              input(type="file", name="file")
           .hide
             .dz-preview.dz-file-preview
               .dz-details
@@ -37,41 +44,289 @@ block body
 
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') Close
-          button.btn.btn-primary(type='button') Save changes
-
+          button.btn.btn-primary(type='button') Done
 
     #previews
 
 
 
+  .container
+    .row
+      .col-md-3
+        br
+        img#searchImage(src="").img-responsive.animate
+        br
+        .container-fluid
+          a(type='button', data-toggle='modal', data-target='#uploadModal').button.button-flat-action.col-sm-6.button-sm
+           o New Search
+
+          a.btn(type='button', data-toggle='modal', data-target='#uploadModal').button.button-flat.col-sm-6.button-sm
+           o Options
+        br
+
+        .panel.panel-default.container-fluid
+            br
+            .col-sm-4
+              o weight
+            .col-sm-8
+              .slide
+            .col-sm-4
+              o weight
+            .col-sm-8
+              .slide
+              br
 
 
-    script.
-      $(document).ready(function() {
 
-          $("#dropzone").dropzone({ url: "/signal/upload" });
+      .col-md-9
+        br
+        .panel.panel-default
+          .panel-heading Image Breakdown
+          #contentBreakdown.contentBreakdown
+          #features_container.container-fluid
+        .panel.panel-default
+          .panel-heading Search Results
+          br
+          .panel-body
+            #searchResults
+          .panel-footer
+            br
+            br
+            br
+            br
+            br
+            br
+            br
+            br
+            br
 
-          //- var dropbox = document.getElementById('dropzone');
 
-          //- dropbox.addEventListener('dragenter', noopHandler, false);
-          //- dropbox.addEventListener('dragexit', noopHandler, false);
-          //- dropbox.addEventListener('dragover', noopHandler, false);
-          //- dropbox.addEventListener('drop', drop, false);
+          //-#eq
+            span 88
+            span 77
+            span 55
+            span 33
+            span 40
+            span 45
+            span 70
+  script.
+    $(function() {
+      // setup master volume
+      $( ".slide" ).slider({
+        value: 60,
+        orientation: "horizontal",
+        range: "min",
+        animate: true
+      });
+    });
 
-          //- function noopHandler(evt) {
-          //-     evt.stopPropagation();
-          //-     evt.preventDefault();
-          //- }
 
-          //- function drop(evt) {
-          //-     evt.stopPropagation();
-          //-     evt.preventDefault(); 
-          //-     var getURL = evt.dataTransfer.getData('Url');
-              
-          //-     if(getURL) {
-          //-       socket.post("/signal/getURL", {getURL:getURL} , function(a,b){
-          //-         console.log(getURL,a,b)
-          //-       })
-          //-     }
-          //- }
+
+
+    // make new instance of Model
+    var signalModel = new $.eventModel();
+    
+    // Listen for when things of this model type are created
+    signalModel.on('created', function(info,item) {
+
+
+      if(item.data.histogram){
+
+      $("#features_container").html("");
+
+      $(".contentBreakdown").html($("<div>", {id:item.id, class:"histogram " })).find(".histogram").highcharts({
+            chart:{type:"column",height:140},
+            title:{text:""},
+            legend:{enabled:false},
+            credits: {enabled: false },
+            xAxis: {
+              labels: {
+                  enabled:false,
+                  style: {
+                      fontSize: '10px',
+                  }
+              }
+            },
+            yAxis: {
+              title:{text:""},
+              labels: {
+                  enabled:false
+              }
+            },
+            series: [{
+            color:"#ff4444",
+                data: item.data.histogram.r
+            },
+            {
+            color:"#88cc66",
+                data: item.data.histogram.g
+            },
+            {
+            color:"#6666ff",
+                data: item.data.histogram.b
+            }]
+        });
+
+
+
+      } else {
+
+        //- $(".contentBreakdown").append($("<div>", { id:item.data.id, html: "<h1>"+JSON.stringify(item)+"</h1>"}))
+        if(item.data.filename){
+
+          $("#features_container").append(
+
+            $("<div>", {
+            class:"thumbnail ",
+            style:"display:inline-flex;margin:2px;padding:1px;border:0px solid #d2d2d2;",
+            html:$("<img>", {
+              class:"img-responsive",
+              src: "/images/"+item.data.filename,
+              style:"width:auto;height:48px;margin:0px;",
+              })
+              .webuiPopover({
+                title:(item.data.name||item.data.noun||item.id),
+                content:$("<pre>"+JSON.stringify(item.data) +"</pre>", {class:"description"})
+                })
+              })
+            )
+
+
+      }
+      }
+
+
+    })
+
+
+
+
+
+    // bind dom to model with sockets
+    function dom_glue(model){
+
+      io.socket.on( model, function(item){
+          signalModel.emit(item.verb, item);
       })
+
+      io.socket.get( "/"+model, {limit:1}, function(items){
+
+        $.map(items, function(item){
+          console.log(item)
+          signalModel.emit('created', {
+            id:item.id,
+            data:item
+          })
+
+        })
+        
+      })
+
+    }
+
+    // When document is ready, grab latest things.
+    $(document).ready(function(){
+
+      // Apply the theme
+
+      dom_glue("cbr");
+      dom_glue("signal");
+
+
+      /**
+       * Tests the cluster, broadcasts "test" to all the zodes from the
+       * controller and paints responses through normal socket flow.
+       * @param  {[type]}  error
+       * @return {[type]}   [description]
+       */
+      
+      $(document).on('click', '.test_cluster', function(error){
+        io.socket.post("/cbir/test", {});
+      })
+
+    })
+
+
+
+
+    Dropzone.options.dropZone = {
+      paramName: "file", // The name that will be used to transfer the file
+      maxFilesize: 2 // MB
+    };
+
+    $(document).ready(function() {
+      var myDropzone = new Dropzone("#dropzone", { url: "/cbr/search"})
+      myDropzone.on("success", function(info,res){ 
+        console.log(info,res); 
+        $("#searchImage").attr("src", "");
+        $("#searchImage").attr("src", res.src);
+        $("#uploadModal").modal("hide");
+        
+        signalModel.emit('created', {
+          id:res.id,
+          data:res
+        })
+
+
+      })
+
+    })
+
+    var dropbox = document.getElementById('dropzone');
+
+    dropbox.addEventListener('dragenter', noopHandler, false);
+    dropbox.addEventListener('dragexit', noopHandler, false);
+    dropbox.addEventListener('dragover', noopHandler, false);
+    dropbox.addEventListener('drop', drop, false);
+
+    function noopHandler(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+    }
+
+    function drop(evt) {
+        evt.stopPropagation();
+        evt.preventDefault(); 
+        var getURL = evt.dataTransfer.getData('Url');
+        
+        if(getURL) {
+          io.socket.post("/signal/getURL", {getURL:getURL} , function(a,b){
+            console.log(getURL,a,b)
+          })
+        }
+    }
+
+
+
+
+
+    //- script.
+
+    //-   $(document).ready(function(){
+
+    //-     // Instantiate a slider
+    //-     var mySlider = $(".slider").bootstrapSlider({min:0.01,max:0.99,value:0.33,step:0.01});
+
+    //-     $("input.slider").on("slideStop", function(){
+    //-       var value = mySlider.bootstrapSlider('getValue');
+    //-       console.log(value);
+
+    //-     })
+
+
+    //-     // Call a method on the slider
+    //-     var value = mySlider.bootstrapSlider('getValue');
+
+    //-     // For non-getter methods, you can chain together commands
+    //-         mySlider
+    //-             .bootstrapSlider('setValue', 5)
+    //-             .bootstrapSlider('setValue', 7);
+    //-   })
+
+
+
+
+
+
+
+

@@ -1,5 +1,6 @@
 {
     "name": "Squiggle Vectorization",
+    "service": "squiggle_vectorization",
     "version": "0.0.1",
     "main": "./squiggle_vectorization.js"
 }

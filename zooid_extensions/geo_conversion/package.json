@@ -1,5 +1,6 @@
 {
-  "name": "geo_conversion",
+  "name": "Geo Conversion",
+  "service": "geo_conversion",
   "version": "0.0.1",
   "description": "converts different geo coordinates templates into different things.",
   "main": "geo_conversion.js",

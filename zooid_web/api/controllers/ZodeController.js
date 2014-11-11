@@ -33,8 +33,33 @@
 // })
 
 
+/**
+ * Creates a socket for publishing and binds to it.
+ * @type {Socket Object}
+ */
+var Axon = require("axon");
+var axon = Axon.socket('req');
+axon.bind(42000);
+
 
 module.exports = {
 
+  toggle:function(req,res){
+    var id = req.param("id")
+    console.log(id)
+    Zode.find({id:id}, function(err,zodes){
+      var zode = zodes[0]
+      console.log("err",err)
+      console.log("zode",zode)
+      if(err) return res.json(err)
+      axon.send( zode.ip, zode.service, function(err, response){
+        return res.json(err||response)
+      })
+    })
+  }
+
 };
+
+
+
 

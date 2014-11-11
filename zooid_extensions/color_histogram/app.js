@@ -1,11 +1,10 @@
 var fs = require('fs');
-var cv = require("opencv")
 var path = require('path');
-var zlib = require('zlib');
 var async = require("async");
 var _ = require('underscore');
 var moment = require("moment")
 var merge = require("merge")
+var histogram = require('histogram');
 
 var zooid = require("../../zooid_core")
 var zode = merge( require("./package.json"), { 
@@ -34,7 +33,6 @@ zooid.on( "test", function (signal){
   zode.status="active"
   zooid.muster(zode)
   zooid.send({ parent_id:signal.id, name:zode.name, text:"okay"})
-
 })
 
 
@@ -48,22 +46,20 @@ zooid.on( "muster", function(signal){
 })
 zooid.muster(zode)
 
-
 /******************************************************************************
  * SET UP LISTENERS
  * Adds listeners for whatever to do whatever. Yep.
 ******************************************************************************/
 
-zooid.on( "consume_directory", function(signal){
+zooid.on( "image", function(signal){
   if(!zode.status) return 1;
   var start = moment().valueOf();
-
   zode.actions += 1
-
-  doThing( signal, function(res){
+  createHistogram( signal, function(err, res){
     var stop = moment().valueOf();
     zode.work += stop - start
     zooid.muster(zode)
+    zooid.send(res)
   });
 
 })
@@ -85,15 +81,26 @@ zooid.on( "consume_directory", function(signal){
 // })
 
 
+function createHistogram(fileName, next){
+  histogram(fileName || Buffer, function (err, data) {
+    var hist = {}
+    hist['r']=[]; hist['g']=[]; hist['b']=[]; hist['a'] = [];
 
-
-
-
-
-function boot_dir(dirpath){
-  fs.readdirSync("./"+dirpath+"/").forEach(function(file) {
-    if( fs.lstatSync(dirpath+"/"+file).isDirectory() ){
-      boot(dirpath+"/"+file,"app.js","");
-    }
+    for (var i = 0; i < data.red.length; i++) {
+      var ii = Math.floor(i/16)
+      if(typeof hist.r[ii] == 'undefined'){
+        hist.r[ii] = 0 
+        hist.g[ii] = 0
+        hist.b[ii] = 0 
+        hist.a[ii] = 0
+      }
+      hist.r[ii]+=data.red[i]
+      hist.g[ii]+=data.green[i]
+      hist.b[ii]+=data.blue[i]
+      hist.a[ii]+=data.alpha[i]
+    };
+    next(err,hist)
   });
 }
+
+

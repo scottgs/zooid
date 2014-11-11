@@ -1,5 +1,6 @@
 {
-  "name": "vehicle_detection",
+  "name": "Vehicle Detection",
+  "service": "vehicle_detection",
   "version": "0.0.2",
   "description": "Detects vehicles in images.",
   "main": "../vehicle_detection.js",

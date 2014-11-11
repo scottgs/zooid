@@ -1,4 +1,7 @@
 {
-    "name": "Geolocator_module",
+    "name": "Terrain Geolocation",
+    "service": "terrain_geolocation",
+    "takes":"terrain_signatures",
+    "gives":"geojson",
     "main": "index.js"
 }

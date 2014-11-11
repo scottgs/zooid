@@ -17,15 +17,15 @@ block content
       .col-md-8
         .panel.panel-default
           .panel-body
-            h4 Performance Distribution
-            hr
-            include ../visualization/cluster_pie
-        .panel.panel-default
-          .panel-body
             h4 Network Topology
             hr
             include ../visualization/cluster_map
         
+        .panel.panel-default
+          .panel-body
+            h4 Performance Distribution
+            hr
+            include ../visualization/cluster_pie
 
     
 
@@ -62,7 +62,7 @@ block content
         if($("#zodesNodes "+ "#"+ip+"_container").length == 0){
 
           $("#zodesNodes").append($("<div/>",{
-            class:"thumbnail", 
+            class:"panel panel-default well-sm", 
             id:ip+"_block"
           }))
 
@@ -115,10 +115,11 @@ block content
               id:'name',
               html:"<o>"+activity.data.name+"</o>"
             }),
+
             $("<td />",{
               class:"",
               id:'status',
-              text:activity.data.status
+              html:$("<a>", {href:"/zode/toggle/"+activity.data.id, text:activity.data.status })
             })
             //- $("<td />",{
             //-   class:"",

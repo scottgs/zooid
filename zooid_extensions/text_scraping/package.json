@@ -1,5 +1,6 @@
 {
   "name": "text_scraper",
+  "service": "text_scraper",
   "version": "0.0.1",
   "description": "Pulls in tesseract to do OCR operations on images. Listens for \"images\" and announces \"language & content\"",
   "main": "text_scraper.js",

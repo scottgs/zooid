@@ -1,5 +1,6 @@
 {
   "name": "face_detection",
+  "service": "face_detection",
   "version": "0.0.2",
   "description": "Detects faces in images. Listens for \"Image\" and emits both \"face\" and \"faces\"",
   "main": "../face_detection.js",

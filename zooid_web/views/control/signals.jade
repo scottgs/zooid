@@ -42,6 +42,11 @@ block content
                 id:'actions',
                 text:activity.data.data
               }),
+
+              $("<td>",{
+                id:'parent_id',
+                text:activity.data.parent_id
+              }),
               $("<td>",{
                 id:'id',
                 class:"destroyer",
@@ -51,13 +56,12 @@ block content
                 console.log(destroyed);
                 $("#"+destroyed.id).remove()
                 })
-              }),
-              $("<td>",{
-                id:'parent_id',
-                text:activity.data.parent_id
               })
 
             )
+
+
+
 
         });
 
@@ -81,9 +85,10 @@ block content
 
           io.socket.on( model, function(activity){
               signalModel.emit(activity.verb, activity);
+              $("#signalsTable").DataTable();
           })
 
-          io.socket.get( "/"+model, {}, function(activities){
+          io.socket.get( "/"+model, {limit:100}, function(activities){
 
             $.map(activities, function(activity){
               console.log(activity)

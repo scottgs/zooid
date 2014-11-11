@@ -34,7 +34,7 @@ function download(uri, filename, next){
 
 module.exports = {
     
-    put: function(rew,res){
+    put: function(req,res){
       req.file('input_signal').upload(function (err, uploadedFiles) {
         if (err) return res.send(500, err);
         return res.json({
@@ -42,7 +42,7 @@ module.exports = {
           files: uploadedFiles
         });
       });
-    }
+    },
 
 
   /**

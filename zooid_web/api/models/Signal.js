@@ -12,36 +12,6 @@ var Axon   = require('axon')
 var path   = require("path")
 var fs     = require("fs")
 
-
-/**
- * Creates a socket for managing zodes and binds to it.
- * @type {Socket Object}
- */
-
-var ganglion = Axon.socket('pull');
-
-ganglion.bind(42001);
-
-ganglion.on('message', function( signal ){
-
-  Zode.find({name:signal.name, ip:signal.ip}, function(err,zode){
-    // console.log(err || zode);
-    if(zode.length){
-      // console.log("UPDATING", zode[0])
-      Zode.update( {id:zode[0].id}, signal ).exec(function(err,updated){
-        // console.log(err, updated)
-        if(zode[0].actions != signal.actions || zode[0].status != signal.status)
-          Zode.publishUpdate( zode[0].id, signal );
-      })
-    } else {
-      Zode.create( signal, function(err, res){
-        // console.log("UPDATING" + err || res)
-        if(res) Zode.publishCreate( res.toJSON() )
-      })
-    }
-  })
-})
-
 /**
  * Creates a socket for publishing and binds to it.
  * @type {Socket Object}
@@ -245,7 +215,10 @@ module.exports = {
    */
   
   afterCreate: function(signal, next){
-    axon.emit( signal.noun, signal );
+    if(signal.noun){
+      console.log("Broadcasting")
+      axon.emit( signal.noun, signal );
+    }
     next();
   },
 

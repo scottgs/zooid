@@ -7,30 +7,76 @@ block content
       (function (io) {
 
       var socket = io.connect();
+          nodeSize = 18;
+
+
 
       function forceGraph() {
-         
-          graph = Viva.Graph.graph();
+           var graph = Viva.Graph.graph(),
+                graphics = Viva.Graph.View.svgGraphics(),
+                renderer = Viva.Graph.View.renderer(graph, {
+                    container : document.getElementById('graphVisualization'),
+                    layout: Viva.Graph.Layout.forceDirected(graph, {
+                      springLength : 10,
+                      springCoeff : 0.000001,
+                      dragCoeff : 0.005,
+                      gravity : -0.2
+                }),
+                    graphics: graphics
+                });
+            graphics.link(function(link){
+                var isNode = (link.data === 'node'),
+                    ui = Viva.Graph.svg('path')
+                           .attr('stroke', isNode ? '#d2d2d2' : '#43526a')
+                           .attr('stroke-dasharray', isNode ? '5, 5' : '0,0')
+                           .attr('fill', 'none');
+                ui.isNode = isNode; // remember for future.
+                return ui;
+            }).placeLink(function(linkUI, fromPos, toPos) {
+                // linkUI - is the object returend from link() callback above.
+                var ry = linkUI.isNode ? 0 : 0,
+                // using arc command: http://www.w3.org/TR/SVG/paths.html#PathDataEllipticalArcCommands
+                    data = 'M' + fromPos.x + ',' + fromPos.y +
+                           ' A 10,' + ry + ',-0,0,0,' + toPos.x + ',' + toPos.y;
+                // 'Path data' (http://www.w3.org/TR/SVG/paths.html#DAttribute )
+                // is a common way of rendering paths in SVG:
+                linkUI.attr("d", data);
+            });
 
-       
 
-          var layout = Viva.Graph.Layout.forceDirected(graph, {
-              springLength : 18,
-              springCoeff : 0.0001,
-              dragCoeff : 0.06,
-              gravity : -3
-          });
+            graphics.node(function(node) {
+              var isNode = (node.data === 'node')
 
-          var renderer = Viva.Graph.View.renderer( graph, {
-            container : document.getElementById('graphVisualization')
+              var link = isNode ? 'http://www.iconsdb.com/icons/preview/black/stack-xl.png' : "http://www.iconsdb.com/icons/preview/black/ssd-xl.png";
+              size = nodeSize + (isNode ? nodeSize : 0)
+              // This time it's a group of elements: http://www.w3.org/TR/SVG/struct.html#Groups
+              var ui = Viva.Graph.svg('g'),
+                  // Create SVG text element with user id as content
+                  svgText = Viva.Graph.svg('text')
+                  .attr('y', '-4px')
+                  .attr('font-size', isNode ? '10px' : '7px')
+                  .text(node.id),
+                  img = Viva.Graph.svg('image')
+                     .attr('width', size)
+                     .attr('height', size)
+                     .link( link );
+              ui.append(svgText);
+              ui.append(img);
+              return ui;
+            }).placeNode(function(nodeUI, pos) {
+                // 'g' element doesn't have convenient (x,y) attributes, instead
+                // we have to deal with transforms: http://www.w3.org/TR/SVG/coords.html#SVGGlobalTransformAttribute
+                nodeUI.attr('transform',
+                            'translate(' +
+                                  (pos.x - size/2) + ',' + (pos.y - size/2) +
+                            ')');
+            });
 
-          });
 
+            renderer.run();
 
-          renderer.run();
-
-          return graph
-      }
+            return graph;
+        }
 
 
       graph = forceGraph()
@@ -38,16 +84,20 @@ block content
 
 
       $(document).ready(function(){
-
-
+      
        /**
          * Listens for model changes over socket.
          * @param  {String} model   Model name
          * @return null
          */
       
-        socket.on( "zode", function(dataset){
-            signalModel.emit(dataset.verb, dataset);
+        socket.on( "zode", function(zode){
+
+            graph.addNode( ""+zode.data.name, ""+zode.id)
+            graph.addNode( ""+zode.data.name, ""+zode.data.ip)
+            //- graph.addLink( ""+zode.id, ""+zode.data.ip, "node")
+            //
+            //
         })
 
         /**
@@ -62,11 +112,16 @@ block content
 
           $.map(zodes, function(zode){
 
-            graph.addNode( ""+zode.ip, ""+zode.ip)
-            graph.addNode( ""+zode.name, ""+zode.name)
-            graph.addLink( ""+zode.ip, ""+zode.name)
-            graph.addLink( ""+zode.ip, "web")
+            //- graph.addNode( zode.ip, zode.ip )
+            //- graph.addNode( zode.name, zode.name )
+            //- graph.addNode( zode.name, zode.id )
+            //- graph.addLink( zode.ip, zode.id, "node" )
+            //- graph.addLink( zode.id, zode.name, "node" )
+            //- graph.addLink( zode.ip, "web" )
 
+            graph.addNode( zode.ip, "node")
+            graph.addLink( zode.ip, "node")
+            graph.addLink( zode.ip, zode.name, "node")
 
 
           })
