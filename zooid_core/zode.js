@@ -25,20 +25,18 @@ var config = require("../zooid_config.js")
 var base_port = config.base_port || 42100
 var broadcast_ip = config.broadcast_ip || '128.206.116.239'
 
-var spine = Nerve.socket('sub-emitter');
-spine.connect( base_port, broadcast_ip );
 
 var ganglion = Nerve.socket('push');
-ganglion.connect( ++base_port, broadcast_ip );
+ganglion.connect( 1+base_port, broadcast_ip );
 
 var dendrites = Nerve.socket('sub-emitter');
-dendrites.connect( ++base_port, broadcast_ip );
+dendrites.connect( 2+base_port, broadcast_ip );
 
 var axon  = Nerve.socket('push');
-axon.connect( ++base_port, broadcast_ip );
+axon.connect( 3+base_port, broadcast_ip );
 
-var sock = Nerve.socket('sub');
-sock.connect(42002, broadcast_ip);
+
+
 
 /******************************************************************************
  * Find out who I am.
@@ -76,6 +74,10 @@ dendrites.emit     = function(signal){ axon.send(signal) }
 dendrites.respond  = function(signal){ axon.send(signal) }
 
 
+dendrites.base_port     = base_port 
+dendrites.broadcast_ip  = broadcast_ip 
+
+
 /******************************************************************************
  * Flexible language for sending
 ******************************************************************************/
@@ -87,8 +89,9 @@ dendrites.muster  = function(signal){ ganglion.send(signal) }
  * Responds to tests and errors and stuff!
 ******************************************************************************/
 
-// dendrites.on('test', function(data){
-//   console.log("TEST REQUEST", data)
+// dendrites.on(dendrites.ip, function(data){
+  
+
 //   dendrites.fire( { parent_id : data.id, name:"Cluster: Okay" })
 // })
 // dendrites.on("error", function(err){
