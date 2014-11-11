@@ -16,19 +16,22 @@ A Friendly Intelligence Framework
 
 ***
 
+####Pretty Secure
+- Never systems out. 
+- Never evaluates user supplied data.
 
-#####Loosely coupled
+####Loosely coupled
 
-#####Simple
+####Simple as hell
 
-#####Future
-- Accumulate action potentials.
-- Prime anticipated symbols.
+####Grows in all directions.
+- Accumulating action potentials.
+- Priming anticipated symbols.
 
 ===
 
 
-##### Dependencies
+#####Dependencies
 
 - Sails.js http://sailsjs.org/#!
 - zlib http://nodejs.org/api/zlib.html
@@ -62,4 +65,6 @@ A Friendly Intelligence Framework
 #####Design
 - http://jsfiddle.net/rniemeyer/UHcs6/
 - http://github.hubspot.com/messenger/docs/welcome/
+
+
 
