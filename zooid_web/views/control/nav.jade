@@ -1,32 +1,80 @@
-.navbar.navbar-fixed-top.navbar-default(role='navigation', style="padding-top:4px;padding-bottom:4px;")
-  .container
-    .navbar-header
-      button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-        span.sr-only Toggle navigation
-        fa.fa.fa-fw.fa-caret-down
-      a(href='/').navbar-brand
-        o zooid
-    .navbar-collapse.collapse.scootRight 
-      ul.nav.navbar-nav.navbar-left
-        li
-          a(href="/cbir") cbir
-
-        //- li
-        //-   a(type='button', data-toggle='modal', data-target='#uploadModal')
-        //-     oo.fa.fa-cloud-upload    
-
-        //- li
-          a(href="/tbg") tbg
-
-      ul.nav.navbar-nav.navbar-right(style="margin-right:0px;")
-        //- li
-          form.navbar-form.getURL(role='search').scootRight
-            .form-group.scootRight
-              input.form-control(type='text', name="" placeholder='Search')
-              .submitURL.btn
-                o.fa.ion-ios7-search-strong.fa-lg.text-muted
-        include nav_tabs
 div(style="margin-bottom:38px!important;")
+  navbar.navbar-fixed-top.navbar-default(role='navigation', style="padding-top:1px;padding-bottom:1px;")
+    .container
+      .navbar-header
+        button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+          span.sr-only Toggle navigation
+          fa.fa.fa-fw.fa-caret-down
+        a.navbar-brand(href='/' style="margin-top:0px")
+          o zooid
+      .navbar-collapse.collapse.scootRight 
+        ul.nav.navbar-nav.navbar-left
+
+          li
+            a(href="/cbir").text-center
+              //- .fa.fa-fw.ion-image.fa-lg
+              small
+                oo cbir
+
+          li
+            a(href='/z').text-center
+              //- .fa.fa-fw.ion-cloud.fa-lg
+              small
+                oo zodes
+
+          li
+            a(href='/s').text-center
+              //- .fa.fa-fw.fa-bar-chart.fa-lg
+              small
+                oo signals
+
+
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              //- .fa.fa-fw.ion-android-sort.fa-lg
+              small
+                oo docs
+
+              ul.dropdown-menu(role='menu',style="min-width:220px;").scootRight
+
+                li
+                  a(href='/docs/web')
+                    //- .fa.fa-fw.fa-lg.fa-globe(style="margin-right:12px;")
+                    oo Web app
+                li
+                  a(href='/docs/core')
+                    //- .fa.fa-fw.fa-lg.fa-sitemap(style="margin-right:12px;")
+                    oo Core
+                li
+                  a(href='/docs/extensions')
+                    //- .fa.fa-fw.fa-lg.ion-merge(style="margin-right:12px;")
+                    oo Extensions
+                
+                li.divider
+
+                li
+                  a(href='/regenerate')
+                    //- .fa.fa-fw.ion-loop.fa-lg(style="margin-right:12px;")
+                    oo Regenerate all
+                    
+
+
+          //- li
+          //-   a(type='button', data-toggle='modal', data-target='#uploadModal')
+          //-     oo.fa.fa-cloud-upload    
+
+          //- li
+            a(href="/tbg") tbg
+
+        //- ul.nav.navbar-nav.navbar-right(style="margin-right:0px;")
+          //- li
+            form.navbar-form.getURL(role='search').scootRight
+              .form-group.scootRight
+                input.form-control(type='text', name="" placeholder='Search')
+                .submitURL.btn
+                  o.fa.ion-ios7-search-strong.fa-lg.text-muted
+          include nav_tabs
+
 
 
 

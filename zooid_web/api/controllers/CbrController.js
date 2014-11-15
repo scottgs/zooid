@@ -4,14 +4,19 @@
  * @description :: Server-side logic for managing cbrs
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-
 var fs = require('fs');
 var merge = require("merge")
 var path = require("path")
 var _ = require("underscore")
 var histogram = require('histogram');
 
-
+/**
+ * Creates a histogram, wait -- this shouldn't be here. what?
+ * TODO: Do this in a zode.
+ * @param  {String}   fileName the name of the image to be histogrammed.
+ * @param  {Function} next     callback function
+ * @return {}            
+ */
 function createHistogram(fileName, next){
   histogram(fileName || Buffer, function (err, data) {
     var hist = {}
@@ -34,7 +39,12 @@ function createHistogram(fileName, next){
   });
 }
 
-
+/**
+ * Gets test data.
+ * @param  {String}   dirpath The directory that has test data in it.
+ * @param  {Function} next    callback
+ * @return {}
+ */
 function getTestData(dirpath, next){
   var test_files = []
   var dir = path.normalize(dirpath);
@@ -50,9 +60,14 @@ function getTestData(dirpath, next){
 
 module.exports = {
 	
+  /**
+   * Grabs test data and exectutes some stuff.
+   * @param  {Object} req 
+   * @param  {Object} res 
+   * @return {}
+   */
   test: function(req,res){
 
-    // Grab some test data
     getTestData("../test_data/cbr", function(err, test_files){
         
       var r = Math.round(Math.random()%.1)
@@ -63,6 +78,8 @@ module.exports = {
         createHistogram(fileName, function(err, hist){
 
           Cbr.create({name:"cbr_test", noun:"cbr_search", filename:fileName, data:hist}, function(err,signal){
+            
+
             return res.send(err || signal);
           })
 
@@ -71,10 +88,22 @@ module.exports = {
     })
   },
 
-
+  /**
+   * Finds content that is most similar to the input image in accordance with
+   * the paramters set in the DOM of the view corresponding to this controller.     
+   * @param  {Object} req 
+   * @param  {Object} res 
+   * @return {}
+   */
   search:function(req,res){
-    var uploadPath = '../public/images';
-    req.file('file').upload({ dirname: uploadPath },function onUploadComplete (err, uploadedFiles) {
+    /**
+     * Sets the upload save path for the image to be searched.
+     * @type {Object}
+     */
+    var uploadPath = { dirname: '../public/images'};
+
+
+    req.file('file').upload(uploadPath, function onUploadComplete (err, uploadedFiles) {
       console.log(uploadedFiles);
       if (err) return res.send(500, err)
     

@@ -62,8 +62,72 @@ module.exports.routes = {
     view: 'control/signals'
   },
 
+  '/docs': {
+    view: 'docs/index', layout: 'control/nav'
+  },
 
+  '/regenerate': function(req,res,next){
+    
+    /**
+     * Generates documentation for specified directories.
+     * @return {Docs} 
+     */
 
+    /**
+     * Set directories for documentation consutruction.
+     * @type {Array}
+     */
+    var dirs = [ 
+        { 
+        source:"../zooid_web/"
+        ,title:"web"
+        ,target:"../zooid_web/assets/docs/web" 
+        }
+      , { 
+        source:"../zooid_core/"
+      , title:"core"
+      , target:"../zooid_web/assets/docs/core" 
+        }
+      // , { 
+      //   source:"../zooid_docs/"
+      // , title:"docs"
+      // , target:"../zooid_web/assets/dox/docs" 
+      //   }
+      , { 
+        source:"../zooid_extensions/"
+      , title:"extensions"
+      , target:"../zooid_web/assets/docs/extensions" 
+        }
+    ]
+
+    /**
+     * Bring in dependencies for child process spawn and path parsing
+     * @type {Object}
+     */
+    var spawn = require('child_process').spawn;
+    var path  = require("path")
+
+    /**
+     * Walks the directories and creates their documentation.
+     * @type {Array}
+     */
+
+    var ignores = " --ignore node_modules,assets,policies,responses,config,tasks,.tmp,zooid_templates,Gruntfile.js"
+    var template = " --template ../zooid_docs/template.jade"
+
+    dirs.map(function(o) {
+      var args = ""
+      Object.keys(o).forEach(function(key) {
+        args+=" --"+key+" "+o[key] 
+      });
+      var exec = require('child_process').exec, child;
+      child = exec('doxx '+args+template+ignores, function(err,out,er){
+        console.log(err||out||er);
+      });
+    });
+    return res.view("docs/index")
+ 
+  },
 
   /***************************************************************************
   *                                                                          *

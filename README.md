@@ -1,46 +1,12 @@
-zooid
-=====
-
-A Friendly Intelligence Framework
-
-###Install
-
-	$ git clone this
-	$ npm install
-
-####Design
-
-**Zooid** /ˈzoʊ.ɔɪd/ is an asynchronous research environment built in node.js to grow quickly and scale nicely. It's a collection of loosely coupled skills, and a web app through which to access and control them. The namesake is after it's architectural likeness to the
- <a href="http://en.wikipedia.org/wiki/Zooid" title="http://en.wikipedia.org/wiki/Zooid">
- organism</a>.
+**Zooid** /ˈzoʊ.ɔɪd/ is an asynchronous research environment built in node. It's a collection of loosely coupled skills, and a web app through which to access and control them, so named because of it's architectural likeness to the  <a href="http://en.wikipedia.org/wiki/Zooid" title="http://en.wikipedia.org/wiki/Zooid">organism</a>.
 
 ***
 
-####Pretty Secure
-- Never systems out. 
-- Never evaluates user supplied data.
+##Install
 
-####Loosely coupled
+    $ git clone this
+    $ npm install
 
-####Simple as hell
-
-####Grows in all directions.
-- Accumulating action potentials.
-- Priming anticipated symbols.
-
-===
-
-
-#####Dependencies
-
-- Sails.js http://sailsjs.org/#!
-- zlib http://nodejs.org/api/zlib.html
-- opencv https://github.com/peterbraden/node-opencv
-- cluster
-- axon
-- underscore
-- tesseract
-- leptonica
 
 #####References
 - http://docs.opencv.org/modules/refman.html
@@ -67,4 +33,7 @@ A Friendly Intelligence Framework
 - http://github.hubspot.com/messenger/docs/welcome/
 
 
+#todo
 
+- Accumulate action potentials.
+- Prime anticipated symbols.

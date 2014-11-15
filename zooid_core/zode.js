@@ -1,132 +1,151 @@
-/******************************************************************************
- * Zodes communicate with other zodes "locally"
- * They have an axon which connects fires through the hub to the rest of 
- * the zodes. And a series of dendrites as specified by listeners which are 
- * distributed over the thread pool.
- *
- * Commenting before making sinificant architectural decisions is bad because
- * your code gets inundated with what seems like relevant comments. But are 
- * sometimes straight up wrong...
- * 
- * @exports {Object} zode
-******************************************************************************/
 
+/**
+ * Zodes are the principle components in zooid. They know how to route information
+ * through the cluster and they manage the resources to be made available to the
+ * cluster.
+ * @exports {Object} zode
+*/
+var Zode = function(){ ; }
+
+/**
+ * Brings in routing and socket dependencies
+ * @type {Object}
+ */
 var Nerve  = require('axon');
+
+/**
+ * Brings in file system manipulation
+ * @type {Object}
+ */
 var fs    = require("fs")
 
 
-/******************************************************************************
- * Get base port from the config file and increment that for each the ganglion, 
- * dendrites, and axon.
+/**
+ * Gets base port from the config file and increment that for each the ganglion, 
+ * dendrites, and axon. Sets their connectivity paramaters.
 ******************************************************************************/
 
+/**
+ * Brings in configuration file
+ * @type {[type]}
+ */
 var config = require("../zooid_config.js")
 
+/**
+ * Sets the base bort from the config file.
+ * @type {Number}
+ */
 var base_port = config.base_port || 42100
+
+/**
+ * Sets the broadcast IP
+ * @type {IP Address}
+ */
 var broadcast_ip = config.broadcast_ip || '128.206.116.239'
 
-
+/**
+ * Creates a push socket for the ganglionic UDP backplane.
+ * @type {Socket}
+ */
 var ganglion = Nerve.socket('push');
 ganglion.connect( 1+base_port, broadcast_ip );
 
+/**
+ * Creates a sub-emitter socket for the dendritic UDP backplane
+ * @type {Socket}
+ */
 var dendrites = Nerve.socket('sub-emitter');
 dendrites.connect( 2+base_port, broadcast_ip );
 
+/**
+ * Creates a sub-emitter socket for the axonic UDP backplane  
+ * @type {Socket}
+ */
 var axon  = Nerve.socket('push');
 axon.connect( 3+base_port, broadcast_ip );
 
 
-
-
-/******************************************************************************
- * Find out who I am.
-******************************************************************************/
-
+/**
+ * Finds out where it lives.
+ * @param  {Function} done callback
+ * @return null
+ */
 function introspect(done){
+  /**
+   * Gets all the network interfaces from os and walks them
+   * looking for candidates for this Zodes IP address.
+   */
   var os = require('os');
   var ifaces = os.networkInterfaces();
   for (var dev in ifaces) {
     var alias=0;
     ifaces[dev].forEach(function(details){
       if (details.family=='IPv4') {
-        // console.log(dev+(alias?':'+alias:''),details.address);
+        /**
+         * Disrefards loopback addresses.
+         */
         if(details.address != '127.0.0.1')
           dendrites.ip = details.address
-        ++alias;
-      }
-      else if (details.family=='IPv6') {
-        dendrites.ip = details.address
-        ++alias;
+          ++alias;
+        }
+        /**
+         * Gets IPV6 if no IPv4 is found.
+         * @type {IPV6 Address}
+         */
+        else if (details.family=='IPv6') {
+          dendrites.ip = details.address
+          ++alias;
       }
     });
   }
 }
+
+/**
+ * Launches on start up.
+ */
 introspect()
 
-/******************************************************************************
- * Flexible language for sending
-******************************************************************************/
+/*
+ * Provide flexible, extendable language for sending
+ */
 
-// dendrites.ip       = function(signal){ return introspect() }
-dendrites.fire     = function(signal){ axon.send(signal) }
 dendrites.send     = function(signal){ axon.send(signal) }
+dendrites.fire     = function(signal){ axon.send(signal) }
 dendrites.emit     = function(signal){ axon.send(signal) }
 dendrites.respond  = function(signal){ axon.send(signal) }
 
-
+/**
+ * Publically exposes base_port and broadcast IP.
+ * @type {Port}
+ * @type {IP Address}
+ */
 dendrites.base_port     = base_port 
 dendrites.broadcast_ip  = broadcast_ip 
 
-
-/******************************************************************************
- * Flexible language for sending
-******************************************************************************/
-
+/**
+ * Sends muster information to the cluster core.
+ * @param  {Object} signal  the message to be sent
+ * @return {Socket-Emitter}  
+ */
 dendrites.muster  = function(signal){ ganglion.send(signal) }
 
+/**
+ * Responds to tests and errors and stuff.
+ * @param  {IP Address} dendrites.ip
+ * @param  {*} data whatever is transmitted
+ */
+dendrites.on(dendrites.ip, function(data){
+  dendrites.fire( { parent_id : data.id, name:"Cluster: Okay" })
+})
+dendrites.on("error", function(err){
+  dendrites.send({error:err})
+})
+dendrites.on("*", function(err){
+  console.log("transmission")
+})
 
-/******************************************************************************
- * Responds to tests and errors and stuff!
-******************************************************************************/
-
-// dendrites.on(dendrites.ip, function(data){
-  
-
-//   dendrites.fire( { parent_id : data.id, name:"Cluster: Okay" })
-// })
-// dendrites.on("error", function(err){
-//   dendrites.send({error:err})
-// })
-
-// dendrites.on("*", function(err){
-  // console.log("signal transmission")
-// })
-
-
-/******************************************************************************
- * Muster listener, responds to other nodes with it's status and persists 
- * that state in the central model hetta muster changes or timeouts.
-******************************************************************************/
-
-// dendrites.on("muster", function(req){
-//   dendrites.muster({ name: "Zode", status: "active" })
-// })
-
-
-/******************************************************************************
- * Reads in local nouns
- * DEPRICATED
- * @exports {Object} zode
-******************************************************************************/
-
-// fs.readdirSync("../extensions/").forEach(function(file) {
-//   require("../extensions/"+file)(dendrites);
-// });
-
-
-// var path = require('path');
-// var appDir = path.dirname(require.main.filename);
-
-
-
+/**
+ * Exports public functionality.
+ * @type {Complex Socket Object}
+ */
 module.exports = dendrites

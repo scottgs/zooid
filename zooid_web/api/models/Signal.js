@@ -1,11 +1,18 @@
 (function(){
 
 /**
- * Brings in dependencies
+ * Signal
+ * @module      :: Model
+ * @description :: Defines the routing and handling os sensory stimulation.
  */
 
-var _      = require("underscore");
+/**
+ * Brings in dependencies
+ * @type {Object}
+ */
+var dependencies;
 var crypto = require("crypto")
+var _      = require("underscore");
 var moment = require("moment")
 var timers = require("timers")
 var Axon   = require('axon')
@@ -28,10 +35,14 @@ axon.bind(42002);
 var dendrites = Axon.socket('pull');
 dendrites.bind(42003);
 
+/**
+ * Provides throught this socket access to the
+ * perceptual model of the whole organism.
+ * @param  {Object} signal [description]
+ * @return {[type]}        [description]
+ */
 dendrites.on('message', function( signal ){
-  // console.log( signal );
   Signal.create( signal, function(err, res){
-    // console.log(err || res)
     if(res) Signal.publishCreate(res.toJSON() )
   })
 });
@@ -41,10 +52,9 @@ dendrites.on('message', function( signal ){
  * @param  {String} event The listener
  * @return null
  */
-
-// dendrites.on('*', function(event){
-//   console.log(arguments);
-// });
+dendrites.on('*', function(event){
+  // console.log(arguments);
+});
 
 
 
@@ -140,13 +150,12 @@ timers.setInterval(function muster(){
       
       _.map(zodes, function(zode){ 
 
-        // System.publishUpdate( zode.id, { color:"warning", status:"Not responding..." }, function(err,s){
-        //   console.log(err || s);
-        // })
-        // 
-
+        Zode.publishUpdate( zode.id, { color:"warning", status:"Not responding..." }, function(err,s){
+          console.log(err || s);
+        })
+        
         /**
-         * Kill the zodenal.
+         * Kill the zode.
          * @param  {Number}    zode.id  the id of the model instance to be destroyed.
          * @param  {Function}  s   Callback
          * @return null
@@ -160,13 +169,7 @@ timers.setInterval(function muster(){
   });
 }, muster_interval*1000);
 
-/**
- * Signal
- *
- * @module      :: Model
- * @description :: A short summary of how this model works and what it represents.
- * @docs        :: http://sailsjs.org/#!documentation/models
- */
+
 
 module.exports = {
 
@@ -243,22 +246,6 @@ module.exports = {
   afterDestroy: function(signal, next){
     next();
   },
-
 };
-
-
-
-
-//  Callbacks run on Create:
-// - beforeValidation / *fn(values, cb)*
-// - beforeCreate / *fn(values, cb)*
-// - afterCreate / *fn(newlyInsertedRecord, cb)*
-// Callbacks run on Update:
-// - beforeValidation / *fn(valuesToUpdate, cb)*
-// - beforeUpdate / *fn(valuesToUpdate, cb)*
-// - afterUpdate / *fn(updatedRecord, cb)*
-// Callbacks run on Destroy:
-// - beforeDestroy / *fn(criteria, cb)*
-// - afterDestroy / *fn(cb)*
 
 }).call()

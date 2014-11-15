@@ -1,16 +1,18 @@
 /**
  * SignalController
- *
  * @module      :: Controller
- * @description :: A set of functions called `actions`.
  */
 
+/**
+ * Brings in dependencies
+ * @type {Object}
+ */
 
-var fs = require("fs")
-var crypto = require("crypto")
-var path = require("path")
-var _ = require("underscore")
-
+var dependencies;
+var fs      = require("fs")
+var crypto  = require("crypto")
+var path    = require("path")
+var _       = require("underscore")
 var request = require("request")
 
 /**
@@ -18,7 +20,7 @@ var request = require("request")
  * @param  {String}   uri      The location of the content to be downloaded
  * @param  {String}   filename The name of the file you'd like to create.
  * @param  {Function} next     Callback function
- * @return {Object}            Response
+   * @return {Path to file}
  */
 
 function download(uri, filename, next){
@@ -34,24 +36,29 @@ function download(uri, filename, next){
 
 module.exports = {
     
-    put: function(req,res){
-      req.file('input_signal').upload(function (err, uploadedFiles) {
-        if (err) return res.send(500, err);
-        return res.json({
-          message: uploadedFiles.length + ' file(s) uploaded successfully!',
-          files: uploadedFiles
-        });
+  /**
+   * Uploads with slightly different method. I don't remember why I wrote this.
+   * @param  {Object} req the request object.
+   * @param  {Object} res The response object
+   * @return {JSON}
+   */
+  put: function(req,res){
+    req.file('input_signal').upload(function (err, uploadedFiles) {
+      if (err) return res.send(500, err);
+      return res.json({
+        message: uploadedFiles.length + ' file(s) uploaded successfully!',
+        files: uploadedFiles
       });
-    },
+    });
+  },
 
 
   /**
    * Performs a basic test with a fake signal.
    * @param  {Object} req 
    * @param  {Object} res 
-   * @return {socket response}
+   * @return {JSON}
    */
-  
   test: function(req,res){
     Signal.create({text:"<h4>System Test</h4>",noun:"test"}, function(err, result){
       Signal.publishCreate( result.toJSON() )
@@ -68,45 +75,41 @@ module.exports = {
    */
   
   clean: function(req,res){
-
-      /**
-       * Finds all the signals.
-       */
-      
-      Signal.find({})
-         .limit(5000)
-         .done(function (err, signals) {
-
-          /**
-           * Walks over the signals return and deletes
-           * each and every one of them.
-           * @param  {Array}  signals
-           * @param  {Signal} signal
-           * @return null
-           */
-          
-          _.map(signals, function(signal){
-            console.log("deleting", signals.length)
-            Signal.destroy(signal.id, function(err, res){
-              console.log(err, res);
-            })
+    Signal.find({})
+       .limit(5000)
+       .done(function (err, signals) {
+        /**
+         * Walks over the signals return and deletes
+         * each and every one of them.
+         * @param  {Array}  signals
+         * @param  {Signal} signal
+         * @return {JSON}
+         */
+        _.map(signals, function(signal){
+          console.log("deleting", signals.length)
+          Signal.destroy(signal.id, function(err, res){
+            console.log(err, res);
           })
-          return res.send("Cleaned...")
-      })
+        })
+        return res.send("Cleaned...")
+    })
   },
 
 
-
+  /**
+   * Gets just pretty things and minimal info to respresent the stuff.
+   * Probably depricated?
+   * @param  {Object} req 
+   * @param  {Object} res 
+   * @return {JSON}
+   */
    pretty:function(req, res) {
-
       console.log(req.ip);
-
       Signal.find()
          .where({ type: "HEAD"})
          .sort("createdAt DESC")
          .limit(1)
          .done(function (err, signals) {
-
          if (err) return res.send(err,500);
          if (!signals) return res.send("Specified signal doesn't exist", 404);
          // if (signal.services.length <= 0) return res.send("Nothing to do here anymore.", 403);
@@ -114,7 +117,14 @@ module.exports = {
       });
   },
 
-
+    /**
+     * Finds all of the signals with a parent_id matching that of the 
+     * inputted post request.
+     * @param  {Object} req 
+     * @param  {Object} res 
+     * @return {JSON}
+     */
+    
    findChildren:function(req, res) {
       console.log(req);
       var pid = req.param('parent_id')
@@ -126,7 +136,13 @@ module.exports = {
       });
   },
 
-
+  /**
+   * Responds to get and post request containing URLs by comnsuming all of the content on at the URL
+   * and spinning it off into the zooid associated to it's parent it.
+   * @param  {Object} req 
+   * @param  {Object} res 
+   * @return {Signal}
+   */
   getURL: function(req, res){
 
     var url = req.body.getURL
@@ -145,22 +161,19 @@ module.exports = {
 
       /**
        * Configures paths and names and what not.
-       * @type {[type]}
+       * @type {String}
        */
-      
       var hash = crypto.createHash('md5').update(url).digest('hex')
       var newPath = path.join( __dirname, "../../.tmp/public/files/" )
       var filename = ""+hash+"."+ext
       var fullPath = newPath + filename
-
       console.log(newPath)
 
       /**
        * Creates new signal
-       * @type {Object}
+       * @type {Signal}
        */
-      
-      newSignal = {
+      var newSignal = {
             name : "?"
           , noun : "new_signal"
           , location : newPath
@@ -168,10 +181,11 @@ module.exports = {
       }
 
       /**
-       * Downloads the things
-       * @return null
+       * Downloads the things and creates a representation for each of them 
+       * in the model, and then broadcasts out over the appropriate 
+       * backplane the instantiation of that sensory stimulation.
+       * @return {Signal Broadcast}
        */
-      
       download( url, fullPath, function(){
         res.send({ model:"signal", verb:"create", data:newSignal });
           Signal.create(newSignal).done( function(err, result){
@@ -182,8 +196,10 @@ module.exports = {
     } else {
 
       /**
-       * Not an image, must be a web page.
-       * @type {Object}
+       * Not an image, must be a web page. Treat it as such by consuming it
+       * and breaking it down into the system associated to the parent od
+       * of the sensory stimulation.
+       * @return {Signal Broadcast}
        */
     
       newSignal = {
@@ -209,22 +225,24 @@ module.exports = {
   
   upload: function(req, res) {
 
-    
     console.log("RECIEVING UPLOAD")
-   
     // TODO -- Store file in mongo instead of in filesystem ?
- 
     // TODO Async quee instead of run
 
-    // console.log(req.files);
     fs.readFile(req.files.file.path, function (err, data) {
       if(err) return res.send(err);
 
-      var hash = crypto.createHash('md5').update(JSON.stringify(req.files.file)).digest('hex')
+      /**
+       * Generates a hash with crypto library
+       * @type {Hash}
+       */
+      var hash = crypto.createHash('md5')
+          .update(JSON.stringify(req.files.file))
+          .digest('hex')
 
       /**
        * Configures paths and names and what not.
-       * @type {[type]}
+       * @type {String}
        */
       
       var newPath = path.join( __dirname, "~/zooid/data/" )
@@ -236,7 +254,7 @@ module.exports = {
        * Writes the file to the path.
        * @param  {String}  path
        * @param  {Object}  data
-       * @return null
+       * @return {Signal}
        */
       
       fs.writeFile(fullPath, data, function (err) {
@@ -253,7 +271,7 @@ module.exports = {
          * Creates and publishes the signal.
          * @param  {String} err    
          * @param  {Object} result 
-         * @return  {socket response}
+         * @return {Signal}
          */
         
         Signal.create(newSignal).done( function(err, result){
@@ -264,11 +282,6 @@ module.exports = {
       });
     });
   },
-
-
-  
-
-
 
   /**
    * Overrides for the settings in `config/controllers.js`
