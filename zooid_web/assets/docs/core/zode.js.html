@@ -10,6 +10,7 @@
     <link href="/styles/buttons.css" rel="stylesheet">
     <link href="/styles/animate.css" rel="stylesheet">
     <link href="/styles/dropzone.css" rel="stylesheet">
+    <link href="/styles/todc-bootstrap.min.css" rel="stylesheet">
     <link href="/styles/zooid.css" rel="stylesheet">
     <link href="/styles/webui-popover.css" rel="stylesheet">
     <link href="/styles/jquery.dataTables.min.css" rel="stylesheet">
@@ -26,13 +27,13 @@
     
     <div>
       <div style="margin-bottom:38px!important;">
-        <navbar role="navigation" style="padding-top:1px;padding-bottom:1px;" class="navbar-fixed-top navbar-">
+        <div role="navigation" style="padding-top:1px;padding-bottom:1px;" class="nav navbar-fixed-top navbar-default">
           <div class="container">
             <div class="navbar-header">
               <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span>
                 <fa class="fa fa-fw fa-caret-down"></fa>
               </button><a href="/" style="margin-top:0px" class="navbar-brand">
-                <o>zooid</o></a>
+                <o>Zooid</o></a>
             </div>
             <div class="navbar-collapse collapse scootRight"> 
               <ul class="nav navbar-nav navbar-left">
@@ -43,26 +44,22 @@
                 <li><a href="/s" class="text-center"><small>
                       <oo>signals</oo></small></a></li>
                 <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><small>
-                      <oo>docs</oo></small>
+                      <oo>docs</oo><i class="fa fa-fw ion-arrow-down-b"></i></small>
                     <ul role="menu" style="min-width:220px;" class="dropdown-menu scootRight">
                       <li><a href="/docs/web">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg fa-globe"></div>
                           <oo>Web app</oo></a></li>
                       <li><a href="/docs/core">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg fa-sitemap"></div>
                           <oo>Core</oo></a></li>
                       <li><a href="/docs/extensions">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg ion-merge"></div>
                           <oo>Extensions</oo></a></li>
                       <li class="divider"></li>
-                      <li><a href="/reset">
-                          <div style="margin-right:12px;" class="fa fa-fw ion-loop fa-lg"></div>
+                      <li><a href="/regenerate">
                           <oo>Regenerate all</oo></a></li>
                     </ul></a></li>
               </ul>
             </div>
           </div>
-        </navbar>
+        </div>
       </div>
       <noscript>Please enable JavaScript and refresh this page</noscript>
     </div>
@@ -133,7 +130,8 @@
           </ul>
         </div>
       </div>
-      <div class="col-md-7 docs-main"><br>
+      <div class="col-md-7 docs-main">
+        <h3>zode.js</h3><br>
         <section id="Zode">
           <h3>Zode
             <h5 class="subheader"></h5>
@@ -161,8 +159,7 @@
         </section>
         <div class="description"><p>Brings in file system manipulation</p> </div>
         <pre><code class="language-javascript">var fs    = require(&quot;fs&quot;)</code></pre>
-        <div class="description"><p>Gets base port from the config file and increment that for each the ganglion,<br />dendrites, and axon. Sets their connectivity paramaters.</p><hr>
- </div>
+        <div class="description"><p>Gets base port from the config file and increment that for each the ganglion,<br />dendrites, and axon. Sets their connectivity paramaters.</p> </div>
         <section id="config">
           <h3>config
             <h5 class="subheader"></h5>
@@ -189,7 +186,7 @@
             </p></h3>
         </section>
         <div class="description"><p>Sets the broadcast IP</p> </div>
-        <pre><code class="language-javascript">var broadcast_ip = config.broadcast_ip || '128.206.116.239'</code></pre>
+        <pre><code class="language-javascript">var broadcast_ip = config.broadcast_ip</code></pre>
         <section id="ganglion">
           <h3>ganglion
             <h5 class="subheader"></h5>
@@ -219,7 +216,20 @@ dendrites.connect( 2+base_port, broadcast_ip );</code></pre>
         </section>
         <div class="description"><p>Creates a sub-emitter socket for the axonic UDP backplane  </p> </div>
         <pre><code class="language-javascript">var axon  = Nerve.socket('push');
-axon.connect( 3+base_port, broadcast_ip );</code></pre>
+axon.connect( 3+base_port, broadcast_ip );
+
+// /**
+//  * Request socket -- waits for a reply.
+//  * I don't know if this blocks.
+//  * @type {Socket}
+//  */
+
+// var request = Nerve.socket('req');
+// request.bind(4+base_port, broadcast_ip);
+
+// request.send('transform', {image:&quot;image&quot;}, function(res){
+//   console.log(res);
+// });</code></pre>
         <section id="introspect">
           <h3>introspect
             <h5 class="subheader"></h5>
@@ -227,7 +237,7 @@ axon.connect( 3+base_port, broadcast_ip );</code></pre>
               <div class="label label-info radius ctx-type">function</div><span>introspect()</span> -><span>null</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -303,7 +313,7 @@ dendrites.broadcast_ip  = broadcast_ip</code></pre>
               <div class="label label-info radius ctx-type">method</div><span>dendrites.muster()</span> -><span>Socket-Emitter</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -321,7 +331,7 @@ dendrites.broadcast_ip  = broadcast_ip</code></pre>
         </table>
         <div class="description"><p>Sends muster information to the cluster core.</p> </div>
         <pre><code class="language-javascript">dendrites.muster  = function(signal){ ganglion.send(signal) }</code></pre>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -344,7 +354,7 @@ dendrites.broadcast_ip  = broadcast_ip</code></pre>
         </table>
         <div class="description"><p>Responds to tests and errors and stuff.</p> </div>
         <pre><code class="language-javascript">dendrites.on(dendrites.ip, function(data){
-  dendrites.fire( { parent_id : data.id, name:&quot;Cluster: Okay&quot; })
+  dendrites.send( { parent_id:data.id, name:&quot;Cluster: Okay&quot; })
 })
 dendrites.on(&quot;error&quot;, function(err){
   dendrites.send({error:err})

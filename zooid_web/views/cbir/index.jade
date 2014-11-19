@@ -23,7 +23,7 @@ block body
               o to start your search.
 
         .dropzone#dropzone
-          form(action="/signal/download")
+          form(action="/cbr/search")
             .fallback
               input(type="file", name="file")
           .hide
@@ -49,21 +49,17 @@ block body
     #previews
 
 
-
   .container
     .row
       .col-md-3
         br
+
+        .container-fluid  
+          a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default New Search
+          a.btn(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-link Options
+        br
         img#searchImage(src="").img-responsive.animate
         br
-        .container-fluid
-          a(type='button', data-toggle='modal', data-target='#uploadModal').button.button-flat-action.col-sm-6.button-sm
-           o New Search
-
-          a.btn(type='button', data-toggle='modal', data-target='#uploadModal').button.button-flat.col-sm-6.button-sm
-           o Options
-        br
-
         .panel.panel-default.container-fluid
             br
             .col-sm-4

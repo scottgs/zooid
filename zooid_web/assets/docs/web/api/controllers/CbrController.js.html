@@ -10,6 +10,7 @@
     <link href="/styles/buttons.css" rel="stylesheet">
     <link href="/styles/animate.css" rel="stylesheet">
     <link href="/styles/dropzone.css" rel="stylesheet">
+    <link href="/styles/todc-bootstrap.min.css" rel="stylesheet">
     <link href="/styles/zooid.css" rel="stylesheet">
     <link href="/styles/webui-popover.css" rel="stylesheet">
     <link href="/styles/jquery.dataTables.min.css" rel="stylesheet">
@@ -26,13 +27,13 @@
     
     <div>
       <div style="margin-bottom:38px!important;">
-        <navbar role="navigation" style="padding-top:1px;padding-bottom:1px;" class="navbar-fixed-top navbar-">
+        <div role="navigation" style="padding-top:1px;padding-bottom:1px;" class="nav navbar-fixed-top navbar-default">
           <div class="container">
             <div class="navbar-header">
               <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span>
                 <fa class="fa fa-fw fa-caret-down"></fa>
               </button><a href="/" style="margin-top:0px" class="navbar-brand">
-                <o>zooid</o></a>
+                <o>Zooid</o></a>
             </div>
             <div class="navbar-collapse collapse scootRight"> 
               <ul class="nav navbar-nav navbar-left">
@@ -43,26 +44,22 @@
                 <li><a href="/s" class="text-center"><small>
                       <oo>signals</oo></small></a></li>
                 <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><small>
-                      <oo>docs</oo></small>
+                      <oo>docs</oo><i class="fa fa-fw ion-arrow-down-b"></i></small>
                     <ul role="menu" style="min-width:220px;" class="dropdown-menu scootRight">
                       <li><a href="/docs/web">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg fa-globe"></div>
                           <oo>Web app</oo></a></li>
                       <li><a href="/docs/core">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg fa-sitemap"></div>
                           <oo>Core</oo></a></li>
                       <li><a href="/docs/extensions">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg ion-merge"></div>
                           <oo>Extensions</oo></a></li>
                       <li class="divider"></li>
-                      <li><a href="/reset">
-                          <div style="margin-right:12px;" class="fa fa-fw ion-loop fa-lg"></div>
+                      <li><a href="/regenerate">
                           <oo>Regenerate all</oo></a></li>
                     </ul></a></li>
               </ul>
             </div>
           </div>
-        </navbar>
+        </div>
       </div>
       <noscript>Please enable JavaScript and refresh this page</noscript>
     </div>
@@ -111,7 +108,8 @@
           </ul>
         </div>
       </div>
-      <div class="col-md-7 docs-main"><br>
+      <div class="col-md-7 docs-main">
+        <h3>api/controllers/CbrController.js</h3><br>
         <section id="fs">
           <h3>fs
             <h5 class="subheader"></h5>
@@ -132,7 +130,7 @@ var histogram = require('histogram');</code></pre>
               <div class="label label-info radius ctx-type">function</div><span>createHistogram()</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -157,10 +155,10 @@ var histogram = require('histogram');</code></pre>
         <pre><code class="language-javascript">function createHistogram(fileName, next){
   histogram(fileName || Buffer, function (err, data) {
     var hist = {}
+    hist['signature'] = []
     hist['r']=[]; hist['g']=[]; hist['b']=[]; hist['a'] = [];
-
     for (var i = 0; i &lt; data.red.length; i++) {
-      var ii = Math.floor(i/16)
+      var ii = Math.floor(i/8)
       if(typeof hist.r[ii] == 'undefined'){
         hist.r[ii] = 0 
         hist.g[ii] = 0
@@ -172,8 +170,40 @@ var histogram = require('histogram');</code></pre>
       hist.b[ii]+=data.blue[i]
       hist.a[ii]+=data.alpha[i]
     };
+
+    for (var j = 0; j &lt; hist.r.length; j++) {
+      hist.signature.push( (hist.r[j]*hist.g[j]).toString(16) )
+      hist.signature.push( (hist.r[j]*hist.b[j]).toString(16) )
+      hist.signature.push( (hist.g[j]*hist.b[j]).toString(16) )
+    }
+    console.log(hist.signature)
     next(err,hist)
   });
+}
+
+function nearest_neighbor(req,next){
+  nn = require('nearest-neighbor');
+
+  Cbr.find({}).exec(function(err,images){
+    
+    var query = (typeof req.signature == 'undefined' ? req : req.signature )
+
+    var fields = [
+      // { name: &quot;name&quot;, measure: nn.comparisonMethods.word },
+      { name: &quot;signature&quot;, measure: nn.comparisonMethods.wordArray }
+
+      // { name: &quot;age&quot;, measure: nn.comparisonMethods.number, max: 100 },
+      // { name: &quot;pc&quot;, measure: nn.comparisonMethods.word }, 
+      // { name: &quot;ip&quot;, measure: nn.comparisonMethods.ip }
+    ];
+    nn.findMostSimilar(query, images, fields, function(nearestNeighbor, probability) {
+      console.log({&quot;query&quot;:query, &quot;nn&quot;:nearestNeighbor, &quot;prob&quot;:probability})
+
+      next(null, {&quot;query&quot;:query, &quot;nn&quot;:nearestNeighbor, &quot;prob&quot;:probability});
+    });
+
+  })
+
 }</code></pre>
         <section id="getTestData">
           <h3>getTestData
@@ -182,7 +212,7 @@ var histogram = require('histogram');</code></pre>
               <div class="label label-info radius ctx-type">function</div><span>getTestData()</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -225,7 +255,7 @@ module.exports = {</code></pre>
               <div class="label label-info radius ctx-type">method</div><span>test()</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -250,22 +280,16 @@ module.exports = {</code></pre>
         <pre><code class="language-javascript">test: function(req,res){
 
   getTestData(&quot;../test_data/cbr&quot;, function(err, test_files){
-      
-    var r = Math.round(Math.random()%.1)
 
-    var fileName = test_files[r]
-    // _.map(test_files, function(fileName){
-
+    _.map(test_files, function(fileName){
       createHistogram(fileName, function(err, hist){
-
-        Cbr.create({name:&quot;cbr_test&quot;, noun:&quot;cbr_search&quot;, filename:fileName, data:hist}, function(err,signal){
-          
-
+        Cbr.create({name:&quot;cbr_test&quot;, noun:&quot;cbr_search&quot;,  filename:fileName, signature:hist.signature,
+         histogram:hist}, function(err,signal){
           return res.send(err || signal);
         })
 
       });
-    // })
+    })
   })
 },</code></pre>
         <section id="search">
@@ -275,7 +299,7 @@ module.exports = {</code></pre>
               <div class="label label-info radius ctx-type">method</div><span>search()</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -308,7 +332,6 @@ module.exports = {</code></pre>
         <div class="description"><p>Sets the upload save path for the image to be searched.</p> </div>
         <pre><code class="language-javascript">var uploadPath = { dirname: '../public/images'};
 
-
 req.file('file').upload(uploadPath, function onUploadComplete (err, uploadedFiles) {
   console.log(uploadedFiles);
   if (err) return res.send(500, err)
@@ -317,27 +340,62 @@ req.file('file').upload(uploadPath, function onUploadComplete (err, uploadedFile
 
     var cbr_file = merge (uploadedFiles[0], {
       name:&quot;cbr_search&quot;, 
-       
       filename:path.basename(uploadedFiles[0].fd), 
+        signature:hist.signature,
       histogram:hist,
       src:&quot;/images/&quot;+path.basename(uploadedFiles[0].fd)
     })
 
-    Cbr.create(cbr_file,  function(err,img){
-      console.log(err||img)
-      Signal.create( merge( img, {
-        noun:&quot;image&quot;,
-        id:img.id,
-        location:path.dirname(uploadedFiles[0].fd),
-        filename:path.basename(uploadedFiles[0].fd)
-      }), function(err,im){
-        return res.json(im)
-      })
-    })
+
+    res.send(cbr_file);
+
+    // nearest_neighbor(cbr_file, function(err,nn){
+    //   console.log(err||nn)
+    //   res.send(err||nn)
+
+    // })
+
+
+    // Cbr.create(cbr_file,  function(err,img){
+    //   console.log(err||img)
+    //   Signal.create( merge( img, {
+    //     noun:&quot;image&quot;,
+    //     id:img.id,
+    //     location:path.dirname(uploadedFiles[0].fd),
+    //     filename:path.basename(uploadedFiles[0].fd)
+    //   }), function(err,im){
+    //     return res.json(im)
+    //   })
+    // })
   })
 
 })
+  },
+
+
+  knn: function(req,res){
+
+  
+
+  },
+
+
+
+
+  clean: function(req,res){
+
+Cbr.find({}).exec(function(err,images){
+
+  _.map(images, function(image){
+    Cbr.destroy(image.id, function(er,k){
+      console.log(err|k)
+    });
+  })
+})
+
+return res.send(&quot;this model is clean.&quot;)
   }
+
 
 
 }</code></pre>

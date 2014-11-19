@@ -160,16 +160,6 @@ function blurFaces( signal, done ){
 
 
 
-// create a queue object with concurrency 2
-
-var q = async.queue( blurFaces, 2 );
-
-
-// assign a callback
-q.drain = function() {
-    console.log('All items have been processed');
-}
-
 
 
 

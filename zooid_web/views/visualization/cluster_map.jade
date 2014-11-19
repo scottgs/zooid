@@ -17,10 +17,7 @@ block content
                 renderer = Viva.Graph.View.renderer(graph, {
                     container : document.getElementById('graphVisualization'),
                     layout: Viva.Graph.Layout.forceDirected(graph, {
-                      springLength : 10,
-                      springCoeff : 0.000001,
-                      dragCoeff : 0.005,
-                      gravity : -0.2
+                      dragCoeff : 0.01
                 }),
                     graphics: graphics
                 });
@@ -48,13 +45,13 @@ block content
               var isNode = (node.data === 'node')
 
               var link = isNode ? 'http://www.iconsdb.com/icons/preview/black/stack-xl.png' : "http://www.iconsdb.com/icons/preview/black/ssd-xl.png";
-              size = nodeSize + (isNode ? nodeSize : 0)
+              size = nodeSize + (isNode ? nodeSize*1.5 : 0)
               // This time it's a group of elements: http://www.w3.org/TR/SVG/struct.html#Groups
               var ui = Viva.Graph.svg('g'),
                   // Create SVG text element with user id as content
                   svgText = Viva.Graph.svg('text')
                   .attr('y', '-4px')
-                  .attr('font-size', isNode ? '10px' : '7px')
+                  .attr('font-size', isNode ? '5px' : '2px')
                   .text(node.id),
                   img = Viva.Graph.svg('image')
                      .attr('width', size)
@@ -93,11 +90,14 @@ block content
       
         socket.on( "zode", function(zode){
 
-            graph.addNode( ""+zode.data.name, ""+zode.id)
-            graph.addNode( ""+zode.data.name, ""+zode.data.ip)
-            //- graph.addLink( ""+zode.id, ""+zode.data.ip, "node")
-            //
-            //
+          if(zode.verb == "created")
+            graph.addLink( zode.data.name, zode.data.ip, "node")
+
+          if(zode.verb == "destroyed")
+            graph.removeNode( zode.id, zode.data.ip, "node")
+
+          if(zode.verb == "updated")
+            graph.removeNode( zode.id, zode.data.ip, "node")
         })
 
         /**
@@ -120,6 +120,7 @@ block content
             //- graph.addLink( zode.ip, "web" )
 
             graph.addNode( zode.ip, "node")
+            graph.addNode( zode.name )
             graph.addLink( zode.ip, "node")
             graph.addLink( zode.ip, zode.name, "node")
 

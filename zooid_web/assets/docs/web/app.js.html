@@ -10,6 +10,7 @@
     <link href="/styles/buttons.css" rel="stylesheet">
     <link href="/styles/animate.css" rel="stylesheet">
     <link href="/styles/dropzone.css" rel="stylesheet">
+    <link href="/styles/todc-bootstrap.min.css" rel="stylesheet">
     <link href="/styles/zooid.css" rel="stylesheet">
     <link href="/styles/webui-popover.css" rel="stylesheet">
     <link href="/styles/jquery.dataTables.min.css" rel="stylesheet">
@@ -26,13 +27,13 @@
     
     <div>
       <div style="margin-bottom:38px!important;">
-        <navbar role="navigation" style="padding-top:1px;padding-bottom:1px;" class="navbar-fixed-top navbar-">
+        <div role="navigation" style="padding-top:1px;padding-bottom:1px;" class="nav navbar-fixed-top navbar-default">
           <div class="container">
             <div class="navbar-header">
               <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span>
                 <fa class="fa fa-fw fa-caret-down"></fa>
               </button><a href="/" style="margin-top:0px" class="navbar-brand">
-                <o>zooid</o></a>
+                <o>Zooid</o></a>
             </div>
             <div class="navbar-collapse collapse scootRight"> 
               <ul class="nav navbar-nav navbar-left">
@@ -43,26 +44,22 @@
                 <li><a href="/s" class="text-center"><small>
                       <oo>signals</oo></small></a></li>
                 <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><small>
-                      <oo>docs</oo></small>
+                      <oo>docs</oo><i class="fa fa-fw ion-arrow-down-b"></i></small>
                     <ul role="menu" style="min-width:220px;" class="dropdown-menu scootRight">
                       <li><a href="/docs/web">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg fa-globe"></div>
                           <oo>Web app</oo></a></li>
                       <li><a href="/docs/core">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg fa-sitemap"></div>
                           <oo>Core</oo></a></li>
                       <li><a href="/docs/extensions">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg ion-merge"></div>
                           <oo>Extensions</oo></a></li>
                       <li class="divider"></li>
-                      <li><a href="/reset">
-                          <div style="margin-right:12px;" class="fa fa-fw ion-loop fa-lg"></div>
+                      <li><a href="/regenerate">
                           <oo>Regenerate all</oo></a></li>
                     </ul></a></li>
               </ul>
             </div>
           </div>
-        </navbar>
+        </div>
       </div>
       <noscript>Please enable JavaScript and refresh this page</noscript>
     </div>
@@ -93,7 +90,8 @@
           </ul>
         </div>
       </div>
-      <div class="col-md-7 docs-main"><br>
+      <div class="col-md-7 docs-main">
+        <h3>app.js</h3><br>
         <div class="description"><p>app.js</p><p>Use <code>app.js</code> to run your app without <code>sails lift</code>.<br />To start the server, run: <code>node app.js</code>.</p><p>This is handy in situations where the sails CLI is not relevant or useful.</p><p>For example:<br />  =&gt; <code>node app.js</code><br />  =&gt; <code>forever start app.js</code><br />  =&gt; <code>node debug app.js</code><br />  =&gt; <code>modulus deploy</code><br />  =&gt; <code>heroku scale</code></p><p>The same command-line arguments are supported, e.g.:<br /><code>node app.js --silent --port=80 --prod</code></p> </div>
         <pre><code class="language-javascript">// Ensure we're in the project directory, so relative paths work as expected
 // no matter where we actually lift from.

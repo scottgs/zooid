@@ -86,13 +86,13 @@
           <li><a href="../geo_conversion/app.js.html">geo_conversion/app.js</a></li>
           <li><a href="../image_consumption/app.js.html">image_consumption/app.js</a></li>
           <li><a href="../nearest_neighbor/app.js.html">nearest_neighbor/app.js</a></li>
-          <li><a href="../robots_in_disguise/app.js.html">robots_in_disguise/app.js</a></li>
+          <li class="active"><a href="../robots_in_disguise/app.js.html">robots_in_disguise/app.js</a></li>
           <li><a href="../signal_classification/app.js.html">signal_classification/app.js</a></li>
           <li><a href="../squiggle_vectorization/app.js.html">squiggle_vectorization/app.js</a></li>
           <li><a href="../squiggle_vectorization/app_old.js.html">squiggle_vectorization/app_old.js</a></li>
           <li><a href="../squiggle_vectorization/index.js.html">squiggle_vectorization/index.js</a></li>
           <li><a href="../terrain_geolocation/app.js.html">terrain_geolocation/app.js</a></li>
-          <li class="active"><a href="../terrain_geolocation/run.js.html">terrain_geolocation/run.js</a></li>
+          <li><a href="../terrain_geolocation/run.js.html">terrain_geolocation/run.js</a></li>
           <li><a href="../terrain_geolocation/terrain_geolocator.js.html">terrain_geolocation/terrain_geolocator.js</a></li>
           <li><a href="../terrain_geolocation/worker.js.html">terrain_geolocation/worker.js</a></li>
           <li><a href="../text_scraping/app.js.html">text_scraping/app.js</a></li>
@@ -100,21 +100,17 @@
         </ul>
         <div class="scrollspy">
           <ul class="nav nav-list bs-docs-sidenav right affix-top">
-            <li class="little"><a href="#Geolocator_module"><span>
-                  <fa class=" fa fa-sm fa-fw  fa-chevron-right"></fa></span><span>Geolocator_module</span></a>
+            <li class="little"><a href="#fs"><span>
+                  <fa class=" fa fa-sm fa-fw  fa-chevron-right"></fa></span><span>fs</span></a>
+            </li>
+            <li class="little"><a href="#zooid"><span>
+                  <fa class=" fa fa-sm fa-fw  fa-chevron-right"></fa></span><span>zooid</span></a>
             </li>
           </ul>
         </div>
       </div>
       <div class="col-md-7 docs-main">
-        <h3>terrain_geolocation/run.js</h3><br>
-        <section id="Geolocator_module">
-          <h3>Geolocator_module
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-success radius ctx-type">declaration</div><span>Geolocator_module</span> -><span>[Array&lt;clusterResults&gt;]</span>
-            </p></h3>
-        </section>
+        <h3>robots_in_disguise/app.js</h3><br>
         <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
@@ -125,60 +121,124 @@
           </thead>
           <tbody>
             <tr>
-              <td>searchSquiggle</td>
-              <td>[type]</td>
-              <td></td>
+              <td>fileName</td>
+              <td>Image</td>
+              <td>name of the image file.</td>
             </tr>
           </tbody>
         </table>
-        <div class="description"><p>Processes signature from the input path and responds with an llos<br />which contains an array4of llos&#39;</p> </div>
-        <pre><code class="language-javascript">var Geolocator_module 	= require('./build/Release/Geolocator_module')
-var geolocator 					= new Geolocator_module.Geolocator_module()
-geolocator.initialize(&quot;/etc/vmr/geolocate.conf&quot;)
-
-var merge = require(&quot;merge&quot;)
-
-var zooid = require(&quot;../../zooid_core&quot;)
+        <div class="description"><p>Creates a color histogram from an image file.</p> </div>
+        <section id="fs">
+          <h3>fs
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>fs</span>
+            </p></h3>
+        </section>
+        <div class="description"><p>Bring in dependencies.</p> </div>
+        <pre><code class="language-javascript">var fs = require('fs')
+, path = require('path')
+, merge = require(&quot;merge&quot;)
+, async = require(&quot;async&quot;) 
+, _ = require('underscore')
+, moment = require(&quot;moment&quot;)
+, histogram = require('histogram')</code></pre>
+        <section id="zooid">
+          <h3>zooid
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>zooid</span>
+            </p></h3>
+        </section>
+        <div class="description"><p>Defines this zodes identity and function within the organism.</p> </div>
+        <pre><code class="language-javascript">var zooid = require(&quot;../../zooid_core&quot;)
 var zode = merge( require(&quot;./package.json&quot;), { 
-    name:&quot;Face Blurring&quot;
-  , filename:&quot;face_blurring.js&quot;
+    name:&quot;Transformers&quot;
+  , filename:&quot;app.js&quot;
   , takes:&quot;image&quot;
-  , gives:&quot;blurred_faces&quot;
+  , gives:&quot;color_histogram&quot;
+  , ip:zooid.ip || 'unkown'
   , status:&quot;active&quot;
   , work:0
   , actions:0 
 })
+console.log(zode.name, &quot;intiated.&quot;)</code></pre>
+        <table class="table table-condensed table-striped table-bordered">
+          <thead>
+            <tr>
+              <th style="width:20%">Option</th>
+              <th style="width:20%">Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>signal</td>
+              <td>Signal</td>
+              <td>input signal</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="description"><p>Responds to it&#39;s listener handler noun.</p> </div>
+        <pre><code class="language-javascript">zooid.on( &quot;image&quot;, function(signal){
 
-console.log(zode.name, &quot; intiated.&quot;)</code></pre>
-        <div class="description"><hr>
-<p>TEST WITH BASE CASE<br />Run a test on the cluster with the default applicaiton of processing a small<br />image for feature </p><p>detection and reporting back to the overmind the events of<br />both the event-positive and event-negative systems of signal processing.</p><hr>
- </div>
+  if(!zode.status) return 1;
+
+  var start = moment().valueOf();
+  zode.actions += 1
+  
+  createHistogram( signal, function(err, res){
+    var stop = moment().valueOf();
+    zode.work += stop - start
+    zooid.muster(zode)
+    zooid.send(res)
+  });
+
+})</code></pre>
+        <table class="table table-condensed table-striped table-bordered">
+          <thead>
+            <tr>
+              <th style="width:20%">Option</th>
+              <th style="width:20%">Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>signal</td>
+              <td>Signal</td>
+              <td>the test signal</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="description"><p>Defines the test case.</p> </div>
         <pre><code class="language-javascript">zooid.on( &quot;test&quot;, function (signal){
- zooid.send({ parent_id:signal.id, name:zode.name, text:&quot;okay&quot;})
+  zode.status=&quot;active&quot;
+  zooid.muster(zode)
+  zooid.send({ parent_id:signal.id, name:zode.name, text:&quot;okay&quot;})
+})</code></pre>
+        <table class="table table-condensed table-striped table-bordered">
+          <thead>
+            <tr>
+              <th style="width:20%">Option</th>
+              <th style="width:20%">Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>signal</td>
+              <td>Signal</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="description"><p>Responds to muster requests.</p> </div>
+        <pre><code class="language-javascript">zooid.on( &quot;muster&quot;, function(signal){
+  zooid.muster(zode)
 })
 
-
-zooid.on(&quot;terrain_silhouette&quot;, function(signal){
-
-	clusterSize 			= config['clusterSize'] 		|| 500
-	clusterDistance 	= config['clusterDistance'] || 8
-	dataset 					= config['dataset'] 				|| &quot;feature_small_gpu_afghan_360&quot; 
-	
-	console.log(&quot;dataset, clusterSize, clusterDistance&quot;, dataset, clusterSize, clusterDistance )
-	
-	geolocator.search( signal, dataset, clusterSize, clusterDistance, function(err, clusterResults){
-   		// zooid.emit(err, clusterResults, signal);
-  	zooid.send({ parent_id:signal.id
-  		, name:&quot;geolocation&quot;
-  		, geojson:geojson
-  		, noun:&quot;geojson&quot;
-  		, text:err 
-  	})
-	})
-})
-
-
-}).call(this)</code></pre>
+zooid.muster(zode)</code></pre>
       </div>
     </div>
   </div><br><br><br>
