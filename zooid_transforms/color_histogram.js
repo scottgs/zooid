@@ -7,6 +7,8 @@
 
 var histogram = require("histogram");
 
+
+
 function createHistogram(fileName, next){
   histogram(fileName || Buffer, function (err, data) {
     var hist = {}
@@ -29,9 +31,13 @@ function createHistogram(fileName, next){
   });
 }
 
+
+
 process.on('message', function(signal) {
   createHistogram(signal.filename, function(err,hist){
-    process.send(hist)
+    var result = {}
+    result.histogram = hist
+    process.send(result)
   })
-
 })
+

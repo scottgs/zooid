@@ -7,7 +7,8 @@ block body
   script(src="/js/fabric.min.js")
   link(rel='stylesheet', href='//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css')
   
-
+  .panel.panel-default
+    canvas#main_canvas(width="100px", height="100px")
 
   .container-fluid.row
   
@@ -40,8 +41,11 @@ block body
               fa.fa.fa-fw.fa-check.text-muted
               o Test
         .panel-body
-          #features_canvas.btn-block
-          canvas#main_canvas(width="100px", height="100px")
+
+
+
+        .panel-body
+          #features_canvas
 
 
       .panel.panel-default
@@ -119,65 +123,21 @@ block body
 
       if(item.data.data){
 
-        if(item.data.noun == "faces" || item.data.noun == "vehicles") return 0;
-
         var mask = item.data.data
         console.log(mask)
 
-        // create a rectangle object
-        var rect = new fabric.Rect({
-          left: mask.x*scale_factor,
-          top: mask.y*scale_factor,
-          fill:'rgba(255,255,255,0.1)',
-          width: mask.width*scale_factor,
-          height: mask.height*scale_factor,
-          hasControls: false,
-          shadow: {color:'rgba(0,0,0,0.7) 0px 2px 4px'},
-          stroke:"rgba(160,255,160,1)",
-          selectable: false
-        });
-          canvas.add(rect);
-
-
-
-
-        fabric.Image.fromURL("/images/"+item.data.filename, function(img) {
-           img.set({ 
-            left:rect.left, 
-            top:rect.top, 
-            width: rect.width, 
-            centeredScaling:true,
-            height: rect.height, 
-            originX: 'left', 
-            hasControls: false,
-            shadow: 'rgba(255,255,255,0.7) 0px 0px 12px',
-            selectable: false,
-            originY: 'top'
+          // create a rectangle object
+          var rect = new fabric.Rect({
+            left: mask.x,
+            top: mask.y,
+            fill: 'blue',
+            opacity: 0.62,
+            width: mask.width,
+            height: mask.height
           });
 
-          var filter = new fabric.Image.filters.Invert();
-          img.filters.push(filter);
-          img.applyFilters(canvas.renderAll.bind(canvas));
-
-          canvas.add(img);
-        });
-
-
-        var text = new fabric.Text( (item.data.name||item.data.noun), { 
-          fontSize:10, 
-          fontFamily:"arial", 
-          textAlign: 'center',
-          left: Math.round(rect.left + 4), 
-          top: Math.round(rect.top - 16),
-          fill:'rgba(255,255,255,1)',
-          shadow: 'rgba(0,0,0,1) 0px 1px 4px',
-          hasControls: false,
-          selectable: false
-
-        });
-        canvas.add(text);
-
-
+          // "add" rectangle onto canvas
+          canvas.add(rect);
 
       }
 
@@ -332,69 +292,22 @@ block body
           var w = info.width
           var h = info.height
 
-          var cw = $("#features_canvas").width()
-          var ch = ( h / w ) * cw
-
-          scale_factor = cw/w
-
           console.log(w,h, res.filename)
 
-            canvas.clear()
-
-            //- fabric.Image.fromURL("/images/"+res.filename, function(oImg){
-            //-   oImg.selectable = false
-            //-   oImg.scale(cw/w)
-            //-   canvas.add(oImg);
-            //- });
-
-            fabric.Image.fromURL("/images/"+res.filename, function(img) {
-               img.set({width: cw, height: ch, originX: 'left', originY: 'top'});
-               canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
-                
+            fabric.Image.fromURL("/images/"+res.filename, function(oImg){
+              oImg.scale(1);
+              oImg.selectable = false
+              canvas.add(oImg);
             });
 
-            
-            //- canvas.on("mouse:move", function(a){ 
-              
-            //-   x = a.e.layerX || 0
-            //-   y = a.e.layerY || 0
-
-            //-   var xm = (x - (cw/2))/cw
-            //-   var ym = (y - (ch/2))/ch
-
-            //-   var objects = canvas.getObjects();
-            //-   for(var i = 0; i < objects.length; i++){
-            //-     //- console.log(objects[i])
-            //-       objects[i].setTop( objects[i].top + ym )
-            //-       objects[i].setLeft( objects[i].left + xm )
-            //-       canvas.renderAll();
-
-            //-   }
-
-            //- });
-
-  
-              //- $("#main_canvas").parent(function(){ this.width(cw); })
-              //- $("#canvas-container").width(cw)
-              //- $("#canvas-container").height(ch)
-
-              //- $("#main_canvas").parent(function(){ this.height(ch); })
-              //- $("#main_canvas").width(cw)
-              //- $("#main_canvas").height(ch)
-
-          window.addEventListener('resize', resizeCanvas, false);
-
-          function resizeCanvas() {
-              var cw = $(".container").width()
+              var cw = $("#main_canvas").parent().parent().width()
               var ch = ( h / w ) * cw
-              canvas.setWidth(cw);
-              canvas.setHeight(ch);
-              canvas.renderAll();
 
-          }
+              //- $("#main_canvas").parent(function(){ this.width(cw-1);})
+              $("#main_canvas").width(cw)
 
-          // resize on init
-          resizeCanvas();
+              //- $("#main_canvas").parent(function(){ this.height(ch-1);})
+              $("#main_canvas").height(ch)
 
         signalModel.emit('created', {
           id:res.id,

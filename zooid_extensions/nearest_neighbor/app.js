@@ -8,7 +8,7 @@ var histogram = require('histogram');
 
 var zooid = require("../../zooid_core")
 var zode = merge( require("./package.json"), { 
-    name:"Directory Consumption"
+    name:"Nearest Neighbor"
   , filename:"app.js"
   , takes:"directory"
   , gives:"images"
@@ -34,35 +34,26 @@ zooid.on( "test", function (signal){
   zooid.muster(zode)
   zooid.send({ parent_id:signal.id, name:zode.name, text:"okay"})
 })
-
-
-
-/******************************************************************************
- * Muster response
-******************************************************************************/
-
 zooid.on( "muster", function(signal){
   zooid.muster(zode)
 })
 zooid.muster(zode)
 
-/******************************************************************************
- * SET UP LISTENERS
- * Adds listeners for whatever to do whatever. Yep.
-******************************************************************************/
 
-zooid.on( "image", function(signal){
-  if(!zode.status) return 1;
-  var start = moment().valueOf();
-  zode.actions += 1
-  createHistogram( signal, function(err, res){
-    var stop = moment().valueOf();
-    zode.work += stop - start
-    zooid.muster(zode)
-    zooid.send(res)
-  });
 
-})
+
+// zooid.on( "image", function(signal){
+//   if(!zode.status) return 1;
+//   var start = moment().valueOf();
+//   zode.actions += 1
+//   createHistogram( signal, function(err, res){
+//     var stop = moment().valueOf();
+//     zode.work += stop - start
+//     zooid.muster(zode)
+//     zooid.send(res)
+//   });
+
+// })
 
 /**
  * Tekenizes a string

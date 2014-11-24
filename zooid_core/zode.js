@@ -168,12 +168,11 @@ dendrites.muster  = function(signal){ ganglion.send(signal) }
 dendrites.on(dendrites.ip, function(data){
   dendrites.send( { parent_id:data.id, name:"Cluster: Okay" })
 })
+
 dendrites.on("error", function(err){
   dendrites.send({error:err})
 })
-dendrites.on("*", function(err){
-  console.log("transmission")
-})
+
 
 /**
  * Exports public functionality.

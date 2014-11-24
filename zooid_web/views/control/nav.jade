@@ -1,42 +1,44 @@
-div(style="margin-bottom:38px!important;")
-  .nav.navbar-fixed-top.navbar-default(role='navigation',style="padding-top:1px;padding-bottom:1px;")
+div(style="margin-bottom:36px!important;")
+  .navbar.navbar-fixed-top.navbar-default(role='navigation',style="padding-bottom:8px;padding-top:8px;")
     .container
       .navbar-header
         button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
           span.sr-only Toggle navigation
           fa.fa.fa-fw.fa-caret-down
-        a.navbar-brand(href='/' style="margin-top:0px")
+        a.navbar-brand(href='/', style="margin-top:0px")
           o Zooid
       .navbar-collapse.collapse.scootRight 
         ul.nav.navbar-nav.navbar-left
 
           li
-            a(href="/cbir").text-center
-              //- .fa.fa-fw.ion-image
-              small
-                oo cbir
+            a(href="/cbir")
+              .fa.fa-fw.ion-image.fa-
+              oo cbir
 
           li
-            a(href='/z').text-center
-              //- .fa.fa-fw.fa-cloud
-              small
-                oo zodes
+            a(href='/z')
+              .fa.fa-fw.fa-cloud.fa-
+              oo zodes
 
           li
-            a(href='/s').text-center
-              //- .fa.fa-fw.fa-bar-chart
-              small
-                oo signals
+            a(href='/s')
+              .fa.fa-fw.fa-bar-chart.fa-
+              oo signals
+                    
+        ul.nav.navbar-nav.navbar-right
+          li
+            a(href='/s')
+              fa.fa.fa-fw.fa-github-square.fa-
+              oo github
 
-
-          li.dropdown
+          li.dropdown.scootLeft
             a.dropdown-toggle(href='#', data-toggle='dropdown')
               //- .fa.fa-fw.ion-android-sort.fa-lg
-              small
-                oo docs
+              i.fa.fa-fw.ion-ios7-browsers.fa-
+              oo docs
                 i.fa.fa-fw.ion-arrow-down-b
 
-              ul.dropdown-menu(role='menu',style="min-width:220px;").scootRight
+              ul.dropdown-menu(role='menu',style="min-width:220px;")
 
                 li
                   a(href='/docs/web')
@@ -77,5 +79,5 @@ div(style="margin-bottom:38px!important;")
           include nav_tabs
 
 
-
+  hr
 

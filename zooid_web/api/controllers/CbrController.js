@@ -10,43 +10,6 @@ var path = require("path")
 var _ = require("underscore")
 var histogram = require('histogram');
 
-
-/**
- * Creates a histogram, wait -- this shouldn't be here. what?
- * TODO: Do this in a zode.
- * @param  {String}   fileName the name of the image to be histogrammed.
- * @param  {Function} next     callback function
- * @return {}            
- */
-function createHistogram(fileName, next){
-  histogram(fileName || Buffer, function (err, data) {
-    var hist = {}
-    hist['signature'] = []
-    hist['r']=[]; hist['g']=[]; hist['b']=[]; hist['a'] = [];
-    for (var i = 0; i < data.red.length; i++) {
-      var ii = Math.floor(i/8)
-      if(typeof hist.r[ii] == 'undefined'){
-        hist.r[ii] = 0 
-        hist.g[ii] = 0
-        hist.b[ii] = 0 
-        hist.a[ii] = 0
-      }
-      hist.r[ii]+=data.red[i]
-      hist.g[ii]+=data.green[i]
-      hist.b[ii]+=data.blue[i]
-      hist.a[ii]+=data.alpha[i]
-    };
-
-    for (var j = 0; j < hist.r.length; j++) {
-      hist.signature.push( (hist.r[j]*hist.g[j]).toString(16) )
-      hist.signature.push( (hist.r[j]*hist.b[j]).toString(16) )
-      hist.signature.push( (hist.g[j]*hist.b[j]).toString(16) )
-    }
-    console.log(hist.signature)
-    next(err,hist)
-  });
-}
-
 function nearest_neighbor(req,next){
   nn = require('nearest-neighbor');
 
@@ -134,18 +97,25 @@ module.exports = {
       console.log(uploadedFiles);
       if (err) return res.send(500, err)
     
-      createHistogram(uploadedFiles[0].fd, function(err, hist){
 
         var cbr_file = merge (uploadedFiles[0], {
           name:"cbr_search", 
           filename:path.basename(uploadedFiles[0].fd), 
-            signature:hist.signature,
-          histogram:hist,
+          location:path.dirname(uploadedFiles[0].fd), 
+          noun:"new_signal",
           src:"/images/"+path.basename(uploadedFiles[0].fd)
         })
 
 
-        res.send(cbr_file);
+        Cbr.create(cbr_file, function(err,cbr){
+          cbr_file.parent_id=cbr.id;
+          Signal.create(cbr_file, function(er,re){
+            res.send(cbr_file);
+          })
+        })
+
+
+
 
         // nearest_neighbor(cbr_file, function(err,nn){
         //   console.log(err||nn)
@@ -165,7 +135,6 @@ module.exports = {
         //     return res.json(im)
         //   })
         // })
-      })
 
     })
   },

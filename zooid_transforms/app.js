@@ -4,6 +4,7 @@ const computecluster = require('compute-cluster');
  * Defines this zodes identity and function within the organism.
  * @type {Zode}
  */
+
 var zooid = require("../zooid_core")
 var merge = require("merge")
 var fs = require("fs")
@@ -21,6 +22,7 @@ var zode = merge( {}, {
   , work:0
   , actions:0 
 })
+
 console.log(zode.name, "intiated.")
 
 /**
@@ -46,8 +48,6 @@ console.log(zode.name, "intiated.")
 
 function charge(filename){
 
-
-
   zooid.on( filename, function(signal){
 
     if(!zode.status) return 1;
@@ -59,12 +59,11 @@ function charge(filename){
     })
 
     cc.enqueue(signal, function(err, result) {
-      if(!err)
-        zooid.send({
-            parent_id:signal.id
-          , transformation:filename  
-          , result:result
-        })
+      if(!err){
+        result.parent_id      = signal.id
+        result.transformation = filename
+        zooid.send(result)
+      }
 
       zode.actions += 1
       var stop = moment().valueOf();

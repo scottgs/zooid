@@ -11,9 +11,9 @@
     <link href="/styles/animate.css" rel="stylesheet">
     <link href="/styles/dropzone.css" rel="stylesheet">
     <link href="/styles/todc-bootstrap.min.css" rel="stylesheet">
-    <link href="/styles/zooid.css" rel="stylesheet">
     <link href="/styles/webui-popover.css" rel="stylesheet">
-    <link href="/styles/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="//www.fuelcdn.com/fuelux/3.2.1/css/fuelux.min.css" rel="stylesheet">
+    <link href="/styles/zooid.css" rel="stylesheet">
     
     <script src="/js/jquery.min.js"></script>
     <script src="/js/jquery_custom.js"></script>
@@ -21,13 +21,11 @@
     <script src="/js/webui-popover.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/buttons.js"></script>
-    <script src="/js/jquery.dataTables.min.js"></script>
-    <script src="/js/jquery_ui.js"></script>
     <script src="/js/ripples.min.js"></script>
     
-    <div>
-      <div style="margin-bottom:38px!important;">
-        <div role="navigation" style="padding-top:1px;padding-bottom:1px;" class="nav navbar-fixed-top navbar-default">
+    <div class="container">
+      <div style="margin-bottom:36px!important;">
+        <div role="navigation" style="padding-bottom:8px;padding-top:8px;" class="navbar navbar-fixed-top navbar-default">
           <div class="container">
             <div class="navbar-header">
               <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span>
@@ -37,15 +35,23 @@
             </div>
             <div class="navbar-collapse collapse scootRight"> 
               <ul class="nav navbar-nav navbar-left">
-                <li><a href="/cbir" class="text-center"><small>
-                      <oo>cbir</oo></small></a></li>
-                <li><a href="/z" class="text-center"><small>
-                      <oo>zodes</oo></small></a></li>
-                <li><a href="/s" class="text-center"><small>
-                      <oo>signals</oo></small></a></li>
-                <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><small>
-                      <oo>docs</oo><i class="fa fa-fw ion-arrow-down-b"></i></small>
-                    <ul role="menu" style="min-width:220px;" class="dropdown-menu scootRight">
+                <li><a href="/cbir">
+                    <div class="fa fa-fw ion-image fa-"></div>
+                    <oo>cbir</oo></a></li>
+                <li><a href="/z">
+                    <div class="fa fa-fw fa-cloud fa-"></div>
+                    <oo>zodes</oo></a></li>
+                <li><a href="/s">
+                    <div class="fa fa-fw fa-bar-chart fa-"></div>
+                    <oo>signals</oo></a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="/s">
+                    <fa class="fa fa-fw fa-github-square fa-"></fa>
+                    <oo>github</oo></a></li>
+                <li class="dropdown scootLeft"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-fw ion-ios7-browsers fa-"></i>
+                    <oo>docs<i class="fa fa-fw ion-arrow-down-b"></i></oo>
+                    <ul role="menu" style="min-width:220px;" class="dropdown-menu">
                       <li><a href="/docs/web">
                           <oo>Web app</oo></a></li>
                       <li><a href="/docs/core">
@@ -60,9 +66,10 @@
             </div>
           </div>
         </div>
+        <hr>
       </div>
-      <noscript>Please enable JavaScript and refresh this page</noscript>
     </div>
+    <noscript>Please enable JavaScript and refresh this page</noscript>
   </head>
 </html>
 <head>

@@ -1,165 +1,268 @@
-include index
-block content
+extends ../layout
+block body
+  include nav
   script(src="/js/HighCharts.js")
   script(src="/js/HighCharts_custom.js")
+  script(src='//www.fuelcdn.com/fuelux/3.2.1/js/fuelux.min.js')
+  script(src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js")
 
-  script.
-        // make new instance of Model
-        var signalModel = new $.eventModel();
+  .navbar.navbar-inverse.text-center(style="background:#fff;")
+    ul.nav.navbar-nav
+      li.active
+        a.panel-body(href='#log', aria-controls='log', role='tab', data-toggle='tab')
+          small.skinny Log 
+      li
+        a.panel-body(href='#analysis', aria-controls='analysis', role='tab', data-toggle='tab')
+          small.skinny Analysis
+      li
+        a.panel-body(href='#metrics', aria-controls='metrics', role='tab', data-toggle='tab')
+          small.skinny Metrics
+  .panel.panel-default.well-sm.container-fluid
+    .tab-content(role='tabpanel')
+
+      #log.tab-pane.active(role='tabpanel')
+        #myRepeater.repeater
+          br
+          .col-md-4
+            .search.input-group
+              input.form-control(type='search', placeholder='Search')
+              span.input-group-btn
+                a.btn.btn-default(type='button')
+                  span.fa.fa-search
+                  span.sr-only Search
+          
+          .col-md-8
+            .btn-group.selectlist.repeater-filters(data-resize='auto')
+              a.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+                span.selected-label 
+                span.caret
+                span.sr-only Toggle Filters
+              ul.dropdown-menu(role='menu')
+                li(data-value='all', data-selected='true')
+                  a(href='#') all
+                li(data-value='draft')
+                  a(href='#') draft
+                li(data-value='archived')
+                  a(href='#') archived
+                li(data-value='active')
+                  a(href='#') active
+              input.hidden.hidden-field(name='filterSelection', readonly='readonly', aria-hidden='true', type='text')
+            
+            .btn-group.repeater-views(data-toggle='buttons').scootRight.col--md-3
+              label.btn.btn-default.active
+                input(name='repeaterViews', type='radio', value='list')
+                fa.fa.fa-fw.fa-list
+              label.btn.btn-default
+                input(name='repeaterViews', type='radio', value='thumbnail')
+                fa.fa.fa-fw.fa-th
+          br
+          hr
+          br
+          .col-md-12
+            .repeater-viewport
+              .repeater-canvas
+              .loader.repeater-loader
         
+          .col-md-12
+            .repeater-footer
+              .repeater-footer-left
+                .repeater-itemization
+                  span
+                    span.repeater-start
+                    | -
+                    span.repeater-end
+                    | of
+                    span.repeater-count
+                    | items
+                  .btn-group.selectlist.dropup(data-resize='auto')
+                    a.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+                      span.selected-label  
+                      span.caret
+                      span.sr-only Toggle Dropdown
+                    ul.dropdown-menu(role='menu')
+                      li(data-value='5')
+                        a(href='#') 5
+                      li(data-value='10', data-selected='true')
+                        a(href='#') 10
+                      li(data-value='20')
+                        a(href='#') 20
+                    input.hidden.hidden-field(name='itemsPerPage', readonly='readonly', aria-hidden='true', type='text')
+                  span Per Page
 
-        // ***** table everything
-
-
-
-        // Listen for when things of this model type are created
-        signalModel.on('created', function(info,activity) {
-          var nm = (activity.data.name || activity.data.noun||activity.id).replace(/ /g,'').toLowerCase();
-
-          $("#signalsTable").append($("<tr>",{
-            class:"", 
-            id:activity.id,
-            href:"#"+nm, 
-
-          }))
-
-          $("#signalsTable ").find("#"+activity.id)
-            .append(
-
-              $("<td>",{
-                id:'name',
-                html:activity.data.name,
-              }),
-              $("<td>",{
-                id:'noun',
-                html:activity.data.noun,
-              }),
-              $("<td>",{
-                id:'status',
-                text:activity.data.text
-              }),
-              $("<td>",{
-                id:'actions',
-                text:activity.data.data
-              }),
-
-              $("<td>",{
-                id:'parent_id',
-                text:activity.data.parent_id
-              }),
-              $("<td>",{
-                id:'id',
-                class:"destroyer",
-                text:activity.data.id,
-                html:"<a class='btn btn-link'>X</a>"
-              }).on("click", function(){ io.socket.post("/signal/destroy/"+activity.data.id, function(destroyed){
-                console.log(destroyed);
-                $("#"+destroyed.id).remove()
-                })
-              })
-
-            )
+              .repeater-pagination
+                a.btn.btn-default.btn-sm.repeater-prev(type='button')
+                  .fa.fa-chevron-left
+                  span.sr-only Previous Page
+                label#myPageLabel.page-label Page
+                .repeater-primaryPaging.active
+                  .input-group.input-append.dropdown.combobox.dropup
+                    input.form-control(type='text', aria-labelledby='myPageLabel')
+                    .input-group-btn
+                      button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+                        span.caret
+                        span.sr-only Toggle Dropdown
+                      ul.dropdown-menu.dropdown-menu-right
+                input.form-control.repeater-secondaryPaging(type='text', aria-labelledby='myPageLabel')
+                span
+                  |  of  
+                  span.repeater-pages
+                a.btn.btn-default.btn-sm.repeater-next(type='button')
+                  span.fa.fa-chevron-right
+                  span.sr-only Next Page
 
 
 
+      #analysis.tab-pane(role='tabpanel') 
+        //- .scootRight
+        //-   a.btn.test_cluster.button.button-flat.button-small TEST
+        .container-fluid
+          .col-md-6
+            include ../visualization/nouns_pie
+          .col-md-6
+            include ../visualization/nouns
 
-        });
+      #metrics.tab-pane(role='tabpanel') ...
+      #settings.tab-pane(role='tabpanel') ...
+      
 
+    script.
 
-        // Listen for when things of this model type are updated
-        signalModel.on('updated', function(info,activity) {
-          console.log(activity)
-          $.map(activity.data, function(val, key){
-          console.log(val,":",key)
+        // define the columns in your datasource
+        var columns = [
+          {
+            label: 'Name &amp; Description',
+            property: 'name',
+            sortable: true
+          },{
+            label: 'Takes',
+            property: 'takes',
+            sortable: true
+          },{
+            label: 'Gives',
+            property: 'gives',
+            sortable: true
+          },{
+            label: 'Work',
+            property: 'work',
+            sortable: true
+          },{
+            label: 'Actions',
+            property: 'actions',
+            sortable: true
+          },{
+            label: 'Up',
+            property: 'created',
+            sortable: true
+          }
+        ];
+   
+        function customColumnRenderer(helpers, callback) {
+          // determine what column is being rendered
+          var column = helpers.columnAttr;
+   
+          // get all the data for the entire row
+          var rowData = helpers.rowData;
+          var customMarkup = '';
+   
+          // only override the output for specific columns.
+          // will default to output the text value of the row item
+          switch(column) {
+            case 'name':
+              // let's combine name and description into a single column
+              customMarkup = '<div style="font-size:12px;">' + rowData.name + '</div><div class="small text-muted">' + rowData.description + '</div>';
+              break;
+            default:
+              // otherwise, just use the existing text value
+              customMarkup = helpers.item.text();
+              break;
+          }
+   
+          helpers.item.html(customMarkup);
+   
+          callback();
+        }
+   
+        function customRowRenderer(helpers, callback) {
+          // let's get the id and add it to the "tr" DOM element
+          var item = helpers.item;
+          item.attr('id', 'row' + helpers.rowData.id);
+   
+          callback();
+        }
+   
+        // this example uses an API to fetch its datasource.
+        // the API handles filtering, sorting, searching, etc.
+        function customDataSource(options, callback) {
+          // set options
+          var pageIndex = options.pageIndex;
+          var pageSize = options.pageSize;
+          var sort = (options.sortProperty + options.sortDirection) || null;
+          var options = {
+            skip: pageIndex * pageSize,
+            limit: pageSize
+            //- filterBy: options.filter.value || '',
+            //- searchBy: options.search || ''
+          };
 
-            if($("#"+activity.id+" #"+key).text())
-              if($("#"+activity.id+" #"+key).text() != val)
-              $("#"+activity.id+" #"+key).text(val)
-            //- else $("#"+activity.id).append($("<div>",{id:key,text:val}))
-          })
-        });
+          if(sort) options.sort = sort
+          
 
-
-        // bind dom to model with sockets
-        function dom_glue(model){
-
-          io.socket.on( model, function(activity){
-              signalModel.emit(activity.verb, activity);
-              $("#signalsTable").DataTable();
-          })
-
-          io.socket.get( "/"+model, {limit:100}, function(activities){
-
-            $.map(activities, function(activity){
-              console.log(activity)
-              signalModel.emit('created', {
-                id:activity.id,
-                data:activity
-              })
-
-            })
-            $("#signalsTable").DataTable();
-          })
-
+          // call API, posting options
+          io.socket.get( '/zode', options, function(data) {
+   
+            var items = data;
+            var totalItems = data.length;
+            var totalPages = Math.ceil(totalItems / pageSize);
+            var startIndex = (pageIndex * pageSize) + 1;
+            var endIndex = (startIndex + pageSize) - 1;
+   
+            if(endIndex > items.length) {
+              endIndex = items.length;
+            }
+   
+            // configure datasource
+            var dataSource = {
+              page: pageIndex,
+              pages: totalPages,
+              count: totalItems,
+              start: startIndex,
+              end: endIndex,
+              columns: columns,
+              items: items
+            };
+   
+            // invoke callback to render repeater
+            callback(dataSource);
+          });
         }
 
-        // When document is ready, grab latest things.
         $(document).ready(function(){
 
-          // Apply the theme
+          // initialize the repeater
+          $('#myRepeater').repeater({
+            list_selectable: "single", // (single | multi)
+            //- list_noItemsHTML: 'nothing to see here... move along',
+     
+            // override the column output via a custom renderer.
+            // this will allow you to output custom markup for each column.
+            list_columnRendered: customColumnRenderer,
+     
+            // override the row output via a custom renderer.
+            // this example will use this to add an "id" attribute to each row.
+            list_rowRendered: customRowRenderer,
+     
+            // setup your custom datasource to handle data retrieval;
+            // responsible for any paging, sorting, filtering, searching logic
+            dataSource: customDataSource
+          });
 
-          dom_glue("signal");
-
-
-          /**
-           * Tests the cluster, broadcasts "test" to all the zodes from the
-           * controller and paints responses through normal socket flow.
-           * @param  {[type]}  error
-           * @return {[type]}   [description]
-           */
-          
-          $(document).on('click', '.test_cluster', function(error){
-            io.socket.post("/signal/test", {});
-          })
-
-        })
-
-
-
-
-  .container
-    .col-md-12
-      hr
-      table.table.table-condensed#signalsTable.display.panel
-        thead
-          tr
-            th Name
-            th Noun
-            th Text
-            th Data
-            th Signal
-            th Parent
-        tbody
-                
-
-  br
-
-  .jumbotron(style="background-color:#fff;")
-    .container
-      br
-      .col-md-12
-          //- span.scootRight
-            a.btn.test_cluster.button.button-flat.button-small TEST
-    .container
-      .col-md-6
-        include ../visualization/nouns_pie
-      .col-md-6
-        include ../visualization/nouns
-
-
-  hr
-  .container
+        });
 
 
 
-  page
+
+
+
+
+
+

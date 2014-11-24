@@ -8,13 +8,14 @@
  * Bring in dependencies.
  * @type {Object}
  */
+
 var dependencies;
-var fs = require('fs')
-, path = require('path')
-, merge = require("merge")
-, async = require("async") 
-, _ = require('underscore')
-, moment = require("moment")
+var fs    = require('fs')
+, path    = require('path')
+, merge   = require("merge")
+, async   = require("async") 
+, moment  = require("moment")
+, _       = require('underscore')
 , histogram = require('histogram')
 
 
@@ -22,6 +23,7 @@ var fs = require('fs')
  * Defines this zodes identity and function within the organism.
  * @type {Zode}
  */
+
 var zooid = require("../../zooid_core")
 var zode = merge( require("./package.json"), { 
     name:"Color Histogram"
@@ -43,25 +45,76 @@ console.log(zode.name, "intiated.")
  */
 
 function createHistogram(fileName, next){
-  histogram(fileName || Buffer, function (err, data) {
+  histogram(fileName , function(err, data) {
+    data['r']=[]; data['g']=[]; data['b']=[]; data['a'] = [];
+    for (var i = 0; i < data.red.length; i++) {
+      data.r[i]=data.red[i];
+      data.g[i]=data.green[i];
+      data.b[i]=data.blue[i];
+      data.a[i]=data.alpha[i];
+    };
+    next(err,data)
+  });
+}
+
+function downsize(data, bit, next){
     var hist = {}
     hist['r']=[]; hist['g']=[]; hist['b']=[]; hist['a'] = [];
-
-    for (var i = 0; i < data.red.length; i++) {
-      var ii = Math.floor(i/16)
+    var l = data.r.length
+    var eb = Math.floor( l / (bit||1) )
+    for (var i = 0; i < l; i++) {
+      var ii = Math.floor( i / eb )
       if(typeof hist.r[ii] == 'undefined'){
         hist.r[ii] = 0 
         hist.g[ii] = 0
         hist.b[ii] = 0 
         hist.a[ii] = 0
       }
-      hist.r[ii]+=data.red[i]
-      hist.g[ii]+=data.green[i]
-      hist.b[ii]+=data.blue[i]
-      hist.a[ii]+=data.alpha[i]
+      hist.r[ii]+=data.r[i]
+      hist.g[ii]+=data.g[i]
+      hist.b[ii]+=data.b[i]
+      hist.a[ii]+=data.a[i]
     };
-    next(err,hist)
-  });
+    next(null,hist)
+}
+
+function normalize(data, next){
+  var hist = {}
+  hist['r']=[]; hist['g']=[]; hist['b']=[]; hist['a'] = [];
+  var l = data.r.length
+  for (var i = 0; i < l; i++) {
+    var ii = i
+    if(typeof hist.r[ii] == 'undefined'){
+      hist.r[ii] = 0; hist.g[ii] = 0; 
+      hist.b[ii] = 0; hist.a[ii] = 0;
+    }
+    hist.r[ii]+=data.r[i]/l
+    hist.g[ii]+=data.g[i]/l
+    hist.b[ii]+=data.b[i]/l
+    hist.a[ii]+=data.a[i]/l
+  };
+  next(null,hist)
+}
+
+function integrate(data, next){
+    var hist = {}
+    hist['r']=[]; hist['g']=[]; hist['b']=[]; hist['a'] = [];
+    var l =  data.r.length
+    var eb = Math.floor(l / 8)
+    for (var i = 0; i < l; i++) {
+      var ii = (i<1?0:i-1)
+      if(typeof hist.r[i] == 'undefined'){
+        hist.r[i] = 0 
+        hist.g[i] = 0
+        hist.b[i] = 0 
+        hist.a[i] = 0
+      }
+      hist.r[i]+=hist.r[ii]+data.r[i]
+      hist.g[i]+=hist.g[ii]+data.g[i]
+      hist.b[i]+=hist.b[ii]+data.b[i]
+      hist.a[i]+=hist.a[ii]+data.a[i]
+    };
+    next(null,hist)
 }
 
 /**
@@ -71,16 +124,32 @@ function createHistogram(fileName, next){
  */
 
 zooid.on( "image", function(signal){
-  if(!zode.status) return 1;
-  var start = moment().valueOf();
-  zode.actions += 1
-  createHistogram( signal, function(err, res){
-    var stop = moment().valueOf();
-    zode.work += stop - start
-    zooid.muster(zode)
-    zooid.send(res)
-  });
+  var fullpath = path.join(signal.location, signal.filename)
+  createHistogram( fullpath , function(err, histogram_data){
+    downsize( histogram_data, 32, function(err, histogram_32 ){
+      zooid.send({ title:"32-bit", noun:"histogram",parent_id:signal.id, histogram:histogram_32, chart_type:"areaspline", stack:"normal"})
+    });
+  })
+})
 
+
+zooid.on( "histogram", function(signal){
+  downsize( signal.histogram, 8, function(err, histogram_8 ){
+      zooid.send({title:"8-bit", parent_id:signal.parent_id, noun:"histogram:8bit", histogram:histogram_8, chart_type:"column" })
+  });
+})
+
+
+zooid.on( "histogram:8bit", function(signal){
+   normalize( signal.histogram, function(err, normalized_histogram_8 ){
+        zooid.send({title:"Normal", parent_id:signal.id, noun:"histogram:normal", histogram:normalized_histogram_8, chart_type:"column", stack:"normal"})
+  });
+})
+
+zooid.on( "histogram:8bit", function(signal){
+  integrate( signal.histogram, function(err, integrated_histogram ){
+    zooid.send({title:"Integrated", parent_id:signal.id, histogram:integrated_histogram, chart_type:"column", stack:"normal"})
+  });
 })
 
 /**
