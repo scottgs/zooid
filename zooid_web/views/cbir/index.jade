@@ -5,44 +5,48 @@ block body
   script(src="/js/HighCharts_custom.js")
   script(src="/js/dropzone.js")
   script(src="/js/fabric.min.js")
+  script(src="/js/jquery_ui.js")
+  script(src="/js/slider.js")
   link(rel='stylesheet', href='//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css')
   
 
 
   .container-fluid.row
   
-    .col-md-3.panel.panel-default
+    h4 Content Based Image Retrieval
+      a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight.btn-sm
+        //- fa.fa.fa-fw.fa-refresh.text-muted
+        o Re-process
+      a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight.btn-sm
+        //- fa.fa.fa-fw.fa-check.text-muted
+        o Learn
+      a.btn.btn-default.scootRight.btn-sm.test_cluster
+        //- fa.fa.fa-fw.fa-check.text-muted
+        o Test
+    br
 
-      br
-      img#searchImage(src="").img-responsive.thumbnail
-      br
-      .well-sm.hide
-        o weight
-        .slide
-        o weight
-        .slide
-        hr
+  .container-fluid.row
+
+    .col-md-4
+      #features_canvas.btn-block
+      canvas#main_canvas(width="100px", height="100px")
+
+      //- img#searchImage(src="").img-responsive.thumbnail
+
 
       #contentBreakdown.contentBreakdown.btn-block
-      
+
+
+
+
       hr
 
-    .col-md-9
-      .panel.panel-default
-        .panel-heading Feature Breakdown
-            a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight.btn-sm
-              fa.fa.fa-fw.fa-refresh.text-muted
-              o Re-process
-            a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight.btn-sm
-              fa.fa.fa-fw.fa-check.text-muted
-              o Learn
-            a.btn.btn-default.scootRight.btn-sm.test_cluster
-              fa.fa.fa-fw.fa-check.text-muted
-              o Test
-        .panel-body
-          #features_canvas.btn-block
-          canvas#main_canvas(width="100px", height="100px")
+    .col-md-5
+ 
 
+      .panel.panel-default
+        .panel-body
+          #features_container
 
       .panel.panel-default
         .panel-heading Similar Images
@@ -55,17 +59,18 @@ block body
         .panel-body
               #searchResults
 
-      .panel.panel-default
-        .panel-heading Features
-            a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight
-              fa.fa.fa-fw.fa-refresh.text-muted
-              o Re-process
-            a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight
-              fa.fa.fa-fw.fa-check.text-muted
-              o Learn
 
-        .panel-body
-          #features_container
+
+
+    .col-md-3
+
+      br
+      o weight
+      .slide
+      o weight
+      .slide
+      hr
+
 
 
 
@@ -97,15 +102,15 @@ block body
 
 
   script.
-    //- $(function() {
-    //-   // setup master volume
-    //-   $( ".slide" ).slider({
-    //-     value: 60,
-    //-     orientation: "horizontal",
-    //-     range: "min",
-    //-     animate: true
-    //-   });
-    //- });
+    $(function() {
+      // setup master volume
+      $( ".slide" ).slider({
+        value: 60,
+        orientation: "horizontal",
+        range: "min",
+        animate: true
+      });
+    });
 
 
     var canvas = new fabric.Canvas('main_canvas');
@@ -136,10 +141,8 @@ block body
           stroke:"rgba(160,255,160,1)",
           selectable: false
         });
-          canvas.add(rect);
-
-
-
+          
+        canvas.add(rect);
 
         fabric.Image.fromURL("/images/"+item.data.filename, function(img) {
            img.set({ 
@@ -176,8 +179,6 @@ block body
 
         });
         canvas.add(text);
-
-
 
       }
 
@@ -248,14 +249,8 @@ block body
                 })
               })
             )
-
-
-
-
-      }
-      }
-
-
+          }
+        }
     })
 
 
@@ -278,17 +273,12 @@ block body
             id:item.id,
             data:item
           })
-
         })
-        
       })
-
     }
 
     // When document is ready, grab latest things.
     $(document).ready(function(){
-
-      // Apply the theme
 
       dom_glue("cbr");
       dom_glue("signal");
@@ -385,7 +375,8 @@ block body
           window.addEventListener('resize', resizeCanvas, false);
 
           function resizeCanvas() {
-              var cw = $(".container").width()
+              var cw = $("#features_canvas").width()
+
               var ch = ( h / w ) * cw
               canvas.setWidth(cw);
               canvas.setHeight(ch);

@@ -8,7 +8,6 @@ var fs = require('fs');
 var merge = require("merge")
 var path = require("path")
 var _ = require("underscore")
-var histogram = require('histogram');
 
 function nearest_neighbor(req,next){
   nn = require('nearest-neighbor');
@@ -86,6 +85,7 @@ module.exports = {
    * @param  {Object} res 
    * @return {}
    */
+  
   search:function(req,res){
     /**
      * Sets the upload save path for the image to be searched.
