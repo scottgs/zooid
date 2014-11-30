@@ -37,6 +37,7 @@ function download(uri, filename, next){
 module.exports = {
     
   /**
+   * THIS ONE IS BETTER
    * Uploads with slightly different method. I don't remember why I wrote this.
    * @param  {Object} req the request object.
    * @param  {Object} res The response object

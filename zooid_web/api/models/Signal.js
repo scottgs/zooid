@@ -218,10 +218,17 @@ module.exports = {
    */
   
   afterCreate: function(signal, next){
+    
     if(signal.noun){
-      console.log("Broadcasting")
+      console.log("Chunk down")
       axon.emit( signal.noun, signal );
     }
+
+    if(signal.parent_id){
+      console.log("Chunk up")
+      axon.emit( signal.parent_id, signal );
+    }
+
     next();
   },
 

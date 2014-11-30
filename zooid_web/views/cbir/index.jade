@@ -7,8 +7,13 @@ block body
   script(src="/js/fabric.min.js")
   script(src="/js/jquery_ui.js")
   script(src="/js/slider.js")
+  script(src="/js/adapter.js")
+
   link(rel='stylesheet', href='//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css')
-  
+    
+
+    
+
 
 
   .container-fluid.row
@@ -16,10 +21,10 @@ block body
     h4 Content Based Image Retrieval
       a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight.btn-sm
         //- fa.fa.fa-fw.fa-refresh.text-muted
-        o Re-process
+        o New Search
       a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight.btn-sm
         //- fa.fa.fa-fw.fa-check.text-muted
-        o Learn
+        o Learn pattern
       a.btn.btn-default.scootRight.btn-sm.test_cluster
         //- fa.fa.fa-fw.fa-check.text-muted
         o Test
@@ -27,49 +32,51 @@ block body
 
   .container-fluid.row
 
-    .col-md-4
-      #features_canvas.btn-block
-      canvas#main_canvas(width="100px", height="100px")
+    .col-md-5
+      .panel.panel-default
+        #features_canvas.btn-block
+        canvas#main_canvas(width="100px", height="100px")
 
-      //- img#searchImage(src="").img-responsive.thumbnail
+        //- img#searchImage(src="").img-responsive.thumbnail
 
-
-      #contentBreakdown.contentBreakdown.btn-block
+      .panel.panel-default
+        #contentBreakdown.contentBreakdown.btn-block
 
 
 
 
       hr
 
-    .col-md-5
- 
+    .col-md-7
 
+      .panel-heading Similar Images
+      .panel.panel-default
+        .panel-body.well-sm
+
+          .col-md-8
+            #searchResults
+            //- a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight
+            //-   fa.fa.fa-fw.fa-search.text-muted
+            //-   o New Search
+            //- a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight
+            //-   fa.fa.fa-fw.fa-sliders.text-muted
+            //-   o Weights
+
+
+          .col-md-4.panel.panel-default
+            br
+            b w1
+            .slide
+            b w2
+            .slide
+            br
+
+
+
+      .panel-heading Extracted Features
       .panel.panel-default
         .panel-body
           #features_container
-
-      .panel.panel-default
-        .panel-heading Similar Images
-            a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight
-              fa.fa.fa-fw.fa-search.text-muted
-              o New Search
-            a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight
-              fa.fa.fa-fw.fa-sliders.text-muted
-              o Weights
-        .panel-body
-              #searchResults
-
-
-
-
-    .col-md-3
-
-      br
-      o weight
-      .slide
-      o weight
-      .slide
-      hr
 
 
 
@@ -114,7 +121,7 @@ block body
 
 
     var canvas = new fabric.Canvas('main_canvas');
-
+    scale_factor = 1 
 
     // make new instance of Model
     var signalModel = new $.eventModel();
@@ -131,14 +138,14 @@ block body
 
         // create a rectangle object
         var rect = new fabric.Rect({
-          left: mask.x*scale_factor,
-          top: mask.y*scale_factor,
-          fill:'rgba(255,255,255,0.1)',
-          width: mask.width*scale_factor,
-          height: mask.height*scale_factor,
+          left: mask.x*canvas.scale_factor,
+          top: mask.y*canvas.scale_factor,
+          width: mask.width*canvas.scale_factor,
+          height: mask.height*canvas.scale_factor,
           hasControls: false,
-          shadow: {color:'rgba(0,0,0,0.7) 0px 2px 4px'},
-          stroke:"rgba(160,255,160,1)",
+          //- shadow: {color:'rgba(0,0,0,0.7) 0px 2px 4px'},
+            stroke:"rgba(0,0,0,1)",
+            fill:"rgba(0,0,0,1)",
           selectable: false
         });
           
@@ -146,21 +153,23 @@ block body
 
         fabric.Image.fromURL("/images/"+item.data.filename, function(img) {
            img.set({ 
-            left:rect.left, 
-            top:rect.top, 
-            width: rect.width, 
+            left: mask.x*canvas.scale_factor,
+            top: mask.y*canvas.scale_factor,
+            opacity:1,
+            width: mask.width*canvas.scale_factor,
+            height: mask.height*canvas.scale_factor,
+            hasControls: false,
             centeredScaling:true,
-            height: rect.height, 
             originX: 'left', 
             hasControls: false,
-            shadow: 'rgba(255,255,255,0.7) 0px 0px 12px',
+          stroke:"rgba(160,255,160,1)",
             selectable: false,
             originY: 'top'
           });
 
-          var filter = new fabric.Image.filters.Invert();
-          img.filters.push(filter);
-          img.applyFilters(canvas.renderAll.bind(canvas));
+          //- var filter = new fabric.Image.filters.Invert();
+          //- img.filters.push(filter);
+          //- img.applyFilters(canvas.renderAll.bind(canvas));
 
           canvas.add(img);
         });
@@ -182,8 +191,50 @@ block body
 
       }
 
+      if(item.data.signature){
+        console.log(item.data.signature)
+        $("#contentBreakdown").append($("<div>", { id:item.id+"chart", class:"btn-sm btn-block", style:""})).find("#"+item.id+"chart").highcharts({
+            chart:{animation:false,type:(item.data.chart_type || "column"),height:100,backgroundColor:"none"},
+            title:{style:{y:'20px',"fontSize": "10px"},text:(item.data.transform || item.data.title || item.data.noun  || item.data.name )},
+            legend:{enabled:false},credits: {enabled: false },
+            xAxis: { 
+                gridLineWidth: 0,
+                labels: {
+                  enabled:false,
+                  style: {
+                    fontSize: '10px',
+                }}
+            },
+            yAxis: {
+              title:{text:""},
+              gridLineWidth: 0,
+              labels: {
+                  enabled:false
+              }
+            },
+            plotOptions: { series: { 
+              borderColor:"#222222",
+              marker:{enabled:false},
+              stacking: (item.data.stack || null),
+              shadow:{ color:"#000000", offsetX:0, offsetY:0, opacity:0.7, width:0}
+            }},
+            series: [{
+              color:"#99999f",
+              data: item.data.signature
+            }]
+        });
 
 
+        io.socket.post("/cbr/nn", {signature:item.data.signature}, function(res,info){
+
+          $("#searchResults").append($("<h1>result</h1>"))
+          console.log(res,info)
+            
+        })
+
+
+
+      }
       if(item.data.histogram){
 
         $("#contentBreakdown").append($("<div>", { id:item.id+"chart", class:"btn-sm btn-block", style:""})).find("#"+item.id+"chart").highcharts({
@@ -326,10 +377,12 @@ block body
           var ch = ( h / w ) * cw
 
           scale_factor = cw/w
+          canvas.scale_factor = scale_factor
 
           console.log(w,h, res.filename)
 
             canvas.clear()
+            $("#uploadModal").modal("hide");
 
             //- fabric.Image.fromURL("/images/"+res.filename, function(oImg){
             //-   oImg.selectable = false
@@ -343,7 +396,30 @@ block body
                 
             });
 
-            
+                
+            signalModel.emit('created', {
+              id:res.id,
+              data:res
+            })
+
+
+
+            function resizeCanvas() {
+                var cw = $("#features_canvas").width()
+
+                var ch = ( h / w ) * cw
+                canvas.setWidth(cw);
+                canvas.setHeight(ch);
+                canvas.renderAll();
+
+            }
+
+            // resize on init
+            resizeCanvas();
+          window.addEventListener('resize', resizeCanvas, false);
+
+
+
             //- canvas.on("mouse:move", function(a){ 
               
             //-   x = a.e.layerX || 0
@@ -371,53 +447,33 @@ block body
               //- $("#main_canvas").parent(function(){ this.height(ch); })
               //- $("#main_canvas").width(cw)
               //- $("#main_canvas").height(ch)
-
-          window.addEventListener('resize', resizeCanvas, false);
-
-          function resizeCanvas() {
-              var cw = $("#features_canvas").width()
-
-              var ch = ( h / w ) * cw
-              canvas.setWidth(cw);
-              canvas.setHeight(ch);
-              canvas.renderAll();
-
-          }
-
-          // resize on init
-          resizeCanvas();
-
-        signalModel.emit('created', {
-          id:res.id,
-          data:res
-        })
-
       })})
 
 
-    var dropbox = document.getElementById('dropzone');
 
-    dropbox.addEventListener('dragenter', noopHandler, false);
-    dropbox.addEventListener('dragexit', noopHandler, false);
-    dropbox.addEventListener('dragover', noopHandler, false);
-    dropbox.addEventListener('drop', drop, false);
+      var dropbox = document.getElementById('dropzone');
 
-    function noopHandler(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-    }
+      dropbox.addEventListener('dragenter', noopHandler, false);
+      dropbox.addEventListener('dragexit', noopHandler, false);
+      dropbox.addEventListener('dragover', noopHandler, false);
+      dropbox.addEventListener('drop', drop, false);
 
-    function drop(evt) {
-        evt.stopPropagation();
-        evt.preventDefault(); 
-        var getURL = evt.dataTransfer.getData('Url');
-        
-        if(getURL) {
-          io.socket.post("/signal/getURL", {getURL:getURL} , function(a,b){
-            console.log(getURL,a,b)
-          })
-        }
-    }
+      function noopHandler(evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+      }
+
+      function drop(evt) {
+          evt.stopPropagation();
+          evt.preventDefault(); 
+          var getURL = evt.dataTransfer.getData('Url');
+          
+          if(getURL) {
+            io.socket.post("/signal/getURL", {getURL:getURL} , function(a,b){
+              console.log(getURL,a,b)
+            })
+          }
+      }
 
 
 

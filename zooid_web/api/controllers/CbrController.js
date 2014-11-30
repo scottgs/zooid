@@ -8,17 +8,33 @@ var fs = require('fs');
 var merge = require("merge")
 var path = require("path")
 var _ = require("underscore")
+var nn = require('nearest-neighbor');
+
+nn.comparisonMethods.custom = function(a, b) {
+  if(a && b && a.length && b.length){
+
+  console.log(a,b)
+  var distance = 0;
+  for(var i = 0; i < a.length; i++)
+    distance += (a[i]-b[i])/255
+  console.log(distance)
+  return distance; // between 0 and 1
+  }
+  else{ return 0;}
+};
+
 
 function nearest_neighbor(req,next){
-  nn = require('nearest-neighbor');
 
-  Cbr.find({}).exec(function(err,images){
-    
-    var query = (typeof req.signature == 'undefined' ? req : req.signature )
+  Signal.find(
+    {noun:"cbr_signature"
+    , limit:6}).exec(function(err,images){
+    var query = { 'signature' : req }
 
     var fields = [
       // { name: "name", measure: nn.comparisonMethods.word },
-      { name: "signature", measure: nn.comparisonMethods.wordArray }
+      // { name: "name", measure: nn.comparisonMethods.wordArray },
+      { name: "signature", measure: nn.comparisonMethods.custom }
 
       // { name: "age", measure: nn.comparisonMethods.number, max: 100 },
       // { name: "pc", measure: nn.comparisonMethods.word }, 
@@ -26,12 +42,9 @@ function nearest_neighbor(req,next){
     ];
     nn.findMostSimilar(query, images, fields, function(nearestNeighbor, probability) {
       console.log({"query":query, "nn":nearestNeighbor, "prob":probability})
-
       next(null, {"query":query, "nn":nearestNeighbor, "prob":probability});
     });
-
   })
-
 }
 
 
@@ -56,6 +69,18 @@ function getTestData(dirpath, next){
 
 module.exports = {
 	
+
+  bounce: function(req,res){
+    Signal.find({noun:"cbr_signature"}).exec( function(err,signals){ 
+      _.map( signals, function(signal){ 
+        Signal.destroy(signal.id, function(er,sig){
+          console.log(er,sig);
+        })
+      })
+    })
+  },
+
+
   /**
    * Grabs test data and exectutes some stuff.
    * @param  {Object} req 
@@ -87,10 +112,12 @@ module.exports = {
    */
   
   search:function(req,res){
+
     /**
      * Sets the upload save path for the image to be searched.
      * @type {Object}
      */
+    
     var uploadPath = { dirname: '../public/images'};
 
     req.file('file').upload(uploadPath, function onUploadComplete (err, uploadedFiles) {
@@ -116,14 +143,6 @@ module.exports = {
 
 
 
-
-        // nearest_neighbor(cbr_file, function(err,nn){
-        //   console.log(err||nn)
-        //   res.send(err||nn)
-
-        // })
-
-
         // Cbr.create(cbr_file,  function(err,img){
         //   console.log(err||img)
         //   Signal.create( merge( img, {
@@ -140,9 +159,15 @@ module.exports = {
   },
 
 
-  knn: function(req,res){
+  nn: function(req,res){
+    nearest_neighbor(req.body.signature, function(err,nn){
 
-  
+      Signal.find({id:req.parent_id}).exec(function(err,signal){
+        res.send( merge(signal, nn) )
+      })
+
+    })
+
 
   },
 

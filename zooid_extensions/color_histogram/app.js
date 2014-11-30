@@ -57,7 +57,7 @@ function createHistogram(fileName, next){
   });
 }
 
-function downsize(data, bit, next){
+function downsize( data, bit, next ){
     var hist = {}
     hist['r']=[]; hist['g']=[]; hist['b']=[]; hist['a'] = [];
     var l = data.r.length
@@ -70,10 +70,10 @@ function downsize(data, bit, next){
         hist.b[ii] = 0 
         hist.a[ii] = 0
       }
-      hist.r[ii]+=data.r[i]
-      hist.g[ii]+=data.g[i]
-      hist.b[ii]+=data.b[i]
-      hist.a[ii]+=data.a[i]
+      hist.r[ii]+=data.r[i]/(eb)
+      hist.g[ii]+=data.g[i]/(eb)
+      hist.b[ii]+=data.b[i]/(eb)
+      hist.a[ii]+=data.a[i]/(eb)
     };
     next(null,hist)
 }
@@ -83,15 +83,14 @@ function normalize(data, next){
   hist['r']=[]; hist['g']=[]; hist['b']=[]; hist['a'] = [];
   var l = data.r.length
   for (var i = 0; i < l; i++) {
-    var ii = i
-    if(typeof hist.r[ii] == 'undefined'){
-      hist.r[ii] = 0; hist.g[ii] = 0; 
-      hist.b[ii] = 0; hist.a[ii] = 0;
+    if(typeof hist.r[i] == 'undefined'){
+      hist.r[i] = 0; hist.g[i] = 0; 
+      hist.b[i] = 0; hist.a[i] = 0;
     }
-    hist.r[ii]+=data.r[i]/l
-    hist.g[ii]+=data.g[i]/l
-    hist.b[ii]+=data.b[i]/l
-    hist.a[ii]+=data.a[i]/l
+    hist.r[i]+=data.r[i]
+    hist.g[i]+=data.g[i]
+    hist.b[i]+=data.b[i]
+    hist.a[i]+=data.a[i]
   };
   next(null,hist)
 }
@@ -117,40 +116,82 @@ function integrate(data, next){
     next(null,hist)
 }
 
+function signature(data, next){
+  var sig = []
+  var l = data.r.length  
+  for (var i = 0; i < l; i++) {
+    sig.push( (data.r[i]+data.b[i]+data.g[i])/3 )
+  };
+
+  var tot = _.reduce(sig, function(a,b){
+    return a+b ;
+  })
+
+  var avg = tot / sig.length
+  var avg2 = avg*avg
+
+  var signature = []
+  _.map( sig, function(a){
+      signature.push(Math.floor( Math.abs(a-avg) ))
+  })
+
+  next(null,signature)
+}
+
 /**
  * Responds to it's listener handler noun.
  * @param  {Signal} signal input signal
  * @return {}
  */
 
+
+
+
 zooid.on( "image", function(signal){
   var fullpath = path.join(signal.location, signal.filename)
+  var i = 0
+
   createHistogram( fullpath , function(err, histogram_data){
-    downsize( histogram_data, 32, function(err, histogram_32 ){
-      zooid.send({ title:"32-bit", noun:"histogram",parent_id:signal.id, histogram:histogram_32, chart_type:"areaspline", stack:"normal"})
-    });
+    downsize( histogram_data, 16, function(err, histogram_16 ){
+      zooid.send({ title:"16-bit", noun:"histogram",parent_id:signal.parent_id, histogram:histogram_16, chart_type:"areaspline", stack:"normal"})
+    })
   })
+
 })
 
 
 zooid.on( "histogram", function(signal){
   downsize( signal.histogram, 8, function(err, histogram_8 ){
       zooid.send({title:"8-bit", parent_id:signal.parent_id, noun:"histogram:8bit", histogram:histogram_8, chart_type:"column" })
-  });
+  })
 })
 
 
 zooid.on( "histogram:8bit", function(signal){
    normalize( signal.histogram, function(err, normalized_histogram_8 ){
         zooid.send({title:"Normal", parent_id:signal.id, noun:"histogram:normal", histogram:normalized_histogram_8, chart_type:"column", stack:"normal"})
-  });
+  })
 })
+
+
 
 zooid.on( "histogram:8bit", function(signal){
   integrate( signal.histogram, function(err, integrated_histogram ){
-    zooid.send({title:"Integrated", parent_id:signal.id, histogram:integrated_histogram, chart_type:"column", stack:"normal"})
-  });
+    zooid.send({title:"Integrated", parent_id:signal.id, histogram:integrated_histogram, chart_type:"area", stack:"normal"})
+  })
 })
+
+zooid.on( "histogram:8bit", function(signal){
+  signature( signal.histogram, function(err, signature ){
+    zooid.send({title:"Signature", parent_id:signal.id, signature:signature, chart_type:"spline", noun:"cbr_signature", stack:"normal"})
+  })
+})
+
+zooid.on( "cbr_signature", function(signal){
+    console.log("cbr_signature",signal)
+})
+
+
 
 /**
  * Defines the test case.

@@ -11,7 +11,7 @@ var zode = merge( require("./package.json"), {
     name:"Nearest Neighbor"
   , filename:"app.js"
   , takes:"directory"
-  , gives:"images"
+  , gives:"knn"
   , ip:zooid.ip || 'unkown'
   , status:"active"
   , work:0
@@ -41,19 +41,6 @@ zooid.muster(zode)
 
 
 
-
-// zooid.on( "image", function(signal){
-//   if(!zode.status) return 1;
-//   var start = moment().valueOf();
-//   zode.actions += 1
-//   createHistogram( signal, function(err, res){
-//     var stop = moment().valueOf();
-//     zode.work += stop - start
-//     zooid.muster(zode)
-//     zooid.send(res)
-//   });
-
-// })
 
 /**
  * Tekenizes a string
@@ -210,4 +197,4 @@ function test(){
 
 }
 
-console.log( test() );
+// console.log( test() );
