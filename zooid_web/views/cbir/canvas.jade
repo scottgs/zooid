@@ -1,0 +1,377 @@
+extends ../layout
+block body
+  include ../control/nav
+  script(src="/js/HighCharts.js")
+  script(src="/js/HighCharts_custom.js")
+  script(src="/js/dropzone.js")
+  script(src="/js/fabric.min.js")
+  link(rel='stylesheet', href='//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css')
+  
+  .panel.panel-default
+    canvas#main_canvas(width="100px", height="100px")
+
+  .container-fluid.row
+  
+    .col-md-3.panel.panel-default
+
+      br
+      img#searchImage(src="").img-responsive.thumbnail
+      br
+      .well-sm.hide
+        o weight
+        .slide
+        o weight
+        .slide
+        hr
+
+      #contentBreakdown.contentBreakdown.btn-block
+      
+      hr
+
+    .col-md-9
+      .panel.panel-default
+        .panel-heading Feature Breakdown
+            a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight.btn-sm
+              fa.fa.fa-fw.fa-refresh.text-muted
+              o Re-process
+            a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight.btn-sm
+              fa.fa.fa-fw.fa-check.text-muted
+              o Learn
+            a.btn.btn-default.scootRight.btn-sm.test_cluster
+              fa.fa.fa-fw.fa-check.text-muted
+              o Test
+        .panel-body
+
+
+
+        .panel-body
+          #features_canvas
+
+
+      .panel.panel-default
+        .panel-heading Similar Images
+            a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight
+              fa.fa.fa-fw.fa-search.text-muted
+              o New Search
+            a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight
+              fa.fa.fa-fw.fa-sliders.text-muted
+              o Weights
+        .panel-body
+              #searchResults
+
+      .panel.panel-default
+        .panel-heading Features
+            a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight
+              fa.fa.fa-fw.fa-refresh.text-muted
+              o Re-process
+            a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight
+              fa.fa.fa-fw.fa-check.text-muted
+              o Learn
+
+        .panel-body
+          #features_container
+
+
+
+  #uploadModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal')
+            span(aria-hidden='true') ×
+            span.sr-only Close
+          text-center
+            p.lead#myModalLabel.modal-title 
+              o Drag an image 
+              o.fa.fa-arrow-down.fa-fw.text-muted
+              o to start your search.
+
+        .dropzone#dropzone
+          form(action="/cbr/search")
+            .fallback
+              input(type="file", name="file")
+          .hide
+            
+
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+          button.btn.btn-primary(type='button') Done
+
+    #previews
+
+
+  script.
+    //- $(function() {
+    //-   // setup master volume
+    //-   $( ".slide" ).slider({
+    //-     value: 60,
+    //-     orientation: "horizontal",
+    //-     range: "min",
+    //-     animate: true
+    //-   });
+    //- });
+
+
+    var canvas = new fabric.Canvas('main_canvas');
+
+
+    // make new instance of Model
+    var signalModel = new $.eventModel();
+    
+    // Listen for when things of this model type are created
+    signalModel.on('created', function(info,item) {
+
+      if(item.data.data){
+
+        var mask = item.data.data
+        console.log(mask)
+
+          // create a rectangle object
+          var rect = new fabric.Rect({
+            left: mask.x,
+            top: mask.y,
+            fill: 'blue',
+            opacity: 0.62,
+            width: mask.width,
+            height: mask.height
+          });
+
+          // "add" rectangle onto canvas
+          canvas.add(rect);
+
+      }
+
+
+
+      if(item.data.histogram){
+
+        $("#contentBreakdown").append($("<div>", { id:item.id+"chart", class:"btn-sm btn-block", style:""})).find("#"+item.id+"chart").highcharts({
+            chart:{animation:false,type:(item.data.chart_type || "column"),height:100,backgroundColor:"none"},
+            title:{style:{y:'20px',"fontSize": "10px"},text:(item.data.transform || item.data.title || item.data.noun  || item.data.name )},
+            legend:{enabled:false},credits: {enabled: false },
+            xAxis: { 
+                gridLineWidth: 0,
+                labels: {
+                  enabled:false,
+                  style: {
+                    fontSize: '10px',
+                }}
+            },
+            yAxis: {
+              title:{text:""},
+              gridLineWidth: 0,
+              labels: {
+                  enabled:false
+              }
+            },
+            plotOptions: { series: { 
+              borderColor:"none",
+              //- groupPadding: 0,
+              marker:{enabled:false},
+              stacking: (item.data.stack || null),
+              shadow:{ color:"#000000", offsetX:0, offsetY:0, opacity:0.7, width:0}
+            }},
+            series: [{
+              color:"#aa0000",
+              data: item.data.histogram.r
+            },
+            {
+            color:"#00aa00",
+                data: item.data.histogram.g
+            },
+            {
+            color:"#0000aa",
+                data: item.data.histogram.b
+            }]
+        });
+
+
+
+      } else {
+
+        //- $(".contentBreakdown").append($("<div>", { id:item.data.id, html: "<h1>"+JSON.stringify(item)+"</h1>"}))
+        if(item.data.filename){
+
+          $("#features_container").append(
+
+            $("<div>", {
+            class:"thumbnail ",
+            style:"display:inline-flex;margin:2px;padding:1px;border:0px solid #d2d2d2;",
+            html:$("<img>", {
+              class:"img-responsive",
+              src: "/images/"+item.data.filename,
+              style:"width:auto;height:48px;margin:0px;",
+              })
+              .webuiPopover({
+                title:(item.data.name||item.data.noun||item.id),
+                content:$("<pre>"+JSON.stringify(item.data) +"</pre>", {class:"description"})
+                })
+              })
+            )
+
+
+
+
+      }
+      }
+
+
+    })
+
+
+
+
+
+    // bind dom to model with sockets
+    function dom_glue(model){
+
+      io.socket.on( model, function(item){
+        console.log(model,item)
+          signalModel.emit(item.verb, item);
+      })
+
+      io.socket.get( "/"+model, {limit:1}, function(items){
+
+        $.map(items, function(item){
+          console.log(item)
+          signalModel.emit('created', {
+            id:item.id,
+            data:item
+          })
+
+        })
+        
+      })
+
+    }
+
+    // When document is ready, grab latest things.
+    $(document).ready(function(){
+
+      // Apply the theme
+
+      dom_glue("cbr");
+      dom_glue("signal");
+
+
+      /**
+       * Tests the cluster, broadcasts "test" to all the zodes from the
+       * controller and paints responses through normal socket flow.
+       * @param  {[type]}  error
+       * @return {[type]}   [description]
+       */
+      
+      $(document).on('click', '.test_cluster', function(error){
+        io.socket.post("/cbir/test", {});
+      })
+
+    })
+
+
+
+
+    Dropzone.options.dropZone = {
+      paramName: "file", // The name that will be used to transfer the file
+      maxFilesize: 2 // MB
+    };
+
+    $(document).ready(function() {
+      
+      $("#uploadModal").modal("show");
+      
+
+      var myDropzone = new Dropzone("#dropzone", { url: "/cbr/search"})
+      myDropzone.on("success", function(info,res){ 
+
+          $("#searchImage").attr("src", "");
+          $("#searchImage").attr("src", res.src);
+          $("#features_container").html("")
+          $("#contentBreakdown").html("")
+          $("#uploadModal").modal("hide");
+           
+          var w = info.width
+          var h = info.height
+
+          console.log(w,h, res.filename)
+
+            fabric.Image.fromURL("/images/"+res.filename, function(oImg){
+              oImg.scale(1);
+              oImg.selectable = false
+              canvas.add(oImg);
+            });
+
+              var cw = $("#main_canvas").parent().parent().width()
+              var ch = ( h / w ) * cw
+
+              //- $("#main_canvas").parent(function(){ this.width(cw-1);})
+              $("#main_canvas").width(cw)
+
+              //- $("#main_canvas").parent(function(){ this.height(ch-1);})
+              $("#main_canvas").height(ch)
+
+        signalModel.emit('created', {
+          id:res.id,
+          data:res
+        })
+
+      })})
+
+
+    var dropbox = document.getElementById('dropzone');
+
+    dropbox.addEventListener('dragenter', noopHandler, false);
+    dropbox.addEventListener('dragexit', noopHandler, false);
+    dropbox.addEventListener('dragover', noopHandler, false);
+    dropbox.addEventListener('drop', drop, false);
+
+    function noopHandler(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+    }
+
+    function drop(evt) {
+        evt.stopPropagation();
+        evt.preventDefault(); 
+        var getURL = evt.dataTransfer.getData('Url');
+        
+        if(getURL) {
+          io.socket.post("/signal/getURL", {getURL:getURL} , function(a,b){
+            console.log(getURL,a,b)
+          })
+        }
+    }
+
+
+
+
+
+    //- script.
+
+    //-   $(document).ready(function(){
+
+    //-     // Instantiate a slider
+    //-     var mySlider = $(".slider").bootstrapSlider({min:0.01,max:0.99,value:0.33,step:0.01});
+
+    //-     $("input.slider").on("slideStop", function(){
+    //-       var value = mySlider.bootstrapSlider('getValue');
+    //-       console.log(value);
+
+    //-     })
+
+
+    //-     // Call a method on the slider
+    //-     var value = mySlider.bootstrapSlider('getValue');
+
+    //-     // For non-getter methods, you can chain together commands
+    //-         mySlider
+    //-             .bootstrapSlider('setValue', 5)
+    //-             .bootstrapSlider('setValue', 7);
+    //-   })
+
+
+
+
+
+
+
+
