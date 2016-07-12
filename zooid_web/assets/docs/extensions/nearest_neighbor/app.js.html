@@ -88,11 +88,11 @@
           <li><a href="../color_histogram/app.js.html">color_histogram/app.js</a></li>
           <li><a href="../directory_consumption/app.js.html">directory_consumption/app.js</a></li>
           <li><a href="../ext.js.html">ext.js</a></li>
-          <li class="active"><a href="../face_blurring/app.js.html">face_blurring/app.js</a></li>
+          <li><a href="../face_blurring/app.js.html">face_blurring/app.js</a></li>
           <li><a href="../face_detection/app.js.html">face_detection/app.js</a></li>
           <li><a href="../geo_conversion/app.js.html">geo_conversion/app.js</a></li>
           <li><a href="../image_consumption/app.js.html">image_consumption/app.js</a></li>
-          <li><a href="../nearest_neighbor/app.js.html">nearest_neighbor/app.js</a></li>
+          <li class="active"><a href="../nearest_neighbor/app.js.html">nearest_neighbor/app.js</a></li>
           <li><a href="../robots_in_disguise/app.js.html">robots_in_disguise/app.js</a></li>
           <li><a href="../signal_classification/app.js.html">signal_classification/app.js</a></li>
           <li><a href="../squiggle_vectorization/app.js.html">squiggle_vectorization/app.js</a></li>
@@ -107,145 +107,369 @@
         </ul>
         <div class="scrollspy">
           <ul class="nav nav-list bs-docs-sidenav right affix-top">
+            <li class="little"><a href="#tokenize"><span>
+                  <fa class=" fa fa-sm fa-fw  fa-caret-right"></fa></span><span>tokenize</span></a>
+            </li>
+            <li class="little"><a href="#intersect"><span>
+                  <fa class=" fa fa-sm fa-fw  fa-caret-right"></fa></span><span>intersect</span></a>
+            </li>
+            <li class="little"><a href="#sum"><span>
+                  <fa class=" fa fa-sm fa-fw  fa-caret-right"></fa></span><span>sum</span></a>
+            </li>
+            <li class="little"><a href="#wordSimilarity"><span>
+                  <fa class=" fa fa-sm fa-fw  fa-caret-right"></fa></span><span>wordSimilarity</span></a>
+            </li>
+            <li class="little"><a href="#ipSimilarity"><span>
+                  <fa class=" fa fa-sm fa-fw  fa-caret-right"></fa></span><span>ipSimilarity</span></a>
+            </li>
+            <li class="little"><a href="#ageSimilarity"><span>
+                  <fa class=" fa fa-sm fa-fw  fa-caret-right"></fa></span><span>ageSimilarity</span></a>
+            </li>
+            <li class="little"><a href="#recordSimilarity"><span>
+                  <fa class=" fa fa-sm fa-fw  fa-caret-right"></fa></span><span>recordSimilarity</span></a>
+            </li>
+            <li class="little"><a href="#test"><span>
+                  <fa class=" fa fa-sm fa-fw  fa-caret-right"></fa></span><span>test</span></a>
+            </li>
           </ul>
         </div>
       </div>
       <div class="col-md-7 docs-main">
-        <h3>face_blurring/app.js</h3><br>
+        <h3>nearest_neighbor/app.js</h3><br>
         <div class="description"><hr>
 <p>TEST WITH BASE CASE<br />Run a test on the cluster with the default applicaiton of processing a small<br />image for feature </p><p>detection and reporting back to the overmind the events of<br />both the event-positive and event-negative systems of signal processing.</p><hr>
  </div>
         <pre><code class="language-javascript">zooid.on( &quot;test&quot;, function (signal){
-  
   zode.status=&quot;active&quot;
   zooid.muster(zode)
   zooid.send({ parent_id:signal.id, name:zode.name, text:&quot;okay&quot;})
-
-})</code></pre>
-        <div class="description"><hr>
-<p>Muster response</p><hr>
- </div>
-        <pre><code class="language-javascript">zooid.on( &quot;muster&quot;, function(signal){
+})
+zooid.on( &quot;muster&quot;, function(signal){
   zooid.muster(zode)
 })
-zooid.muster(zode)</code></pre>
-        <div class="description"><hr>
-<p>SET UP LISTENERS<br />Adds listeners for whatever to do whatever. Yep.</p><hr>
- </div>
-        <pre><code class="language-javascript">zooid.on( &quot;image&quot;, function(signal){
-
-  var start = moment().valueOf();
-
-  zode.actions += 1
-
-  blurFaces( signal, function(res){
-    var stop = moment().valueOf();
-    zode.work += stop - start
-    zooid.muster(zode)
-  });
-
-})
-
-
-// zooid.on( &quot;image&quot;, function detectVehicles(signal){
-//   // detectFaces( signal,  zooid );
-// })
-
-// zooid.on( &quot;face&quot;, function askHuman(signal){
-//   if(signal.parent_id){
-//     var new_signal = {};
-//     new_signal.questions = [
-//       { response:&quot;name&quot;, question:&quot;Who is this?&quot;}
-//     ];
-//     new_signal.parent_id = signal.id
-//     zooid.emit(&quot;finished&quot;, new_signal)
-//   }
-// })
-
-
-
-function blurFaces( signal, done ){
-
-  var parent_id = signal.id;
-  var image_location = path.join( signal.location, signal.filename )
-
-  // console.log(&quot;image_location =&gt; &quot;,image_location);
-
-  cv.readImage( image_location, function(err, mat){
-
-    // console.log(err || mat);
-    // var m = mat.copy()
-
-    mat.detectObject( cv.FACE_CASCADE, {}, function(err, objects){
-
-      // console.log( err || &quot;objects:&quot;+objects.length )
-      if(err) zooid.send({parent_id:signal.id, name:err} )
-
-      if(objects.length&lt;1) {
-        zooid.send( { parent_id:parent_id, text:&quot;No faces&quot;} );
-        done( null, response )
-      
-      } else{
-
-        // mat.convertGrayscale()
-        // mat.gaussianBlur([9,9])
-
-        for (var i=0; i&lt;objects.length; i++){
-
-          var obj = objects[i]
-
-          var im2  = mat.roi( obj.x, obj.y, obj.width, obj.height );
-
-          im2.gaussianBlur([19,19])
-          im2.gaussianBlur([11,11])
+zooid.muster(zode)
 
 
 
 
+// zooid.on( &quot;image&quot;, function(signal){
+//   if(!zode.status) return 1;
+//   var start = moment().valueOf();
+//   zode.actions += 1
+//   createHistogram( signal, function(err, res){
+//     var stop = moment().valueOf();
+//     zode.work += stop - start
+//     zooid.muster(zode)
+//     zooid.send(res)
+//   });
 
-          // im2.adjustROI(
-          //   -face.y
-          // , (face.y + face.height) - ims[0]
-          // , -face.x
-          // , (face.x + face.width) - ims[1])
+// })</code></pre>
+        <section id="tokenize">
+          <h3>tokenize
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>tokenize()</span> -><span>Array</span>
+            </p></h3>
+        </section>
+        <table class="table table-condensed table-striped table-bordered">
+          <thead>
+            <tr>
+              <th style="width:20%">Option</th>
+              <th style="width:20%">Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>string</td>
+              <td>String</td>
+              <td>the string to be tokenized.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="description"><p>Tekenizes a string</p> </div>
+        <pre><code class="language-javascript">function tokenize(string) {
+  var tokens = [];
+  for (var i = 0; i &lt; string.length-1; i++) {
+    tokens.push(string.substr(i,2));
+  }
+  return tokens.sort();
+}</code></pre>
+        <section id="intersect">
+          <h3>intersect
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>intersect()</span> -><span>Number</span>
+            </p></h3>
+        </section>
+        <table class="table table-condensed table-striped table-bordered">
+          <thead>
+            <tr>
+              <th style="width:20%">Option</th>
+              <th style="width:20%">Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>a</td>
+              <td>Array</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>b</td>
+              <td>Array</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="description"><p>Finds similarity between strings.</p> </div>
+        <pre><code class="language-javascript">function intersect(a, b){
+  var ai=0, bi=0;
+  var result = new Array();
+  while( ai &lt; a.length &amp;&amp; bi &lt; b.length ){
+     if      (a[ai] &lt; b[bi] ){ ai++; }
+     else if (a[ai] &gt; b[bi] ){ bi++; }
+     else</code></pre>
+        <div class="description"><p>they&#39;re equal</p> </div>
+        <pre><code class="language-javascript">{
+  result.push(a[ai]);
+  ai++; bi++;
+}
+  }
+  return result;
+}</code></pre>
+        <section id="sum">
+          <h3>sum
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>sum()</span> -><span>Number</span>
+            </p></h3>
+        </section>
+        <table class="table table-condensed table-striped table-bordered">
+          <thead>
+            <tr>
+              <th style="width:20%">Option</th>
+              <th style="width:20%">Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>items</td>
+              <td>Array</td>
+              <td>array of items to be summed.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="description"><p>Maps an array and sums it up... reduce...</p> </div>
+        <pre><code class="language-javascript">function sum(items) {
+  var sum = 0;
+  for (var i = 0; i &lt; items.length; i++) {
+    sum += items[i];
+  }
+  return sum;
+}</code></pre>
+        <section id="wordSimilarity">
+          <h3>wordSimilarity
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>wordSimilarity()</span> -><span>Number</span>
+            </p></h3>
+        </section>
+        <table class="table table-condensed table-striped table-bordered">
+          <thead>
+            <tr>
+              <th style="width:20%">Option</th>
+              <th style="width:20%">Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>a</td>
+              <td>String</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>b</td>
+              <td>String</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="description"><p>Gets word similarity.</p> </div>
+        <pre><code class="language-javascript">function wordSimilarity(a, b) {
+  var left   = tokenize(a);
+  var right  = tokenize(b);
+  var middle = intersect(left, right);
+  return (2*middle.length) / (left.length + right.length);
+}</code></pre>
+        <section id="ipSimilarity">
+          <h3>ipSimilarity
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>ipSimilarity()</span> -><span>Number</span>
+            </p></h3>
+        </section>
+        <table class="table table-condensed table-striped table-bordered">
+          <thead>
+            <tr>
+              <th style="width:20%">Option</th>
+              <th style="width:20%">Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>a</td>
+              <td>String</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>b</td>
+              <td>String</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="description"><p>measures ipSimilarity</p> </div>
+        <pre><code class="language-javascript">function ipSimilarity(a, b) {
+  var left  = a.split('.');
+  var right = b.split('.');
+  var diffs = [];
+  for (var i = 0; i &lt; 4; i++) {
+    var diff1 = 255-left[i];
+    var diff2 = 255-right[i];
+    var diff  = Math.abs(diff2-diff1);
+    diffs[i] = diff;
+  }
+  var distance = sum(diffs)/(255*4);
+  return 1 - distance;
+}</code></pre>
+        <section id="ageSimilarity">
+          <h3>ageSimilarity
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>ageSimilarity()</span> -><span>Number</span>
+            </p></h3>
+        </section>
+        <table class="table table-condensed table-striped table-bordered">
+          <thead>
+            <tr>
+              <th style="width:20%">Option</th>
+              <th style="width:20%">Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>a</td>
+              <td>String</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>b</td>
+              <td>String</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="description"><p>measures ageSimilarity</p> </div>
+        <pre><code class="language-javascript">function ageSimilarity(a, b) {
+  var maxAge   = 100;
+  var diff1    = maxAge-a;
+  var diff2    = maxAge-b;
+  var diff     = Math.abs(diff2-diff1);
+  var distance = diff / maxAge;
+  return 1-distance;
+}</code></pre>
+        <section id="recordSimilarity">
+          <h3>recordSimilarity
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>recordSimilarity()</span> -><span>Number</span>
+            </p></h3>
+        </section>
+        <table class="table table-condensed table-striped table-bordered">
+          <thead>
+            <tr>
+              <th style="width:20%">Option</th>
+              <th style="width:20%">Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>a</td>
+              <td>String</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>b</td>
+              <td>String</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="description"><p>measures ageSimilarity</p> </div>
+        <pre><code class="language-javascript">function recordSimilarity(a, b) {
+  var fields = [
+    {name:'name', measure:wordSimilarity},
+    {name:'age',  measure:ageSimilarity},
+    {name:'pc',   measure:wordSimilarity},
+    {name:'ip',   measure:ipSimilarity}
+  ];
 
+  var sum = 0;
+  for (var i = 0; i &lt; fields.length; i++) {
+    var field   = fields[i];
+    var name    = field.name;
+    var measure = field.measure;
+    var sim     = measure(a[name], b[name]);
 
-          for(var j = obj.y; j &lt; obj.height+obj.y ; j++)
-            for(var k = obj.x; k &lt; obj.width+obj.x ; k++)
-              mat.pixel(j,k,im2.pixel( j-obj.y, k-obj.x ))
+    sum += sim;
+  }
 
-        }  /// for
+  return sum / fields.length;
+}
 
-        var faces_image = path.join( signal.location, &quot;blurred_faces_&quot;+signal.filename )
-        mat.save( faces_image )
+function findMostSimilar(items, query) {
+  var maxSim = 0;
+  var result = null;
 
-        var response = {
-          proc:process.pid
-          , name:&quot;Blurred faces&quot;
-          , head_id:signal.head_id
-          , parent_id:signal.id
-          , location:signal.location 
-          , filename:&quot;blurred_faces_&quot;+signal.filename
-        }
+  for (var i = 0; i &lt; items.length; i++) {
+    var item = items[i];
+    var sim  = recordSimilarity(item, query);
 
-          zooid.send( response );
+    if (sim &gt; maxSim) {
+      maxSim = sim;
+      result = item;
+    }
+  }
+  return result
+}</code></pre>
+        <section id="test">
+          <h3>test
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>test()</span> -><span>Object</span>
+            </p></h3>
+        </section>
+        <div class="description"><p>Runs a rest to find smiliarity on hardcoded objects.</p> </div>
+        <pre><code class="language-javascript">function test(){
+  var items = [
+    { name: &quot;Bill&quot;,   age: 10,  pc: &quot;Mac&quot;,      ip: &quot;68.23.13.8&quot; },
+    { name: &quot;Alice&quot;,  age: 22,  pc: &quot;Windows&quot;,  ip: &quot;193.186.11.3&quot; },
+    { name: &quot;Bob&quot;,    age: 12,  pc: &quot;Windows&quot;,  ip: &quot;56.89.22.1&quot; }
+  ];
 
-          done( null, response )
+  var query  = { name: &quot;Tom&quot;, age: 10, pc: &quot;Mac&quot;, ip: &quot;68.23.13.10&quot; };
+  var result = findMostSimilar(items, query);
 
-      }  /// if
-    }) /// detectObjects
-  }) /// readimage
-}  /// detectFaces
+}
 
-
-
-
-
-
-// add some items to the front of the queue
-// q.unshift({name: 'bar'}, function (err) {
-//     console.log('finished processing bar');
-// });</code></pre>
+console.log( test() );</code></pre>
       </div>
     </div>
   </div><br><br><br>

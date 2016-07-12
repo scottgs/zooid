@@ -88,12 +88,12 @@
           <li><a href="../color_histogram/app.js.html">color_histogram/app.js</a></li>
           <li><a href="../directory_consumption/app.js.html">directory_consumption/app.js</a></li>
           <li><a href="../ext.js.html">ext.js</a></li>
-          <li class="active"><a href="../face_blurring/app.js.html">face_blurring/app.js</a></li>
+          <li><a href="../face_blurring/app.js.html">face_blurring/app.js</a></li>
           <li><a href="../face_detection/app.js.html">face_detection/app.js</a></li>
           <li><a href="../geo_conversion/app.js.html">geo_conversion/app.js</a></li>
           <li><a href="../image_consumption/app.js.html">image_consumption/app.js</a></li>
           <li><a href="../nearest_neighbor/app.js.html">nearest_neighbor/app.js</a></li>
-          <li><a href="../robots_in_disguise/app.js.html">robots_in_disguise/app.js</a></li>
+          <li class="active"><a href="../robots_in_disguise/app.js.html">robots_in_disguise/app.js</a></li>
           <li><a href="../signal_classification/app.js.html">signal_classification/app.js</a></li>
           <li><a href="../squiggle_vectorization/app.js.html">squiggle_vectorization/app.js</a></li>
           <li><a href="../squiggle_vectorization/app_old.js.html">squiggle_vectorization/app_old.js</a></li>
@@ -111,141 +111,90 @@
         </div>
       </div>
       <div class="col-md-7 docs-main">
-        <h3>face_blurring/app.js</h3><br>
-        <div class="description"><hr>
-<p>TEST WITH BASE CASE<br />Run a test on the cluster with the default applicaiton of processing a small<br />image for feature </p><p>detection and reporting back to the overmind the events of<br />both the event-positive and event-negative systems of signal processing.</p><hr>
- </div>
-        <pre><code class="language-javascript">zooid.on( &quot;test&quot;, function (signal){
+        <h3>robots_in_disguise/app.js</h3><br>
+        <div class="description"> </div>
+        <pre><code class="language-javascript">// /**
+//  * Creates a color histogram from an image file.
+//  * @param  {Image}   fileName name of the image file.
+//  * @return {Histogram} histogram
+//  */
+
+// /**
+//  * Bring in dependencies.
+//  * @type {Object}
+//  */
+// var fs = require('fs')
+// , path = require('path')
+// , merge = require(&quot;merge&quot;)
+// , async = require(&quot;async&quot;) 
+// , _ = require('underscore')
+// , moment = require(&quot;moment&quot;)
+// , histogram = require('histogram')
+
+
+// /**
+//  * Defines this zodes identity and function within the organism.
+//  * @type {Zode}
+//  */
+// var zooid = require(&quot;../../zooid_core&quot;)
+// var zode = merge( require(&quot;./package.json&quot;), { 
+//     name:&quot;Transformers&quot;
+//   , filename:&quot;app.js&quot;
+//   , takes:&quot;image&quot;
+//   , gives:&quot;color_histogram&quot;
+//   , ip:zooid.ip || 'unkown'
+//   , status:&quot;active&quot;
+//   , work:0
+//   , actions:0 
+// })
+// console.log(zode.name, &quot;intiated.&quot;)
+
+
+// *
+//  * Responds to it's listener handler noun.
+//  * @param  {Signal} signal input signal
+//  * @return {}
+ 
+
+// zooid.on( &quot;image&quot;, function(signal){
+
+//   if(!zode.status) return 1;
+
+//   var start = moment().valueOf();
+//   zode.actions += 1
   
-  zode.status=&quot;active&quot;
-  zooid.muster(zode)
-  zooid.send({ parent_id:signal.id, name:zode.name, text:&quot;okay&quot;})
+//   createHistogram( signal, function(err, res){
+//     var stop = moment().valueOf();
+//     zode.work += stop - start
+//     zooid.muster(zode)
+//     zooid.send(res)
+//   });
 
-})</code></pre>
-        <div class="description"><hr>
-<p>Muster response</p><hr>
- </div>
-        <pre><code class="language-javascript">zooid.on( &quot;muster&quot;, function(signal){
-  zooid.muster(zode)
-})
-zooid.muster(zode)</code></pre>
-        <div class="description"><hr>
-<p>SET UP LISTENERS<br />Adds listeners for whatever to do whatever. Yep.</p><hr>
- </div>
-        <pre><code class="language-javascript">zooid.on( &quot;image&quot;, function(signal){
-
-  var start = moment().valueOf();
-
-  zode.actions += 1
-
-  blurFaces( signal, function(res){
-    var stop = moment().valueOf();
-    zode.work += stop - start
-    zooid.muster(zode)
-  });
-
-})
-
-
-// zooid.on( &quot;image&quot;, function detectVehicles(signal){
-//   // detectFaces( signal,  zooid );
 // })
 
-// zooid.on( &quot;face&quot;, function askHuman(signal){
-//   if(signal.parent_id){
-//     var new_signal = {};
-//     new_signal.questions = [
-//       { response:&quot;name&quot;, question:&quot;Who is this?&quot;}
-//     ];
-//     new_signal.parent_id = signal.id
-//     zooid.emit(&quot;finished&quot;, new_signal)
-//   }
+// /**
+//  * Defines the test case.
+//  * @param  {Signal} signal the test signal
+//  * @return {}
+//  */
+
+// zooid.on( &quot;test&quot;, function (signal){
+//   zode.status=&quot;active&quot;
+//   zooid.muster(zode)
+//   zooid.send({ parent_id:signal.id, name:zode.name, text:&quot;okay&quot;})
 // })
 
+// /**
+//  * Responds to muster requests.
+//  * @param  {Signal} signal 
+//  * @return {}
+//  */
 
+// zooid.on( &quot;muster&quot;, function(signal){
+//   zooid.muster(zode)
+// })
 
-function blurFaces( signal, done ){
-
-  var parent_id = signal.id;
-  var image_location = path.join( signal.location, signal.filename )
-
-  // console.log(&quot;image_location =&gt; &quot;,image_location);
-
-  cv.readImage( image_location, function(err, mat){
-
-    // console.log(err || mat);
-    // var m = mat.copy()
-
-    mat.detectObject( cv.FACE_CASCADE, {}, function(err, objects){
-
-      // console.log( err || &quot;objects:&quot;+objects.length )
-      if(err) zooid.send({parent_id:signal.id, name:err} )
-
-      if(objects.length&lt;1) {
-        zooid.send( { parent_id:parent_id, text:&quot;No faces&quot;} );
-        done( null, response )
-      
-      } else{
-
-        // mat.convertGrayscale()
-        // mat.gaussianBlur([9,9])
-
-        for (var i=0; i&lt;objects.length; i++){
-
-          var obj = objects[i]
-
-          var im2  = mat.roi( obj.x, obj.y, obj.width, obj.height );
-
-          im2.gaussianBlur([19,19])
-          im2.gaussianBlur([11,11])
-
-
-
-
-
-          // im2.adjustROI(
-          //   -face.y
-          // , (face.y + face.height) - ims[0]
-          // , -face.x
-          // , (face.x + face.width) - ims[1])
-
-
-          for(var j = obj.y; j &lt; obj.height+obj.y ; j++)
-            for(var k = obj.x; k &lt; obj.width+obj.x ; k++)
-              mat.pixel(j,k,im2.pixel( j-obj.y, k-obj.x ))
-
-        }  /// for
-
-        var faces_image = path.join( signal.location, &quot;blurred_faces_&quot;+signal.filename )
-        mat.save( faces_image )
-
-        var response = {
-          proc:process.pid
-          , name:&quot;Blurred faces&quot;
-          , head_id:signal.head_id
-          , parent_id:signal.id
-          , location:signal.location 
-          , filename:&quot;blurred_faces_&quot;+signal.filename
-        }
-
-          zooid.send( response );
-
-          done( null, response )
-
-      }  /// if
-    }) /// detectObjects
-  }) /// readimage
-}  /// detectFaces
-
-
-
-
-
-
-// add some items to the front of the queue
-// q.unshift({name: 'bar'}, function (err) {
-//     console.log('finished processing bar');
-// });</code></pre>
+// zooid.muster(zode)</code></pre>
       </div>
     </div>
   </div><br><br><br>

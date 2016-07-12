@@ -10,9 +10,10 @@
     <link href="/styles/buttons.css" rel="stylesheet">
     <link href="/styles/animate.css" rel="stylesheet">
     <link href="/styles/dropzone.css" rel="stylesheet">
-    <link href="/styles/zooid.css" rel="stylesheet">
+    <link href="/styles/todc-bootstrap.min.css" rel="stylesheet">
     <link href="/styles/webui-popover.css" rel="stylesheet">
-    <link href="/styles/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="//www.fuelcdn.com/fuelux/3.2.1/css/fuelux.min.css" rel="stylesheet">
+    <link href="/styles/zooid.css" rel="stylesheet">
     
     <script src="/js/jquery.min.js"></script>
     <script src="/js/jquery_custom.js"></script>
@@ -20,52 +21,55 @@
     <script src="/js/webui-popover.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/buttons.js"></script>
-    <script src="/js/jquery.dataTables.min.js"></script>
-    <script src="/js/jquery_ui.js"></script>
     <script src="/js/ripples.min.js"></script>
     
-    <div>
-      <div style="margin-bottom:38px!important;">
-        <navbar role="navigation" style="padding-top:1px;padding-bottom:1px;" class="navbar-fixed-top navbar-">
+    <div class="container">
+      <div style="margin-bottom:36px!important;">
+        <div role="navigation" style="padding-bottom:8px;padding-top:8px;" class="navbar navbar-fixed-top navbar-default">
           <div class="container">
             <div class="navbar-header">
               <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span>
                 <fa class="fa fa-fw fa-caret-down"></fa>
               </button><a href="/" style="margin-top:0px" class="navbar-brand">
-                <o>zooid</o></a>
+                <o>Zooid</o></a>
             </div>
             <div class="navbar-collapse collapse scootRight"> 
               <ul class="nav navbar-nav navbar-left">
-                <li><a href="/cbir" class="text-center"><small>
-                      <oo>cbir</oo></small></a></li>
-                <li><a href="/z" class="text-center"><small>
-                      <oo>zodes</oo></small></a></li>
-                <li><a href="/s" class="text-center"><small>
-                      <oo>signals</oo></small></a></li>
-                <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><small>
-                      <oo>docs</oo></small>
-                    <ul role="menu" style="min-width:220px;" class="dropdown-menu scootRight">
+                <li><a href="/cbir">
+                    <div class="fa fa-fw ion-image fa-"></div>
+                    <oo>cbir</oo></a></li>
+                <li><a href="/z">
+                    <div class="fa fa-fw fa-cloud fa-"></div>
+                    <oo>zodes</oo></a></li>
+                <li><a href="/s">
+                    <div class="fa fa-fw fa-bar-chart fa-"></div>
+                    <oo>signals</oo></a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="/s">
+                    <fa class="fa fa-fw fa-github-square fa-"></fa>
+                    <oo>github</oo></a></li>
+                <li class="dropdown scootLeft"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-fw ion-ios7-browsers fa-"></i>
+                    <oo>docs<i class="fa fa-fw ion-arrow-down-b"></i></oo>
+                    <ul role="menu" style="min-width:220px;" class="dropdown-menu">
                       <li><a href="/docs/web">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg fa-globe"></div>
                           <oo>Web app</oo></a></li>
                       <li><a href="/docs/core">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg fa-sitemap"></div>
                           <oo>Core</oo></a></li>
                       <li><a href="/docs/extensions">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg ion-merge"></div>
                           <oo>Extensions</oo></a></li>
                       <li class="divider"></li>
-                      <li><a href="/reset">
-                          <div style="margin-right:12px;" class="fa fa-fw ion-loop fa-lg"></div>
+                      <li><a href="/regenerate">
                           <oo>Regenerate all</oo></a></li>
                     </ul></a></li>
               </ul>
             </div>
           </div>
-        </navbar>
+        </div>
+        <hr>
       </div>
-      <noscript>Please enable JavaScript and refresh this page</noscript>
     </div>
+    <noscript>Please enable JavaScript and refresh this page</noscript>
   </head>
 </html>
 <head>
@@ -120,7 +124,8 @@
           </ul>
         </div>
       </div>
-      <div class="col-md-7 docs-main"><br>
+      <div class="col-md-7 docs-main">
+        <h3>api/models/Signal.js</h3><br>
         <div class="description"><p>Signal</p> <p>:: Defines the routing and handling os sensory stimulation.</p></div>
         <div class="description"><p>Brings in dependencies</p> </div>
         <pre><code class="language-javascript">var dependencies;
@@ -151,7 +156,7 @@ axon.bind(42002);</code></pre>
         <div class="description"><p>Creates a socket for pulling and binds to it.</p> </div>
         <pre><code class="language-javascript">var dendrites = Axon.socket('pull');
 dendrites.bind(42003);</code></pre>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -173,7 +178,7 @@ dendrites.bind(42003);</code></pre>
     if(res) Signal.publishCreate(res.toJSON() )
   })
 });</code></pre>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -257,7 +262,7 @@ var TTL             = 30  // seconds</code></pre>
         <pre><code class="language-javascript">Zode.find( { last_update: { &quot;&lt;&quot; : senescence }})
   .limit(100)
   .exec(function(err, zodes) {</code></pre>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -279,7 +284,7 @@ var TTL             = 30  // seconds</code></pre>
   Zode.publishUpdate( zode.id, { color:&quot;warning&quot;, status:&quot;Not responding...&quot; }, function(err,s){
     console.log(err || s);
   })</code></pre>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -342,7 +347,7 @@ module.exports = {
               <div class="label label-info radius ctx-type">method</div><span>beforeCreate()</span> -><span>null</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -374,7 +379,7 @@ module.exports = {
               <div class="label label-info radius ctx-type">method</div><span>afterCreate()</span> -><span>null</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -410,7 +415,7 @@ module.exports = {
               <div class="label label-info radius ctx-type">method</div><span>afterUpdate()</span> -><span>null</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -442,7 +447,7 @@ module.exports = {
               <div class="label label-info radius ctx-type">method</div><span>afterDestroy()</span> -><span>null</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>

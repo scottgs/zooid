@@ -12,6 +12,9 @@
 - http://docs.opencv.org/modules/refman.html
 - http://en.wikipedia.org/wiki/Technological_singularity
 
+Unix philosophy
+Node culture
+
 #####Utilities
 
 - Filetype checking: https://github.com/mscdex/mmmagic

@@ -10,9 +10,10 @@
     <link href="/styles/buttons.css" rel="stylesheet">
     <link href="/styles/animate.css" rel="stylesheet">
     <link href="/styles/dropzone.css" rel="stylesheet">
-    <link href="/styles/zooid.css" rel="stylesheet">
+    <link href="/styles/todc-bootstrap.min.css" rel="stylesheet">
     <link href="/styles/webui-popover.css" rel="stylesheet">
-    <link href="/styles/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="//www.fuelcdn.com/fuelux/3.2.1/css/fuelux.min.css" rel="stylesheet">
+    <link href="/styles/zooid.css" rel="stylesheet">
     
     <script src="/js/jquery.min.js"></script>
     <script src="/js/jquery_custom.js"></script>
@@ -20,52 +21,55 @@
     <script src="/js/webui-popover.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/buttons.js"></script>
-    <script src="/js/jquery.dataTables.min.js"></script>
-    <script src="/js/jquery_ui.js"></script>
     <script src="/js/ripples.min.js"></script>
     
-    <div>
-      <div style="margin-bottom:38px!important;">
-        <navbar role="navigation" style="padding-top:1px;padding-bottom:1px;" class="navbar-fixed-top navbar-">
+    <div class="container">
+      <div style="margin-bottom:36px!important;">
+        <div role="navigation" style="padding-bottom:8px;padding-top:8px;" class="navbar navbar-fixed-top navbar-default">
           <div class="container">
             <div class="navbar-header">
               <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span>
                 <fa class="fa fa-fw fa-caret-down"></fa>
               </button><a href="/" style="margin-top:0px" class="navbar-brand">
-                <o>zooid</o></a>
+                <o>Zooid</o></a>
             </div>
             <div class="navbar-collapse collapse scootRight"> 
               <ul class="nav navbar-nav navbar-left">
-                <li><a href="/cbir" class="text-center"><small>
-                      <oo>cbir</oo></small></a></li>
-                <li><a href="/z" class="text-center"><small>
-                      <oo>zodes</oo></small></a></li>
-                <li><a href="/s" class="text-center"><small>
-                      <oo>signals</oo></small></a></li>
-                <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><small>
-                      <oo>docs</oo></small>
-                    <ul role="menu" style="min-width:220px;" class="dropdown-menu scootRight">
+                <li><a href="/cbir">
+                    <div class="fa fa-fw ion-image fa-"></div>
+                    <oo>cbir</oo></a></li>
+                <li><a href="/z">
+                    <div class="fa fa-fw fa-cloud fa-"></div>
+                    <oo>zodes</oo></a></li>
+                <li><a href="/s">
+                    <div class="fa fa-fw fa-bar-chart fa-"></div>
+                    <oo>signals</oo></a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="/s">
+                    <fa class="fa fa-fw fa-github-square fa-"></fa>
+                    <oo>github</oo></a></li>
+                <li class="dropdown scootLeft"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-fw ion-ios7-browsers fa-"></i>
+                    <oo>docs<i class="fa fa-fw ion-arrow-down-b"></i></oo>
+                    <ul role="menu" style="min-width:220px;" class="dropdown-menu">
                       <li><a href="/docs/web">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg fa-globe"></div>
                           <oo>Web app</oo></a></li>
                       <li><a href="/docs/core">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg fa-sitemap"></div>
                           <oo>Core</oo></a></li>
                       <li><a href="/docs/extensions">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg ion-merge"></div>
                           <oo>Extensions</oo></a></li>
                       <li class="divider"></li>
-                      <li><a href="/reset">
-                          <div style="margin-right:12px;" class="fa fa-fw ion-loop fa-lg"></div>
+                      <li><a href="/regenerate">
                           <oo>Regenerate all</oo></a></li>
                     </ul></a></li>
               </ul>
             </div>
           </div>
-        </navbar>
+        </div>
+        <hr>
       </div>
-      <noscript>Please enable JavaScript and refresh this page</noscript>
     </div>
+    <noscript>Please enable JavaScript and refresh this page</noscript>
   </head>
 </html>
 <head>
@@ -88,6 +92,8 @@
           <li><a href="../face_detection/app.js.html">face_detection/app.js</a></li>
           <li><a href="../geo_conversion/app.js.html">geo_conversion/app.js</a></li>
           <li><a href="../image_consumption/app.js.html">image_consumption/app.js</a></li>
+          <li><a href="../nearest_neighbor/app.js.html">nearest_neighbor/app.js</a></li>
+          <li><a href="../robots_in_disguise/app.js.html">robots_in_disguise/app.js</a></li>
           <li><a href="../signal_classification/app.js.html">signal_classification/app.js</a></li>
           <li><a href="../squiggle_vectorization/app.js.html">squiggle_vectorization/app.js</a></li>
           <li><a href="../squiggle_vectorization/app_old.js.html">squiggle_vectorization/app_old.js</a></li>
@@ -101,79 +107,253 @@
         </ul>
         <div class="scrollspy">
           <ul class="nav nav-list bs-docs-sidenav right affix-top">
+            <li class="little"><a href="#zooid"><span>
+                  <fa class=" fa fa-sm fa-fw  fa-chevron-right"></fa></span><span>zooid</span></a>
+            </li>
+            <li class="little"><a href="#createHistogram"><span>
+                  <fa class=" fa fa-sm fa-fw  fa-caret-right"></fa></span><span>createHistogram</span></a>
+            </li>
           </ul>
         </div>
       </div>
-      <div class="col-md-7 docs-main"><br>
-        <div class="description"><hr>
-<p>TEST WITH BASE CASE<br />Run a test on the cluster with the default applicaiton of processing a small<br />image for feature </p><p>detection and reporting back to the overmind the events of<br />both the event-positive and event-negative systems of signal processing.</p><hr>
- </div>
-        <pre><code class="language-javascript">zooid.on( &quot;test&quot;, function (signal){
-  zode.status=&quot;active&quot;
-  zooid.muster(zode)
-  zooid.send({ parent_id:signal.id, name:zode.name, text:&quot;okay&quot;})
-})</code></pre>
-        <div class="description"><hr>
-<p>Muster response</p><hr>
- </div>
-        <pre><code class="language-javascript">zooid.on( &quot;muster&quot;, function(signal){
-  zooid.muster(zode)
+      <div class="col-md-7 docs-main">
+        <h3>color_histogram/app.js</h3><br>
+        <table class="table table-condensed table-striped table-bordered">
+          <thead>
+            <tr>
+              <th style="width:20%">Option</th>
+              <th style="width:20%">Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>fileName</td>
+              <td>Image</td>
+              <td>name of the image file.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="description"><p>Creates a color histogram from an image file.</p> </div>
+        <div class="description"><p>Bring in dependencies.</p> </div>
+        <pre><code class="language-javascript">var dependencies;
+var fs    = require('fs')
+, path    = require('path')
+, merge   = require(&quot;merge&quot;)
+, async   = require(&quot;async&quot;) 
+, moment  = require(&quot;moment&quot;)
+, _       = require('underscore')
+, histogram = require('histogram')</code></pre>
+        <section id="zooid">
+          <h3>zooid
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>zooid</span>
+            </p></h3>
+        </section>
+        <div class="description"><p>Defines this zodes identity and function within the organism.</p> </div>
+        <pre><code class="language-javascript">var zooid = require(&quot;../../zooid_core&quot;)
+var zode = merge( require(&quot;./package.json&quot;), { 
+    name:&quot;Color Histogram&quot;
+  , filename:&quot;app.js&quot;
+  , takes:&quot;image&quot;
+  , gives:&quot;color_histogram&quot;
+  , ip:zooid.ip || 'unkown'
+  , status:&quot;active&quot;
+  , work:0
+  , actions:0 
 })
-zooid.muster(zode)</code></pre>
-        <div class="description"><hr>
-<p>SET UP LISTENERS<br />Adds listeners for whatever to do whatever. Yep.</p><hr>
- </div>
-        <pre><code class="language-javascript">zooid.on( &quot;image&quot;, function(signal){
-  if(!zode.status) return 1;
-  var start = moment().valueOf();
-  zode.actions += 1
-  createHistogram( signal, function(err, res){
-    var stop = moment().valueOf();
-    zode.work += stop - start
-    zooid.muster(zode)
-    zooid.send(res)
+console.log(zode.name, &quot;intiated.&quot;)</code></pre>
+        <section id="createHistogram">
+          <h3>createHistogram
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>createHistogram()</span>
+            </p></h3>
+        </section>
+        <table class="table table-condensed table-striped table-bordered">
+          <thead>
+            <tr>
+              <th style="width:20%">Option</th>
+              <th style="width:20%">Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>fileName</td>
+              <td>String</td>
+              <td>name of the image file.</td>
+            </tr>
+            <tr>
+              <td>next</td>
+              <td>Function</td>
+              <td>callback function</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="description"><p>Creates a color histogram from an image file.</p> </div>
+        <pre><code class="language-javascript">function createHistogram(fileName, next){
+  histogram(fileName , function(err, data) {
+    data['r']=[]; data['g']=[]; data['b']=[]; data['a'] = [];
+    for (var i = 0; i &lt; data.red.length; i++) {
+      data.r[i]=data.red[i];
+      data.g[i]=data.green[i];
+      data.b[i]=data.blue[i];
+      data.a[i]=data.alpha[i];
+    };
+    next(err,data)
   });
+}
 
-})
-
-
-// zooid.on( &quot;image&quot;, function detectVehicles(signal){
-//   // detectFaces( signal,  zooid );
-// })
-
-// zooid.on( &quot;face&quot;, function askHuman(signal){
-//   if(signal.parent_id){
-//     var new_signal = {};
-//     new_signal.questions = [
-//       { response:&quot;name&quot;, question:&quot;Who is this?&quot;}
-//     ];
-//     new_signal.parent_id = signal.id
-//     zooid.emit(&quot;finished&quot;, new_signal)
-//   }
-// })
-
-
-function createHistogram(fileName, next){
-  histogram(fileName || Buffer, function (err, data) {
+function downsize(data, bit, next){
     var hist = {}
     hist['r']=[]; hist['g']=[]; hist['b']=[]; hist['a'] = [];
-
-    for (var i = 0; i &lt; data.red.length; i++) {
-      var ii = Math.floor(i/16)
+    var l = data.r.length
+    var eb = Math.floor( l / (bit||1) )
+    for (var i = 0; i &lt; l; i++) {
+      var ii = Math.floor( i / eb )
       if(typeof hist.r[ii] == 'undefined'){
         hist.r[ii] = 0 
         hist.g[ii] = 0
         hist.b[ii] = 0 
         hist.a[ii] = 0
       }
-      hist.r[ii]+=data.red[i]
-      hist.g[ii]+=data.green[i]
-      hist.b[ii]+=data.blue[i]
-      hist.a[ii]+=data.alpha[i]
+      hist.r[ii]+=data.r[i]
+      hist.g[ii]+=data.g[i]
+      hist.b[ii]+=data.b[i]
+      hist.a[ii]+=data.a[i]
     };
-    next(err,hist)
-  });
+    next(null,hist)
+}
+
+function normalize(data, next){
+  var hist = {}
+  hist['r']=[]; hist['g']=[]; hist['b']=[]; hist['a'] = [];
+  var l = data.r.length
+  for (var i = 0; i &lt; l; i++) {
+    var ii = i
+    if(typeof hist.r[ii] == 'undefined'){
+      hist.r[ii] = 0; hist.g[ii] = 0; 
+      hist.b[ii] = 0; hist.a[ii] = 0;
+    }
+    hist.r[ii]+=data.r[i]/l
+    hist.g[ii]+=data.g[i]/l
+    hist.b[ii]+=data.b[i]/l
+    hist.a[ii]+=data.a[i]/l
+  };
+  next(null,hist)
+}
+
+function integrate(data, next){
+    var hist = {}
+    hist['r']=[]; hist['g']=[]; hist['b']=[]; hist['a'] = [];
+    var l =  data.r.length
+    var eb = Math.floor(l / 8)
+    for (var i = 0; i &lt; l; i++) {
+      var ii = (i&lt;1?0:i-1)
+      if(typeof hist.r[i] == 'undefined'){
+        hist.r[i] = 0 
+        hist.g[i] = 0
+        hist.b[i] = 0 
+        hist.a[i] = 0
+      }
+      hist.r[i]+=hist.r[ii]+data.r[i]
+      hist.g[i]+=hist.g[ii]+data.g[i]
+      hist.b[i]+=hist.b[ii]+data.b[i]
+      hist.a[i]+=hist.a[ii]+data.a[i]
+    };
+    next(null,hist)
 }</code></pre>
+        <table class="table table-condensed table-striped table-bordered">
+          <thead>
+            <tr>
+              <th style="width:20%">Option</th>
+              <th style="width:20%">Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>signal</td>
+              <td>Signal</td>
+              <td>input signal</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="description"><p>Responds to it&#39;s listener handler noun.</p> </div>
+        <pre><code class="language-javascript">zooid.on( &quot;image&quot;, function(signal){
+  var fullpath = path.join(signal.location, signal.filename)
+  createHistogram( fullpath , function(err, histogram_data){
+    downsize( histogram_data, 32, function(err, histogram_32 ){
+      zooid.send({ title:&quot;32-bit&quot;, noun:&quot;histogram&quot;,parent_id:signal.id, histogram:histogram_32, chart_type:&quot;areaspline&quot;, stack:&quot;normal&quot;})
+    });
+  })
+})
+
+
+zooid.on( &quot;histogram&quot;, function(signal){
+  downsize( signal.histogram, 8, function(err, histogram_8 ){
+      zooid.send({title:&quot;8-bit&quot;, parent_id:signal.parent_id, noun:&quot;histogram:8bit&quot;, histogram:histogram_8, chart_type:&quot;column&quot; })
+  });
+})
+
+
+zooid.on( &quot;histogram:8bit&quot;, function(signal){
+   normalize( signal.histogram, function(err, normalized_histogram_8 ){
+        zooid.send({title:&quot;Normal&quot;, parent_id:signal.id, noun:&quot;histogram:normal&quot;, histogram:normalized_histogram_8, chart_type:&quot;column&quot;, stack:&quot;normal&quot;})
+  });
+})
+
+zooid.on( &quot;histogram:8bit&quot;, function(signal){
+  integrate( signal.histogram, function(err, integrated_histogram ){
+    zooid.send({title:&quot;Integrated&quot;, parent_id:signal.id, histogram:integrated_histogram, chart_type:&quot;column&quot;, stack:&quot;normal&quot;})
+  });
+})</code></pre>
+        <table class="table table-condensed table-striped table-bordered">
+          <thead>
+            <tr>
+              <th style="width:20%">Option</th>
+              <th style="width:20%">Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>signal</td>
+              <td>Signal</td>
+              <td>the test signal</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="description"><p>Defines the test case.</p> </div>
+        <pre><code class="language-javascript">zooid.on( &quot;test&quot;, function (signal){
+  zode.status=&quot;active&quot;
+  zooid.muster(zode)
+  zooid.send({ parent_id:signal.id, name:zode.name, text:&quot;okay&quot;})
+})</code></pre>
+        <table class="table table-condensed table-striped table-bordered">
+          <thead>
+            <tr>
+              <th style="width:20%">Option</th>
+              <th style="width:20%">Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>signal</td>
+              <td>Signal</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="description"><p>Responds to muster requests.</p> </div>
+        <pre><code class="language-javascript">zooid.on( &quot;muster&quot;, function(signal){
+  zooid.muster(zode)
+})
+
+zooid.muster(zode)</code></pre>
       </div>
     </div>
   </div><br><br><br>

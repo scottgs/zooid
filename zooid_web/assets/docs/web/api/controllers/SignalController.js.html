@@ -10,9 +10,10 @@
     <link href="/styles/buttons.css" rel="stylesheet">
     <link href="/styles/animate.css" rel="stylesheet">
     <link href="/styles/dropzone.css" rel="stylesheet">
-    <link href="/styles/zooid.css" rel="stylesheet">
+    <link href="/styles/todc-bootstrap.min.css" rel="stylesheet">
     <link href="/styles/webui-popover.css" rel="stylesheet">
-    <link href="/styles/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="//www.fuelcdn.com/fuelux/3.2.1/css/fuelux.min.css" rel="stylesheet">
+    <link href="/styles/zooid.css" rel="stylesheet">
     
     <script src="/js/jquery.min.js"></script>
     <script src="/js/jquery_custom.js"></script>
@@ -20,52 +21,55 @@
     <script src="/js/webui-popover.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/buttons.js"></script>
-    <script src="/js/jquery.dataTables.min.js"></script>
-    <script src="/js/jquery_ui.js"></script>
     <script src="/js/ripples.min.js"></script>
     
-    <div>
-      <div style="margin-bottom:38px!important;">
-        <navbar role="navigation" style="padding-top:1px;padding-bottom:1px;" class="navbar-fixed-top navbar-">
+    <div class="container">
+      <div style="margin-bottom:36px!important;">
+        <div role="navigation" style="padding-bottom:8px;padding-top:8px;" class="navbar navbar-fixed-top navbar-default">
           <div class="container">
             <div class="navbar-header">
               <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span>
                 <fa class="fa fa-fw fa-caret-down"></fa>
               </button><a href="/" style="margin-top:0px" class="navbar-brand">
-                <o>zooid</o></a>
+                <o>Zooid</o></a>
             </div>
             <div class="navbar-collapse collapse scootRight"> 
               <ul class="nav navbar-nav navbar-left">
-                <li><a href="/cbir" class="text-center"><small>
-                      <oo>cbir</oo></small></a></li>
-                <li><a href="/z" class="text-center"><small>
-                      <oo>zodes</oo></small></a></li>
-                <li><a href="/s" class="text-center"><small>
-                      <oo>signals</oo></small></a></li>
-                <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><small>
-                      <oo>docs</oo></small>
-                    <ul role="menu" style="min-width:220px;" class="dropdown-menu scootRight">
+                <li><a href="/cbir">
+                    <div class="fa fa-fw ion-image fa-"></div>
+                    <oo>cbir</oo></a></li>
+                <li><a href="/z">
+                    <div class="fa fa-fw fa-cloud fa-"></div>
+                    <oo>zodes</oo></a></li>
+                <li><a href="/s">
+                    <div class="fa fa-fw fa-bar-chart fa-"></div>
+                    <oo>signals</oo></a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="/s">
+                    <fa class="fa fa-fw fa-github-square fa-"></fa>
+                    <oo>github</oo></a></li>
+                <li class="dropdown scootLeft"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-fw ion-ios7-browsers fa-"></i>
+                    <oo>docs<i class="fa fa-fw ion-arrow-down-b"></i></oo>
+                    <ul role="menu" style="min-width:220px;" class="dropdown-menu">
                       <li><a href="/docs/web">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg fa-globe"></div>
                           <oo>Web app</oo></a></li>
                       <li><a href="/docs/core">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg fa-sitemap"></div>
                           <oo>Core</oo></a></li>
                       <li><a href="/docs/extensions">
-                          <div style="margin-right:12px;" class="fa fa-fw fa-lg ion-merge"></div>
                           <oo>Extensions</oo></a></li>
                       <li class="divider"></li>
-                      <li><a href="/reset">
-                          <div style="margin-right:12px;" class="fa fa-fw ion-loop fa-lg"></div>
+                      <li><a href="/regenerate">
                           <oo>Regenerate all</oo></a></li>
                     </ul></a></li>
               </ul>
             </div>
           </div>
-        </navbar>
+        </div>
+        <hr>
       </div>
-      <noscript>Please enable JavaScript and refresh this page</noscript>
     </div>
+    <noscript>Please enable JavaScript and refresh this page</noscript>
   </head>
 </html>
 <head>
@@ -129,7 +133,8 @@
           </ul>
         </div>
       </div>
-      <div class="col-md-7 docs-main"><br>
+      <div class="col-md-7 docs-main">
+        <h3>api/controllers/SignalController.js</h3><br>
         <div class="description"><p>SignalController</p> </div>
         <div class="description"><p>Brings in dependencies</p> </div>
         <pre><code class="language-javascript">var dependencies;
@@ -145,7 +150,7 @@ var request = require(&quot;request&quot;)</code></pre>
               <div class="label label-info radius ctx-type">function</div><span>download()</span> -><span>Path</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -191,7 +196,7 @@ module.exports = {</code></pre>
               <div class="label label-info radius ctx-type">method</div><span>put()</span> -><span>JSON</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -229,7 +234,7 @@ module.exports = {</code></pre>
               <div class="label label-info radius ctx-type">method</div><span>test()</span> -><span>JSON</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -264,7 +269,7 @@ module.exports = {</code></pre>
               <div class="label label-info radius ctx-type">method</div><span>clean()</span> -><span>socket</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -290,7 +295,7 @@ module.exports = {</code></pre>
   Signal.find({})
      .limit(5000)
      .done(function (err, signals) {</code></pre>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -328,7 +333,7 @@ return res.send(&quot;Cleaned...&quot;)
               <div class="label label-info radius ctx-type">method</div><span>pretty()</span> -><span>JSON</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -389,7 +394,7 @@ findChildren:function(req, res) {
               <div class="label label-info radius ctx-type">method</div><span>getURL()</span> -><span>Signal</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -477,7 +482,7 @@ Signal.create(newSignal).done( function(err, result){
               <div class="label label-info radius ctx-type">method</div><span>upload()</span> -><span>null</span>
             </p></h3>
         </section>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -530,7 +535,7 @@ Signal.create(newSignal).done( function(err, result){
 var filename = &quot;&quot;+hash+&quot;.jpg&quot;
 var fullPath = path.join( newPath, filename );
 console.log( &quot;WRITING FILE TO:&quot;, newPath );</code></pre>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
@@ -561,7 +566,7 @@ console.log( &quot;WRITING FILE TO:&quot;, newPath );</code></pre>
       , location : newPath
       , filename : filename
   }</code></pre>
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed table-striped table-bordered">
           <thead>
             <tr>
               <th style="width:20%">Option</th>
