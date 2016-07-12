@@ -23,7 +23,6 @@ var zode = merge( require("./package.json"), {
 
 
 
-
 zooid.on( "geolocation", function(signal){
   console.log("CONVERTING GEOs", signal.geolocation)
   zode.actions+=1

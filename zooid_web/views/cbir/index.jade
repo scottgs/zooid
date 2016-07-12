@@ -4,10 +4,82 @@ block body
   script(src="/js/HighCharts.js")
   script(src="/js/HighCharts_custom.js")
   script(src="/js/dropzone.js")
-  link(rel='stylesheet', href='/resources/demos/style.css')
+  script(src="/js/fabric.min.js")
+  script(src="/js/jquery_ui.js")
+  script(src="/js/slider.js")
+  script(src="/js/adapter.js")
+
   link(rel='stylesheet', href='//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css')
-  script(src='//code.jquery.com/ui/1.11.2/jquery-ui.js')
+    
+
+    
+
+
+
+  .container-fluid.row
   
+    h4 Content Based Image Retrieval
+      a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight.btn-sm
+        //- fa.fa.fa-fw.fa-refresh.text-muted
+        o New Search
+      a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight.btn-sm
+        //- fa.fa.fa-fw.fa-check.text-muted
+        o Learn pattern
+      a.btn.btn-default.scootRight.btn-sm.test_cluster
+        //- fa.fa.fa-fw.fa-check.text-muted
+        o Test
+    br
+
+  .container-fluid.row
+
+    .col-md-5
+      .panel.panel-default
+        #features_canvas.btn-block
+        canvas#main_canvas(width="100px", height="100px")
+
+        //- img#searchImage(src="").img-responsive.thumbnail
+
+      .panel.panel-default
+        #contentBreakdown.contentBreakdown.btn-block
+
+
+
+
+      hr
+
+    .col-md-7
+
+      .panel-heading Similar Images
+      .panel.panel-default
+        .panel-body.well-sm
+
+          .col-md-8
+            #searchResults
+            //- a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight
+            //-   fa.fa.fa-fw.fa-search.text-muted
+            //-   o New Search
+            //- a(type='button', data-toggle='modal', data-target='#uploadModal').btn.btn-default.scootRight
+            //-   fa.fa.fa-fw.fa-sliders.text-muted
+            //-   o Weights
+
+
+          .col-md-4.panel.panel-default
+            br
+            b w1
+            .slide
+            b w2
+            .slide
+            br
+
+
+
+      .panel-heading Extracted Features
+      .panel.panel-default
+        .panel-body
+          #features_container
+
+
+
 
   #uploadModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
     .modal-dialog
@@ -23,24 +95,11 @@ block body
               o to start your search.
 
         .dropzone#dropzone
-          form(action="/signal/download")
+          form(action="/cbr/search")
             .fallback
               input(type="file", name="file")
           .hide
-            .dz-preview.dz-file-preview
-              .dz-details
-                .dz-filename
-                  span(data-dz-name='')
-                .dz-size(data-dz-size='')
-                img(data-dz-thumbnail='')
-              .dz-progress
-                span.dz-upload(data-dz-uploadprogress='')
-              .dz-success-mark
-                span.fa.fa-fw.fa-check
-              .dz-error-mark
-                span.fa.fa-fw.fa-times
-              .dz-error-message
-                span(data-dz-errormessage='')
+            
 
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') Close
@@ -49,66 +108,6 @@ block body
     #previews
 
 
-
-  .container
-    .row
-      .col-md-3
-        br
-        img#searchImage(src="").img-responsive.animate
-        br
-        .container-fluid
-          a(type='button', data-toggle='modal', data-target='#uploadModal').button.button-flat-action.col-sm-6.button-sm
-           o New Search
-
-          a.btn(type='button', data-toggle='modal', data-target='#uploadModal').button.button-flat.col-sm-6.button-sm
-           o Options
-        br
-
-        .panel.panel-default.container-fluid
-            br
-            .col-sm-4
-              o weight
-            .col-sm-8
-              .slide
-            .col-sm-4
-              o weight
-            .col-sm-8
-              .slide
-              br
-
-
-
-      .col-md-9
-        br
-        .panel.panel-default
-          .panel-heading Image Breakdown
-          #contentBreakdown.contentBreakdown
-          #features_container.container-fluid
-        .panel.panel-default
-          .panel-heading Search Results
-          br
-          .panel-body
-            #searchResults
-          .panel-footer
-            br
-            br
-            br
-            br
-            br
-            br
-            br
-            br
-            br
-
-
-          //-#eq
-            span 88
-            span 77
-            span 55
-            span 33
-            span 40
-            span 45
-            span 70
   script.
     $(function() {
       // setup master volume
@@ -121,7 +120,8 @@ block body
     });
 
 
-
+    var canvas = new fabric.Canvas('main_canvas');
+    scale_factor = 1 
 
     // make new instance of Model
     var signalModel = new $.eventModel();
@@ -129,40 +129,150 @@ block body
     // Listen for when things of this model type are created
     signalModel.on('created', function(info,item) {
 
+      if(item.data.data){
 
-      if(item.data.histogram){
+        if(item.data.noun == "faces" || item.data.noun == "vehicles") return 0;
 
-      $("#features_container").html("");
+        var mask = item.data.data
+        console.log(mask)
 
-      $(".contentBreakdown").html($("<div>", {id:item.id, class:"histogram " })).find(".histogram").highcharts({
-            chart:{type:"column",height:140},
-            title:{text:""},
-            legend:{enabled:false},
-            credits: {enabled: false },
-            xAxis: {
-              labels: {
+        // create a rectangle object
+        var rect = new fabric.Rect({
+          left: mask.x*canvas.scale_factor,
+          top: mask.y*canvas.scale_factor,
+          width: mask.width*canvas.scale_factor,
+          height: mask.height*canvas.scale_factor,
+          hasControls: false,
+          //- shadow: {color:'rgba(0,0,0,0.7) 0px 2px 4px'},
+            stroke:"rgba(0,0,0,1)",
+            fill:"rgba(0,0,0,1)",
+          selectable: false
+        });
+          
+        canvas.add(rect);
+
+        fabric.Image.fromURL("/images/"+item.data.filename, function(img) {
+           img.set({ 
+            left: mask.x*canvas.scale_factor,
+            top: mask.y*canvas.scale_factor,
+            opacity:1,
+            width: mask.width*canvas.scale_factor,
+            height: mask.height*canvas.scale_factor,
+            hasControls: false,
+            centeredScaling:true,
+            originX: 'left', 
+            hasControls: false,
+          stroke:"rgba(160,255,160,1)",
+            selectable: false,
+            originY: 'top'
+          });
+
+          //- var filter = new fabric.Image.filters.Invert();
+          //- img.filters.push(filter);
+          //- img.applyFilters(canvas.renderAll.bind(canvas));
+
+          canvas.add(img);
+        });
+
+
+        var text = new fabric.Text( (item.data.name||item.data.noun), { 
+          fontSize:10, 
+          fontFamily:"arial", 
+          textAlign: 'center',
+          left: Math.round(rect.left + 4), 
+          top: Math.round(rect.top - 16),
+          fill:'rgba(255,255,255,1)',
+          shadow: 'rgba(0,0,0,1) 0px 1px 4px',
+          hasControls: false,
+          selectable: false
+
+        });
+        canvas.add(text);
+
+      }
+
+      if(item.data.signature){
+        console.log(item.data.signature)
+        $("#contentBreakdown").append($("<div>", { id:item.id+"chart", class:"btn-sm btn-block", style:""})).find("#"+item.id+"chart").highcharts({
+            chart:{animation:false,type:(item.data.chart_type || "column"),height:100,backgroundColor:"none"},
+            title:{style:{y:'20px',"fontSize": "10px"},text:(item.data.transform || item.data.title || item.data.noun  || item.data.name )},
+            legend:{enabled:false},credits: {enabled: false },
+            xAxis: { 
+                gridLineWidth: 0,
+                labels: {
                   enabled:false,
                   style: {
-                      fontSize: '10px',
-                  }
-              }
+                    fontSize: '10px',
+                }}
             },
             yAxis: {
               title:{text:""},
+              gridLineWidth: 0,
               labels: {
                   enabled:false
               }
             },
+            plotOptions: { series: { 
+              borderColor:"#222222",
+              marker:{enabled:false},
+              stacking: (item.data.stack || null),
+              shadow:{ color:"#000000", offsetX:0, offsetY:0, opacity:0.7, width:0}
+            }},
             series: [{
-            color:"#ff4444",
-                data: item.data.histogram.r
+              color:"#99999f",
+              data: item.data.signature
+            }]
+        });
+
+
+        io.socket.post("/cbr/nn", {signature:item.data.signature}, function(res,info){
+
+          $("#searchResults").append($("<h1>result</h1>"))
+          console.log(res,info)
+            
+        })
+
+
+
+      }
+      if(item.data.histogram){
+
+        $("#contentBreakdown").append($("<div>", { id:item.id+"chart", class:"btn-sm btn-block", style:""})).find("#"+item.id+"chart").highcharts({
+            chart:{animation:false,type:(item.data.chart_type || "column"),height:100,backgroundColor:"none"},
+            title:{style:{y:'20px',"fontSize": "10px"},text:(item.data.transform || item.data.title || item.data.noun  || item.data.name )},
+            legend:{enabled:false},credits: {enabled: false },
+            xAxis: { 
+                gridLineWidth: 0,
+                labels: {
+                  enabled:false,
+                  style: {
+                    fontSize: '10px',
+                }}
+            },
+            yAxis: {
+              title:{text:""},
+              gridLineWidth: 0,
+              labels: {
+                  enabled:false
+              }
+            },
+            plotOptions: { series: { 
+              borderColor:"none",
+              //- groupPadding: 0,
+              marker:{enabled:false},
+              stacking: (item.data.stack || null),
+              shadow:{ color:"#000000", offsetX:0, offsetY:0, opacity:0.7, width:0}
+            }},
+            series: [{
+              color:"#aa0000",
+              data: item.data.histogram.r
             },
             {
-            color:"#88cc66",
+            color:"#00aa00",
                 data: item.data.histogram.g
             },
             {
-            color:"#6666ff",
+            color:"#0000aa",
                 data: item.data.histogram.b
             }]
         });
@@ -190,12 +300,8 @@ block body
                 })
               })
             )
-
-
-      }
-      }
-
-
+          }
+        }
     })
 
 
@@ -206,6 +312,7 @@ block body
     function dom_glue(model){
 
       io.socket.on( model, function(item){
+        console.log(model,item)
           signalModel.emit(item.verb, item);
       })
 
@@ -217,17 +324,12 @@ block body
             id:item.id,
             data:item
           })
-
         })
-        
       })
-
     }
 
     // When document is ready, grab latest things.
     $(document).ready(function(){
-
-      // Apply the theme
 
       dom_glue("cbr");
       dom_glue("signal");
@@ -255,46 +357,123 @@ block body
     };
 
     $(document).ready(function() {
+      
+      $("#uploadModal").modal("show");
+      
+
       var myDropzone = new Dropzone("#dropzone", { url: "/cbr/search"})
       myDropzone.on("success", function(info,res){ 
-        console.log(info,res); 
-        $("#searchImage").attr("src", "");
-        $("#searchImage").attr("src", res.src);
-        $("#uploadModal").modal("hide");
-        
-        signalModel.emit('created', {
-          id:res.id,
-          data:res
-        })
+
+          $("#searchImage").attr("src", "");
+          $("#searchImage").attr("src", res.src);
+          $("#features_container").html("")
+          $("#contentBreakdown").html("")
+          $("#uploadModal").modal("hide");
+           
+          var w = info.width
+          var h = info.height
+
+          var cw = $("#features_canvas").width()
+          var ch = ( h / w ) * cw
+
+          scale_factor = cw/w
+          canvas.scale_factor = scale_factor
+
+          console.log(w,h, res.filename)
+
+            canvas.clear()
+            $("#uploadModal").modal("hide");
+
+            //- fabric.Image.fromURL("/images/"+res.filename, function(oImg){
+            //-   oImg.selectable = false
+            //-   oImg.scale(cw/w)
+            //-   canvas.add(oImg);
+            //- });
+
+            fabric.Image.fromURL("/images/"+res.filename, function(img) {
+               img.set({width: cw, height: ch, originX: 'left', originY: 'top'});
+               canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+                
+            });
+
+                
+            signalModel.emit('created', {
+              id:res.id,
+              data:res
+            })
 
 
-      })
 
-    })
+            function resizeCanvas() {
+                var cw = $("#features_canvas").width()
 
-    var dropbox = document.getElementById('dropzone');
+                var ch = ( h / w ) * cw
+                canvas.setWidth(cw);
+                canvas.setHeight(ch);
+                canvas.renderAll();
 
-    dropbox.addEventListener('dragenter', noopHandler, false);
-    dropbox.addEventListener('dragexit', noopHandler, false);
-    dropbox.addEventListener('dragover', noopHandler, false);
-    dropbox.addEventListener('drop', drop, false);
+            }
 
-    function noopHandler(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-    }
+            // resize on init
+            resizeCanvas();
+          window.addEventListener('resize', resizeCanvas, false);
 
-    function drop(evt) {
-        evt.stopPropagation();
-        evt.preventDefault(); 
-        var getURL = evt.dataTransfer.getData('Url');
-        
-        if(getURL) {
-          io.socket.post("/signal/getURL", {getURL:getURL} , function(a,b){
-            console.log(getURL,a,b)
-          })
-        }
-    }
+
+
+            //- canvas.on("mouse:move", function(a){ 
+              
+            //-   x = a.e.layerX || 0
+            //-   y = a.e.layerY || 0
+
+            //-   var xm = (x - (cw/2))/cw
+            //-   var ym = (y - (ch/2))/ch
+
+            //-   var objects = canvas.getObjects();
+            //-   for(var i = 0; i < objects.length; i++){
+            //-     //- console.log(objects[i])
+            //-       objects[i].setTop( objects[i].top + ym )
+            //-       objects[i].setLeft( objects[i].left + xm )
+            //-       canvas.renderAll();
+
+            //-   }
+
+            //- });
+
+  
+              //- $("#main_canvas").parent(function(){ this.width(cw); })
+              //- $("#canvas-container").width(cw)
+              //- $("#canvas-container").height(ch)
+
+              //- $("#main_canvas").parent(function(){ this.height(ch); })
+              //- $("#main_canvas").width(cw)
+              //- $("#main_canvas").height(ch)
+      })})
+
+
+
+      var dropbox = document.getElementById('dropzone');
+
+      dropbox.addEventListener('dragenter', noopHandler, false);
+      dropbox.addEventListener('dragexit', noopHandler, false);
+      dropbox.addEventListener('dragover', noopHandler, false);
+      dropbox.addEventListener('drop', drop, false);
+
+      function noopHandler(evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+      }
+
+      function drop(evt) {
+          evt.stopPropagation();
+          evt.preventDefault(); 
+          var getURL = evt.dataTransfer.getData('Url');
+          
+          if(getURL) {
+            io.socket.post("/signal/getURL", {getURL:getURL} , function(a,b){
+              console.log(getURL,a,b)
+            })
+          }
+      }
 
 
 

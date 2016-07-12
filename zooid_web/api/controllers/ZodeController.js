@@ -1,3 +1,5 @@
+(function(){
+  
 /**
  * ZodeController
  *
@@ -63,3 +65,4 @@ module.exports = {
 
 
 
+})

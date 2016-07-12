@@ -54,7 +54,6 @@ function boot(dir,file,watch){
   });
 
   threads[file].start();
-
 }
 
 /**
@@ -62,4 +61,9 @@ function boot(dir,file,watch){
  */
 boot("zooid_web","app.js", "api/");
 boot_dir("zooid_extensions")
+boot_dir("zooid_transforms")
+
+
+
+
 
